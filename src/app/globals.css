@@ -1,13 +1,35 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* Font */
+  --font-sans: var(--font-pretendard);
+  --font-character: var(--font-school-safe-diary);
+  --font-code: var(--font-cascadia-code);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Primary */
+  --primary-deep: #b89b00;
+  --primary-strong: #f6d94a;
+  --primary-base: #fff176;
+  --primary-soft: #fff8b8;
+  --primary-pale: #fffdeb;
+
+  /* Secondary */
+  --secondary-deep: #4f4a9c;
+  --secondary-strong: #6d68b8;
+  --secondary-base: #8887ce;
+  --secondary-soft: #c9c7f0;
+  --secondary-pale: #f0eeff;
+
+  /* Neutral */
+  --background: #fffaf6;
+  --surface: #fffdf9;
+  --border: #e5e0d8;
+  --text-primary: #111111;
+  --text-secondary: #666666;
+
+  /* Semantic */
+  --success: #22c55e;
+  --warning: #fb923c;
+  --error: #ef4444;
+  --info: #3b82f6;
 }
 
 html {
@@ -24,9 +46,9 @@ body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  color: var(--foreground);
+  color: var(--text-primary);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -40,10 +62,4 @@ body {
 a {
   color: inherit;
   text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
 }
