@@ -40,16 +40,21 @@
 
 .closeButton {
   position: absolute;
-  border: none;
-  background: none;
-
   display: flex;
   justify-content: center;
   align-items: center;
 
-  font-size: 32px;
+  right: 14px;
+
+  width: 32px;
+  height: 32px;
+  padding: 0;
+
+  border: none;
+  border-radius: 50%;
+
   color: var(--text-secondary);
-  right: 16px;
+  background: none;
   cursor: pointer;
 }
 
