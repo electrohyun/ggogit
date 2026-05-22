@@ -1,5 +1,6 @@
 "use client";
 
+import { X } from "lucide-react";
 import { createPortal } from "react-dom";
 import type { ReactNode } from "react";
 import styles from "./Modal.module.css";
@@ -28,7 +29,7 @@ export default function Modal({ title, onClose, children }: ModalProps) {
             onClick={onClose}
             aria-label="모달 닫기"
           >
-            &times;
+            <X size={20} strokeWidth={2.25} aria-hidden="true" />
           </button>
         </header>
         <div className={styles.body}>{children}</div>
