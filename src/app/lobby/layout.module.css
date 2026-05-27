@@ -1,0 +1,354 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 70px;
+  background-color: var(--surface);
+  padding: 0px 20px;
+}
+
+.body {
+  display: flex;
+}
+
+.main {
+  flex: 1;
+  padding: 20px;
+  min-height: calc(100vh - 70px);
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+}
+
+.nonLogoContainer {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.logoEng {
+  display: none;
+}
+
+.ggoggo {
+  display: none;
+}
+
+.statusContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+  padding: 0px 30px;
+}
+
+.streakStatus,
+.beanStatus {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.streakText {
+  color: red;
+}
+
+.beanText {
+  color: green;
+}
+
+.profileContainer {
+  display: flex;
+  align-items: center;
+}
+
+.greetingContainer {
+  display: none;
+}
+
+.profileText {
+  display: none;
+}
+
+.profileIcon {
+  padding: 5px 5px;
+  background-color: lightgray;
+  border-radius: 50%;
+}
+
+.aside {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .logoContainer {
+    width: 200px;
+  }
+
+  .logoEng {
+    display: block;
+  }
+
+  .greetingContainer {
+    display: flex;
+    align-items: center;
+  }
+
+  .location {
+    padding: 0 50px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .statusContainer {
+    padding: 0px 20px;
+  }
+
+  .aside {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    height: auto;
+
+    padding: 0 15px;
+    margin: 0;
+    background-color: var(--surface);
+
+    font-size: 20px;
+  }
+
+  .navList,
+  .noticeList {
+    list-style: none;
+  }
+
+  .noticeList {
+    padding: 0;
+    margin: 0;
+  }
+
+  .navItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px 15px;
+    margin: 10px 0;
+  }
+
+  .sectionTitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+  }
+
+  .navItem {
+    border-radius: 20px;
+  }
+
+  .navItem::before,
+  .sectionTitle::before,
+  .noticeContent::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background-color: var(--primary-strong);
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .navItem::after {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 45px;
+    background-color: var(--primary-strong);
+    transform: translateX(2px) translateY(70%);
+  }
+
+  .sectionTitle::after {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 175px;
+    background-color: var(--primary-strong);
+    transform: translateX(2px) translateY(55%);
+  }
+
+  .askSection .sectionTitle::after {
+    display: none;
+  }
+
+  .noticeContent::after {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 20px;
+    background-color: var(--primary-strong);
+    transform: translateX(2px) translateY(75%);
+  }
+
+  .noticeContent:last-child::after {
+    display: none;
+  }
+
+  .navList li:last-child .navItem::after {
+    display: none;
+  }
+
+  .navItem:hover,
+  .navItem:focus,
+  .navItem:active,
+  .navItem[aria-current="page"] {
+    background-color: var(--primary-soft);
+  }
+
+  .divider {
+    width: 100%;
+  }
+
+  .noticeHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px 0;
+  }
+
+  .noticeContent {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 5px 0px 5px 30px;
+    margin: 5px 0;
+
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .noticeLink {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 36px;
+    align-items: center;
+    column-gap: 6px;
+    width: 100%;
+  }
+
+  .noticeText {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .noticeDate {
+    flex: 0 0 auto;
+    font-size: 11px;
+    text-align: right;
+    color: var(--text-secondary);
+    opacity: 0.75;
+  }
+
+  .sectionTitle {
+    font-weight: 700;
+  }
+
+  .noticeMore {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .noticeMore:hover,
+  .noticeMore:focus {
+    text-decoration: underline;
+  }
+
+  .noticeLink:hover .noticeText,
+  .noticeLink:focus .noticeText {
+    text-decoration: underline;
+  }
+
+  .askContent {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    border-radius: 30px;
+    background-color: var(--primary-base);
+  }
+
+  .askText {
+    font-size: 16px;
+    padding: 2px 0;
+  }
+
+  .askButton {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 20px 0;
+    background-color: var(--primary-pale);
+    color: black;
+    border-radius: 20px;
+    text-decoration: none;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .aside {
+    width: 72px;
+    padding: 0 8px;
+  }
+
+  .navItem {
+    justify-content: center;
+    gap: 0;
+    padding: 12px;
+  }
+
+  .navText,
+  .divider,
+  .noticeSection,
+  .askSection,
+  .navItem::before,
+  .navItem::after {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ggoggo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .ggoggoGreeting {
+    padding: 5px 20px;
+    margin: 0 0 0 10px;
+
+    font-family: var(--font-character);
+    border-radius: 20px;
+    background-color: var(--primary-soft);
+  }
+}
+
+@media (min-width: 1440px) {
+  .profileText {
+    display: block;
+    padding: 0px 20px;
+  }
+}
