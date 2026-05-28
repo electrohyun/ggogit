@@ -15,6 +15,8 @@ import {
   UserIcon,
 } from "lucide-react";
 import { ReactNode } from "react";
+import AppLocation from "./_components/AppLocation";
+import AppNavLink from "./_components/AppNavLink";
 
 export default function LobbyLayout({ children }: { children: ReactNode }) {
   return (
@@ -36,7 +38,7 @@ export default function LobbyLayout({ children }: { children: ReactNode }) {
         </div>
         <div className={styles.nonLogoContainer}>
           <div className={styles.greetingContainer}>
-            <p className={styles.location}>홈</p>
+            <AppLocation className={styles.location} />
             <div className={styles.ggoggo}>
               <Image src={ggoggoSmile} alt="꼬꼬 웃는 얼굴" width={50} />
               <p className={styles.ggoggoGreeting}>
@@ -67,42 +69,42 @@ export default function LobbyLayout({ children }: { children: ReactNode }) {
           <nav aria-label="주요 메뉴">
             <ul className={styles.navList}>
               <li>
-                <a href="/lobby" className={styles.navItem} aria-current="page">
+                <AppNavLink href="/lobby" className={styles.navItem}>
                   <HomeIcon size={28} />
                   <span className={styles.navText}>홈</span>
-                </a>
+                </AppNavLink>
               </li>
 
               <li>
-                <a href="/study" className={styles.navItem}>
+                <AppNavLink href="/study" className={styles.navItem}>
                   <BookIcon size={28} />
                   <span className={styles.navText}>학습하기</span>
-                </a>
+                </AppNavLink>
               </li>
 
               <li>
-                <a href="/challenge" className={styles.navItem}>
+                <AppNavLink href="/challenge" className={styles.navItem}>
                   <TrophyIcon size={28} />
                   <span className={styles.navText}>도전하기</span>
-                </a>
+                </AppNavLink>
               </li>
 
               <li>
-                <a href="/community" className={styles.navItem}>
+                <AppNavLink href="/community" className={styles.navItem}>
                   <MessageCircleHeartIcon size={28} />
                   <span className={styles.navText}>커뮤니티</span>
-                </a>
+                </AppNavLink>
               </li>
 
               <li>
-                <a href="/profile" className={styles.navItem}>
+                <AppNavLink href="/profile" className={styles.navItem}>
                   <UserIcon size={28} />
                   <span className={styles.navText}>내 정보</span>
-                </a>
+                </AppNavLink>
               </li>
             </ul>
           </nav>
-          <hr className={styles.divider} />
+          {/* <hr className={styles.divider} /> */}
           <section
             className={styles.noticeSection}
             aria-labelledby="notice-title"
@@ -188,26 +190,26 @@ export default function LobbyLayout({ children }: { children: ReactNode }) {
         <main className={styles.main}>{children}</main>
       </div>
       <nav className={styles.mobileNav} aria-label="모바일 주요 메뉴">
-        <a href="/lobby" className={styles.mobileNavItem} aria-current="page">
+        <AppNavLink href="/lobby" className={styles.mobileNavItem}>
           <HomeIcon size={28} />
           <span className={styles.mobileNavText}>홈</span>
-        </a>
-        <a href="/study" className={styles.mobileNavItem}>
+        </AppNavLink>
+        <AppNavLink href="/study" className={styles.mobileNavItem}>
           <BookIcon size={28} />
           <span className={styles.mobileNavText}>학습</span>
-        </a>
-        <a href="/challenge" className={styles.mobileNavItem}>
+        </AppNavLink>
+        <AppNavLink href="/challenge" className={styles.mobileNavItem}>
           <TrophyIcon size={28} />
           <span className={styles.mobileNavText}>도전</span>
-        </a>
-        <a href="/community" className={styles.mobileNavItem}>
+        </AppNavLink>
+        <AppNavLink href="/community" className={styles.mobileNavItem}>
           <MessageCircleHeartIcon size={28} />
           <span className={styles.mobileNavText}>커뮤니티</span>
-        </a>
-        <a href="/profile" className={styles.mobileNavItem}>
+        </AppNavLink>
+        <AppNavLink href="/profile" className={styles.mobileNavItem}>
           <UserIcon size={28} />
           <span className={styles.mobileNavText}>내 정보</span>
-        </a>
+        </AppNavLink>
       </nav>
     </>
   );
