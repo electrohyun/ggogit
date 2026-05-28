@@ -88,16 +88,16 @@ export default function LobbyLayout({ children }: { children: ReactNode }) {
               </li>
 
               <li>
-                <a href="/profile" className={styles.navItem}>
-                  <UserIcon size={28} />
-                  <span className={styles.navText}>내 정보</span>
+                <a href="/community" className={styles.navItem}>
+                  <MessageCircleHeartIcon size={28} />
+                  <span className={styles.navText}>커뮤니티</span>
                 </a>
               </li>
 
               <li>
-                <a href="/community" className={styles.navItem}>
-                  <MessageCircleHeartIcon size={28} />
-                  <span className={styles.navText}>커뮤니티</span>
+                <a href="/profile" className={styles.navItem}>
+                  <UserIcon size={28} />
+                  <span className={styles.navText}>내 정보</span>
                 </a>
               </li>
             </ul>
@@ -187,6 +187,28 @@ export default function LobbyLayout({ children }: { children: ReactNode }) {
         </aside>
         <main className={styles.main}>{children}</main>
       </div>
+      <nav className={styles.mobileNav} aria-label="모바일 주요 메뉴">
+        <a href="/lobby" className={styles.mobileNavItem} aria-current="page">
+          <HomeIcon size={28} />
+          <span className={styles.mobileNavText}>홈</span>
+        </a>
+        <a href="/study" className={styles.mobileNavItem}>
+          <BookIcon size={28} />
+          <span className={styles.mobileNavText}>학습</span>
+        </a>
+        <a href="/challenge" className={styles.mobileNavItem}>
+          <TrophyIcon size={28} />
+          <span className={styles.mobileNavText}>도전</span>
+        </a>
+        <a href="/community" className={styles.mobileNavItem}>
+          <MessageCircleHeartIcon size={28} />
+          <span className={styles.mobileNavText}>커뮤니티</span>
+        </a>
+        <a href="/profile" className={styles.mobileNavItem}>
+          <UserIcon size={28} />
+          <span className={styles.mobileNavText}>내 정보</span>
+        </a>
+      </nav>
     </>
   );
 }
