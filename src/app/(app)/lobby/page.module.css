@@ -6,41 +6,6 @@
   font-family: var(--font-character);
 }
 
-.card {
-  min-height: 260px;
-  padding: 20px;
-  background-color: var(--primary-strong);
-  border-radius: 30px;
-
-  display: flex;
-  flex-direction: column;
-}
-
-.cardHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 8px;
-
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--primary-soft);
-}
-
-.cardHeader > h2 {
-  font-size: 20px;
-}
-
-.cardHeader > a {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
-
-.cardHeader > a:hover {
-  text-decoration: underline;
-}
-
 .span5 {
   grid-column: span 5;
 }
@@ -55,63 +20,4 @@
 
 .span2 {
   grid-column: span 2;
-}
-
-.cardContent {
-  display: flex;
-  justify-content: space-between;
-  flex: 1;
-  padding-top: 8px;
-  padding-bottom: 8px;
-}
-
-.cardFooter {
-  flex: 0 0 auto;
-  padding-top: 8px;
-}
-
-.progressRow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.progressTrack {
-  width: 200px;
-  height: 10px;
-  overflow: hidden;
-  background-color: #ffffff;
-  border-radius: 999px;
-}
-
-.progressFill {
-  width: 20%;
-  height: 100%;
-  background-color: #fff8b8;
-  border-radius: inherit;
-}
-
-.progressText {
-  flex: 0 0 auto;
-  font-size: 14px;
-}
-
-.button {
-  width: 100%;
-  height: 30px;
-  background: var(--primary-soft);
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-}
-
-.progressContent {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.cardImage {
-  width: auto;
-  height: auto;
 }
