@@ -6,6 +6,8 @@
   height: 70px;
   background-color: var(--surface);
   padding: 0px 15px;
+
+  border-bottom: 2px solid var(--border);
 }
 
 .body {
@@ -213,6 +215,8 @@
     margin: 0;
     background-color: var(--surface);
 
+    border-left: 2px solid var(--border);
+    border-right: 2px solid var(--border);
     font-size: 20px;
   }
 
