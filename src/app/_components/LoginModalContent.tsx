@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./LoginModalContent.module.css";
 
 export default function LoginModalContent() {
@@ -29,9 +30,9 @@ export default function LoginModalContent() {
         <span>또는</span>
         <hr />
       </div>
-      <button className={styles.guest} type="button">
+      <Link className={styles.guest} href="/lobby">
         게스트 로그인
-      </button>
+      </Link>
     </div>
   );
 }
