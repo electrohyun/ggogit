@@ -28,7 +28,7 @@ export default function Card({
     >
       <div className={styles.cardHeader}>
         <h2 id={titleId}>{title}</h2>
-        {headerAction}
+        <p className={styles.headerAction}>{headerAction}</p>
       </div>
       <div className={styles.cardContent}>{children}</div>
       {footer && <div className={styles.cardFooter}>{footer}</div>}

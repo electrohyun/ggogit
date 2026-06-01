@@ -1,23 +1,65 @@
 .lobbyGrid {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  gap: 16px;
+  grid-template-columns: 1fr;
+  gap: 12px;
 
   font-family: var(--font-character);
 }
 
-.span5 {
-  grid-column: span 5;
-}
-
-.span4 {
-  grid-column: span 4;
-}
-
-.span3 {
-  grid-column: span 3;
-}
-
+.span5,
+.span4,
+.span3,
 .span2 {
-  grid-column: span 2;
+  grid-column: span 1;
+}
+
+.backgroundPrimaryStrong {
+  background-color: var(--primary-strong);
+}
+
+.backgroundPrimaryPale {
+  background-color: var(--primary-pale);
+}
+
+.backgroundSecondaryPale {
+  background-color: var(--secondary-pale);
+}
+
+.desktopOnly {
+  display: none;
+}
+
+.mobileOnly {
+  display: grid;
+}
+
+@media (min-width: 1024px) {
+  .lobbyGrid {
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px 30px;
+  }
+
+  .span5 {
+    grid-column: span 5;
+  }
+
+  .span4 {
+    grid-column: span 4;
+  }
+
+  .span3 {
+    grid-column: span 3;
+  }
+
+  .span2 {
+    grid-column: span 2;
+  }
+
+  .desktopOnly {
+    display: flex;
+  }
+
+  .lobbyGrid > .mobileOnly {
+    display: none;
+  }
 }

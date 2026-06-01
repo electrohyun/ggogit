@@ -1,0 +1,57 @@
+.todaySummaryCard {
+  flex: 1;
+
+  font-size: 20px;
+}
+
+.todaySummaryCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summaryItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 8px 14px;
+
+  border-radius: 12px;
+  background-color: var(--surface);
+}
+
+.summaryKind {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.todaySummaryFooter {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 16px;
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .todaySummaryCard {
+    font-size: clamp(12px, 1.1vw, 18px);
+  }
+
+  .todaySummaryCardContent {
+    gap: 10px;
+  }
+
+  .summaryItem {
+    padding: 8px 10px;
+  }
+
+  .summaryKind {
+    gap: 8px;
+  }
+
+  .summaryKind svg {
+    width: 24px;
+    height: 24px;
+  }
+}
