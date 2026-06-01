@@ -49,6 +49,11 @@ When your changes create orphans:
 
 The test: Every changed line should trace directly to the user's request.
 
+## 3.1 Code Style Preferences
+
+- For module-level constants that are not server-shaped mock data, prefer `UPPER_SNAKE_CASE`.
+- Don't extract one-off static copy into data objects unless it is reused, expected to come from an API, or part of a repeated list.
+
 ## 4. Goal-Driven Execution
 
 **Define success criteria. Loop until verified.**
