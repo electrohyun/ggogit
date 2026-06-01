@@ -1,0 +1,124 @@
+.streakCard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.streakCardContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20px;
+}
+
+.streakInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.streakCountContainer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  font-size: 20px;
+}
+
+.streakCount {
+  display: flex;
+  align-items: flex-end;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.streakMessage {
+  font-size: 20px;
+}
+
+.streakCardContent img {
+  flex: 0 0 auto;
+  height: auto;
+}
+
+.streakFooter {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.dayItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.dayCircle {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.missed {
+  background-color: #e8e8e8;
+}
+
+.completed,
+.today {
+  background-color: #ffa2a2;
+}
+
+.dayLabel {
+  font-size: 24px;
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .streakCard {
+    gap: clamp(10px, 1vw, 14px);
+  }
+
+  .streakCardContent {
+    font-size: 18px;
+  }
+
+  .streakInfo {
+    align-items: center;
+  }
+
+  .streakMessage {
+    display: none;
+  }
+
+  .streakCardContent img {
+    width: clamp(88px, 7.2vw, 104px);
+    height: auto;
+  }
+
+  .streakFooter {
+    gap: clamp(2px, 0.35vw, 4px);
+  }
+
+  .dayItem {
+    gap: clamp(4px, 0.45vw, 6px);
+  }
+
+  .dayCircle {
+    width: clamp(14px, 1.5vw, 22px);
+    font-size: clamp(8px, 1vw, 18px);
+  }
+
+  .dayLabel {
+    font-size: clamp(12px, 1.1vw, 16px);
+  }
+}

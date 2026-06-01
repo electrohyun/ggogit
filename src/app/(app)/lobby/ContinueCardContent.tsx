@@ -1,14 +1,32 @@
 import Image from "next/image";
+import Link from "next/link";
 import ggoggoWalk from "@/assets/ggoggo_walk.webp";
 import styles from "./ContinueCardContent.module.css";
 
-export default function ContinueCardContent() {
+const currentStage = {
+  number: "3-4",
+  title: "git commit -m 이해하기",
+  progress: 20,
+};
+
+interface ContinueCardContentProps {
+  href?: string;
+}
+
+export default function ContinueCardContent({
+  href = "/study",
+}: ContinueCardContentProps) {
   return (
-    <>
-      <div className={styles.progressContent}>
-        <div>
-          <h1>3-4</h1>
-          <h2>git commit -m 이해하기</h2>
+    <div className={styles.continueCard}>
+      <Link
+        href={href}
+        className={styles.mobileCardLink}
+        aria-label={`${currentStage.number} ${currentStage.title} 이어하기`}
+      />
+      <div className={styles.continueInfo}>
+        <div className={styles.stageInfo}>
+          <p className={styles.stageNumber}>{currentStage.number}</p>
+          <h3 className={styles.stageTitle}>{currentStage.title}</h3>
         </div>
         <div className={styles.progressActions}>
           <div className={styles.progressRow}>
@@ -18,21 +36,28 @@ export default function ContinueCardContent() {
               aria-label="스테이지 진행률"
               aria-valuemin={0}
               aria-valuemax={100}
-              aria-valuenow={20}
+              aria-valuenow={currentStage.progress}
             >
-              <div className={styles.progressFill} />
+              <div
+                className={styles.progressFill}
+                style={{ width: `${currentStage.progress}%` }}
+              />
             </div>
-            <span className={styles.progressText}>20% 완료</span>
+            <span className={styles.progressText}>
+              {currentStage.progress}% 완료
+            </span>
           </div>
-          <button className={styles.button}>이어하기</button>
+          <Link className={styles.continueButton} href={href}>
+            이어하기
+          </Link>
         </div>
       </div>
       <Image
         src={ggoggoWalk}
         alt="ggoggo walking"
         width={230}
-        className={styles.cardImage}
+        className={styles.continueImage}
       />
-    </>
+    </div>
   );
 }

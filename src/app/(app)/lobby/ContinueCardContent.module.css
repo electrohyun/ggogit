@@ -1,14 +1,40 @@
-.progressContent {
+.continueCard {
+  position: relative;
+
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 16px;
+  flex: 1;
   min-width: 0;
 }
 
-.progressActions {
+.mobileCardLink {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.continueInfo {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 18px;
+  width: 100%;
+  min-width: 0;
+}
+
+.stageInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.stageNumber {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.stageTitle {
+  font-size: 24px;
+  font-weight: 400;
 }
 
 .progressRow {
@@ -18,7 +44,7 @@
 }
 
 .progressTrack {
-  width: 175px;
+  width: min(100%, 220px);
   height: 10px;
   overflow: hidden;
   background-color: #ffffff;
@@ -33,23 +59,105 @@
 }
 
 .progressText {
+  display: block;
   flex: 0 0 auto;
   font-size: 14px;
 }
 
-.cardImage {
-  width: min(55%, 300px);
-  height: auto;
-  object-fit: contain;
+.progressActions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.button {
-  width: min(100%, 240px);
-  min-height: 44px;
-  padding: 0 28px;
-  background: var(--primary-soft);
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 20px;
+.continueImage {
+  order: -1;
+  width: min(72%, 280px);
+  height: auto;
+  object-fit: contain;
+  align-self: center;
+}
+
+.continueButton {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .continueCard {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .continueInfo {
+    justify-content: space-between;
+    align-self: stretch;
+    gap: 0;
+    width: auto;
+  }
+
+  .stageNumber {
+    font-size: 32px;
+  }
+
+  .stageTitle {
+    font-size: 20px;
+  }
+
+  .progressTrack {
+    width: 175px;
+  }
+
+  .continueImage {
+    order: 0;
+    width: min(55%, 300px);
+  }
+
+  .continueButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: min(100%, 240px);
+    min-height: 40px;
+    padding: 0 28px;
+
+    background: var(--primary-soft);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+
+    font: inherit;
+    font-size: 20px;
+  }
+
+  .mobileCardLink {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .continueCard {
+    gap: 16px;
+  }
+
+  .continueInfo {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .stageTitle {
+    font-size: 18px;
+  }
+
+  .progressTrack {
+    width: 150px;
+  }
+
+  .continueImage {
+    flex: 0 1 220px;
+    width: min(42%, 220px);
+    max-width: 42%;
+  }
 }

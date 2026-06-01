@@ -1,0 +1,54 @@
+.dailyTipContentCard {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.dailyTipContent {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
+
+  min-height: 100%;
+  max-width: 62%;
+}
+
+.dailyTipContent h3 {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.dailyTipContent p {
+  font-size: 18px;
+  line-height: 1.35;
+  word-break: keep-all;
+}
+
+.dailyTipContent button {
+  min-height: 40px;
+  padding: 0 24px;
+
+  border: none;
+  border-radius: 20px;
+  background-color: var(--primary-strong);
+  cursor: pointer;
+
+  font: inherit;
+  font-size: 18px;
+}
+
+.dailyTipImage {
+  position: absolute;
+  right: 0;
+  bottom: -10px;
+
+  width: min(40%, 190px);
+  height: auto;
+  object-fit: contain;
+}
