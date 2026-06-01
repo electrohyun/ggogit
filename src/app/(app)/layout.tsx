@@ -4,6 +4,7 @@ import logoKor from "@/assets/logo_kor.webp";
 import ggoggoSmile from "@/assets/ggoggo_smile.webp";
 import ggoggoAsk from "@/assets/ggoggo_ask.webp";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Bean,
   BookIcon,
@@ -113,59 +114,59 @@ export default function LobbyLayout({ children }: { children: ReactNode }) {
               <span id="notice-title" className={styles.sectionTitle}>
                 공지사항
               </span>
-              <a href="/notice" className={styles.noticeMore}>
+              <Link href="/notice" className={styles.noticeMore}>
                 더보기
                 <ChevronRight size={16} />
-              </a>
+              </Link>
             </div>
             <ul className={styles.noticeList}>
               <li className={styles.noticeContent}>
-                <a href="/notice/1" className={styles.noticeLink}>
+                <Link href="/notice/1" className={styles.noticeLink}>
                   <span className={styles.noticeText}>
                     스테이지 2-5 다크모드 지원
                   </span>
                   <time className={styles.noticeDate} dateTime="2026-05-27">
                     05.27
                   </time>
-                </a>
+                </Link>
               </li>
               <li className={styles.noticeContent}>
-                <a href="/notice/2" className={styles.noticeLink}>
+                <Link href="/notice/2" className={styles.noticeLink}>
                   <span className={styles.noticeText}>
                     5월 학습 챌린지 오픈
                   </span>
                   <time className={styles.noticeDate} dateTime="2026-05-24">
                     05.24
                   </time>
-                </a>
+                </Link>
               </li>
               <li className={styles.noticeContent}>
-                <a href="/notice/3" className={styles.noticeLink}>
+                <Link href="/notice/3" className={styles.noticeLink}>
                   <span className={styles.noticeText}>신규 배지 3종 추가</span>
                   <time className={styles.noticeDate} dateTime="2026-05-20">
                     05.20
                   </time>
-                </a>
+                </Link>
               </li>
               <li className={styles.noticeContent}>
-                <a href="/notice/3" className={styles.noticeLink}>
+                <Link href="/notice/3" className={styles.noticeLink}>
                   <span className={styles.noticeText}>
                     Git 명령어 힌트 업데이트
                   </span>
                   <time className={styles.noticeDate} dateTime="2026-05-16">
                     05.16
                   </time>
-                </a>
+                </Link>
               </li>
               <li className={styles.noticeContent}>
-                <a href="/notice/3" className={styles.noticeLink}>
+                <Link href="/notice/3" className={styles.noticeLink}>
                   <span className={styles.noticeText}>
                     일일 도전 기록 오류 수정
                   </span>
                   <time className={styles.noticeDate} dateTime="2026-05-12">
                     05.12
                   </time>
-                </a>
+                </Link>
               </li>
             </ul>
           </section>
@@ -175,7 +176,7 @@ export default function LobbyLayout({ children }: { children: ReactNode }) {
               문의하기
             </span>
             <div className={styles.askContent}>
-              <Image src={ggoggoAsk} alt="꼬꼬 문의하는 얼굴" width={150} />
+              <Image src={ggoggoAsk} alt="꼬꼬 문의하는 얼굴" width={140} />
               <p className={styles.askText}>궁금한 것이 있나요?</p>
               <p className={styles.askText}>언제든 문의해주세요!</p>
               <a

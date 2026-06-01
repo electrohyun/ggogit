@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 
@@ -18,12 +19,12 @@ export default function AppNavLink({
   const isActive = pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <a
+    <Link
       href={href}
       className={className}
       aria-current={isActive ? "page" : undefined}
     >
       {children}
-    </a>
+    </Link>
   );
 }
