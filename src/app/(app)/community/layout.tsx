@@ -10,7 +10,6 @@ export default function CommunityLayout({
 }>) {
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>커뮤니티</h1>
       <div className={styles.contentGrid}>
         <div className={styles.boardColumn}>
           <CommunityTabs />
