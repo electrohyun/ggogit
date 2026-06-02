@@ -1,0 +1,96 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-family: var(--font-character);
+}
+
+.title {
+  margin-top: 5px;
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
+.tabbar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  margin-bottom: 16px;
+  overflow: hidden;
+  border: 2px solid var(--primary-base);
+  border-radius: 10px;
+  background-color: var(--surface);
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 40px;
+  padding: 8px 6px;
+  border-right: 1px solid var(--primary-base);
+  color: var(--text-primary);
+  font-size: clamp(12px, 3.2vw, 16px);
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+}
+
+.tab:last-child {
+  border-right: none;
+}
+
+.activeTab {
+  background-color: var(--primary-base);
+}
+
+.contentGrid {
+  display: grid;
+  gap: 20px;
+}
+
+.boardColumn {
+  min-width: 0;
+}
+
+.mainContent {
+  min-width: 0;
+}
+
+.previewPanel {
+  min-width: 0;
+}
+
+.desktopOnly {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 10px 4px 24px;
+  }
+
+  .tabbar {
+    margin-bottom: 22px;
+  }
+
+  .tab {
+    min-height: 46px;
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .contentGrid {
+    grid-template-columns: minmax(0, 960px) minmax(320px, 1fr);
+    align-items: start;
+    gap: 28px;
+  }
+
+  .desktopOnly {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
