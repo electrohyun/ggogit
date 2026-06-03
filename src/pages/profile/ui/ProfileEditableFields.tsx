@@ -1,6 +1,6 @@
 "use client";
 
-import ggoggoSeal from "@/assets/ggoggo_seal.webp";
+import { ggoggoSeal } from "@/assets/mascot";
 import { UserIcon } from "lucide-react";
 import Image from "next/image";
 import { FormEvent, useState } from "react";

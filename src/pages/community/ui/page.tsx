@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 
-import ggoggoSmile from "@/assets/ggoggo_smile.webp";
+import { ggoggoSmile } from "@/assets/mascot";
 import styles from "./page.module.css";
 
 // TODO: Supabase 연동 시 created_at 기준 최신순으로 조회합니다.

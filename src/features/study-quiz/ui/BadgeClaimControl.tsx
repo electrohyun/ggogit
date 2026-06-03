@@ -3,13 +3,14 @@
 import { useState } from "react";
 import Image from "next/image";
 
-import Modal from "@/shared/ui/modal/Modal";
-import stage1Badge from "@/assets/stage1_badge.webp";
-import stage2Badge from "@/assets/stage2_badge.webp";
-import stage3Badge from "@/assets/stage3_badge.webp";
-import stage4Badge from "@/assets/stage4_badge.webp";
-import stage5Badge from "@/assets/stage5_badge.webp";
-import styles from "@/pages/study/ui/page.module.css";
+import { Modal } from "@/shared/ui/modal";
+import {
+  stage1Badge,
+  stage2Badge,
+  stage3Badge,
+  stage4Badge,
+  stage5Badge,
+} from "@/assets/badges";
 
 interface BadgeClaimControlProps {
   chapterId: string;
@@ -17,6 +18,7 @@ interface BadgeClaimControlProps {
   chapterTitle: string;
   badgeName: string;
   isBadgeUnlocked: boolean;
+  styles: Record<string, string>;
 }
 
 const chapterBadges = [
@@ -33,6 +35,7 @@ export default function BadgeClaimControl({
   chapterTitle,
   badgeName,
   isBadgeUnlocked,
+  styles,
 }: BadgeClaimControlProps) {
   const [isBadgeOpen, setIsBadgeOpen] = useState(false);
   const [claimedChapterIds, setClaimedChapterIds] = useState<string[]>([]);

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ggoggoGreet from "@/assets/ggoggo_greet.webp";
+import { ggoggoGreet } from "@/assets/mascot";
 import styles from "./StreakCardContent.module.css";
 
 const streakDays = [

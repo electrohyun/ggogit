@@ -1,1 +1,1 @@
-export { default } from "@/pages/design-system/ui/page";
+export { DesignSystemPage as default } from "@/pages/design-system";

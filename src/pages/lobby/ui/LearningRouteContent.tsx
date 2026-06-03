@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ggoggoWorking from "@/assets/ggoggo_working.webp";
+import { ggoggoWorking } from "@/assets/mascot";
 import styles from "./LearningRouteContent.module.css";
 
 const learningRouteNotice = "곧 공개됩니다. ^^";

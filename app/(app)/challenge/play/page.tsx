@@ -1,1 +1,1 @@
-export { default } from "@/pages/challenge-play/ui/page";
+export { ChallengePlayPage as default } from "@/pages/challenge-play";

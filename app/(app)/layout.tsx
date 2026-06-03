@@ -1,1 +1,1 @@
-export { default } from "@/widgets/app-shell/ui/layout";
+export { AppShell as default } from "@/widgets/app-shell";

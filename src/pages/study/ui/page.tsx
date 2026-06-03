@@ -1,18 +1,14 @@
 import Image from "next/image";
 import { Sparkles } from "lucide-react";
 
-import ggoggoWalk from "@/assets/ggoggo_walk.webp";
-import stage1 from "@/assets/stage1.webp";
-import stage2 from "@/assets/stage2.webp";
-import stage3 from "@/assets/stage3.webp";
-import stage4 from "@/assets/stage4.webp";
-import stage5 from "@/assets/stage5.webp";
-import stageCheck from "@/assets/stage_check.webp";
-import stageStar from "@/assets/stage_star.webp";
-import stageStreak from "@/assets/stage_streak.webp";
-import { MINI_QUIZ_CHAPTERS } from "@/features/study-quiz/mock/miniQuizContent";
-import BadgeClaimControl from "@/features/study-quiz/ui/BadgeClaimControl";
-import StageStartControl from "@/features/study-quiz/ui/StageStartControl";
+import { ggoggoWalk } from "@/assets/mascot";
+import { stage1, stage2, stage3, stage4, stage5 } from "@/assets/chapters";
+import { stageCheck, stageStar, stageStreak } from "@/assets/stats";
+import {
+  BadgeClaimControl,
+  MINI_QUIZ_CHAPTERS,
+  StageStartControl,
+} from "@/features/study-quiz";
 import styles from "./page.module.css";
 
 const summaryItems = [
@@ -132,6 +128,7 @@ export default function StudyPage() {
                         chapterNumber={chapterIndex + 1}
                         stage={stage}
                         stageNumber={stageIndex + 1}
+                        styles={styles}
                       />
                     </li>
                   );
@@ -144,6 +141,7 @@ export default function StudyPage() {
                 chapterTitle={chapter.title}
                 badgeName={chapter.badgeName}
                 isBadgeUnlocked={chapter.isBadgeUnlocked}
+                styles={styles}
               />
             </article>
           );

@@ -1,1 +1,1 @@
-export { default } from "@/widgets/community-layout/ui/layout";
+export { CommunityLayout as default } from "@/widgets/community-layout";

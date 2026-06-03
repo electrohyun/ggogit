@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Clock3, Flame, Info, Medal, TimerOff, Trophy } from "lucide-react";
 
-import ggoggoPodium from "@/assets/ggoggo_podium.webp";
+import { ggoggoPodium } from "@/assets/mascot";
 import styles from "./page.module.css";
 
 const rules = [

@@ -78,7 +78,7 @@
   bottom: 0;
   width: 100%;
   height: clamp(50px, 6vw, 90px);
-  background-image: url("../../../assets/ground.webp");
+  background-image: url("../../../assets/backgrounds/ground.webp");
   background-repeat: repeat-x;
   background-position: bottom center;
   background-size: auto 100%;

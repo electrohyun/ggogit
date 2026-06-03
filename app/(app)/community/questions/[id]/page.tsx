@@ -1,1 +1,1 @@
-export { default } from "@/pages/community-question-detail/ui/page";
+export { CommunityQuestionDetailPage as default } from "@/pages/community-question-detail";

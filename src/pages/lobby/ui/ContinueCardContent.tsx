@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import ggoggoWalk from "@/assets/ggoggo_walk.webp";
+import { ggoggoWalk } from "@/assets/mascot";
 import styles from "./ContinueCardContent.module.css";
 
 const currentStage = {
