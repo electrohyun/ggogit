@@ -10,7 +10,7 @@ import { ggoggoAdventure } from "@/assets/mascot";
 import type {
   MiniQuizStage,
   StageStatus,
-} from "../mock/miniQuizContent";
+} from "@/entities/mini-quiz";
 
 interface StageStartControlProps {
   chapterId: string;

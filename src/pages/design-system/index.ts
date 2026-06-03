@@ -1,1 +1,1 @@
-export { default as DesignSystemPage } from "./ui/page";
+export { default as DesignSystemPage } from "./ui/DesignSystemPage";

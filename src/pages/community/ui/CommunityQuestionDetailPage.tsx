@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 
 import { ggoggoSmile } from "@/assets/mascot";
-import styles from "./page.module.css";
+import styles from "./CommunityQuestionDetailPage.module.css";
 
 interface QuestionDetailPageProps {
   params: Promise<{
@@ -11,7 +11,7 @@ interface QuestionDetailPageProps {
   }>;
 }
 
-const questionDetail = {
+const QUESTION_DETAIL = {
   title: "첫 질문입니다...",
   author: "꼬꼬",
   createdAt: "2026.06.01 14:20",
@@ -22,7 +22,7 @@ const questionDetail = {
     "Git 공부를 막 시작했는데 merge랑 rebase는 언제 쓰면 좋은지 아직 헷갈려요. 둘 다 브랜치를 합치는 느낌인데, 실제 협업에서는 어떤 기준으로 고르면 좋을까요?",
 };
 
-const answers = [
+const ANSWERS = [
   {
     id: 1,
     author: "꼬꼬선생",
@@ -55,38 +55,38 @@ export default async function QuestionDetailPage({
       <article className={styles.questionCard}>
         <div className={styles.questionHeader}>
           <div>
-            <h1>{questionDetail.title}</h1>
+            <h1>{QUESTION_DETAIL.title}</h1>
             <div className={styles.questionMeta}>
               <Image
-                src={questionDetail.avatar}
-                alt={`${questionDetail.author} 프로필`}
+                src={QUESTION_DETAIL.avatar}
+                alt={`${QUESTION_DETAIL.author} 프로필`}
                 width={44}
                 height={44}
                 className={styles.avatar}
               />
               <p>
-                #{id} · {questionDetail.author} · {questionDetail.createdAt} ·
-                조회 {questionDetail.views}
+                #{id} · {QUESTION_DETAIL.author} · {QUESTION_DETAIL.createdAt} ·
+                조회 {QUESTION_DETAIL.views}
               </p>
             </div>
           </div>
         </div>
-        <p className={styles.questionContent}>{questionDetail.content}</p>
+        <p className={styles.questionContent}>{QUESTION_DETAIL.content}</p>
         <div className={styles.questionActions}>
           <Link href="/community/questions" className={styles.backLink}>
             <ChevronLeft size={18} aria-hidden="true" />
             목록으로
           </Link>
           <button type="button" className={styles.likeButton}>
-            따봉 {questionDetail.likes}
+            따봉 {QUESTION_DETAIL.likes}
           </button>
         </div>
       </article>
 
       <section className={styles.answerSection} aria-labelledby="answers-title">
-        <h2 id="answers-title">답변 {answers.length}</h2>
+        <h2 id="answers-title">답변 {ANSWERS.length}</h2>
         <div className={styles.answerList}>
-          {answers.map((answer) => (
+          {ANSWERS.map((answer) => (
             <article key={answer.id} className={styles.answerItem}>
               <Image
                 src={ggoggoSmile}

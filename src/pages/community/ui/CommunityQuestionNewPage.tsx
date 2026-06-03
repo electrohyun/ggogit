@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 
-import styles from "./page.module.css";
+import styles from "./CommunityQuestionNewPage.module.css";
 
 export default function NewQuestionPage() {
   return (

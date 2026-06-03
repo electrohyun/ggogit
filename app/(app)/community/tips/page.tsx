@@ -1,1 +1,1 @@
-export { CommunityTipsPage as default } from "@/pages/community-tips";
+export { CommunityTipsPage as default } from "@/pages/community";

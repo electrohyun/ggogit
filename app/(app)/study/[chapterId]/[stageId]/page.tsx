@@ -1,1 +1,1 @@
-export { StudyStagePage as default } from "@/pages/study-stage";
+export { StudyStagePage as default } from "@/pages/study";

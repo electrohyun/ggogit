@@ -1,5 +1,5 @@
 import { Card } from "@/shared/ui/card";
-import styles from "./page.module.css";
+import styles from "./LobbyPage.module.css";
 import CommunityContent from "./CommunityContent";
 import ContinueCardContent from "./ContinueCardContent";
 import DailyQuestContent from "./DailyQuestContent";

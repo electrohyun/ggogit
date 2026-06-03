@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import {
   findMiniQuizStage,
   MINI_QUIZ_CHAPTERS,
-} from "@/features/study-quiz";
+} from "@/entities/mini-quiz";
 import { MiniQuizStageClient } from "@/features/mini-quiz-stage";
 
 interface MiniQuizStagePageProps {
