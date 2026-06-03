@@ -7,4 +7,4 @@ export type {
   MiniQuizChapter,
   MiniQuizStage,
   StageStatus,
-} from "./model/miniQuizContent";
+} from "./model/types";

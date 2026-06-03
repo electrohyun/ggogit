@@ -1,7 +1,6 @@
 import styles from "./DailyQuestContent.module.css";
+import type { DailyQuest } from "@/entities/daily-quest";
 import { BeanIcon, CheckCircleIcon, CircleIcon } from "lucide-react";
-
-type QuestStatus = "inProgress" | "completed" | "claimed";
 
 const DAILY_QUESTS = [
   {
@@ -28,14 +27,7 @@ const DAILY_QUESTS = [
     reward: 50,
     status: "claimed",
   },
-] as const satisfies ReadonlyArray<{
-  id: string;
-  title: string;
-  currentProgress: number;
-  targetProgress: number;
-  reward: number;
-  status: QuestStatus;
-}>;
+] as const satisfies readonly DailyQuest[];
 
 const CLAIMABLE_REWARD = DAILY_QUESTS.reduce(
   (sum, quest) => (quest.status === "completed" ? sum + quest.reward : sum),

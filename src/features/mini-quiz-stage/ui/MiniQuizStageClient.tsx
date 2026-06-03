@@ -23,18 +23,8 @@ import type {
   MiniQuizChapter,
   MiniQuizStage,
 } from "@/entities/mini-quiz";
+import type { QuizQuestion } from "../model/types";
 import styles from "./page.module.css";
-
-interface QuizQuestion {
-  id: string;
-  type: "mcq" | "command";
-  question: string;
-  description: string;
-  options?: string[];
-  placeholder?: string;
-  answer: string;
-  explanation: string;
-}
 
 interface MiniQuizStageClientProps {
   chapter: MiniQuizChapter;
