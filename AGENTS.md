@@ -53,6 +53,9 @@ The test: Every changed line should trace directly to the user's request.
 
 - For module-level constants that are not server-shaped mock data, prefer `UPPER_SNAKE_CASE`.
 - Don't extract one-off static copy into data objects unless it is reused, expected to come from an API, or part of a repeated list.
+- Use `function` declarations for React components.
+- Use `const` arrow functions for non-component functions.
+- Move utility functions to separate files when they grow or become reused.
 
 ## 4. Goal-Driven Execution
 

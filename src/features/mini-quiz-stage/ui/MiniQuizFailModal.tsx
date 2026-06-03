@@ -3,15 +3,18 @@ import Link from "next/link";
 
 import { ggoggoHuk } from "@/assets/mascot";
 import { Modal } from "@/shared/ui/modal";
-import styles from "./MiniQuizStageClient.module.css";
+import { useMiniQuizStageContext } from "./MiniQuizStageProvider";
+import styles from "./MiniQuizFailModal.module.css";
 
-interface MiniQuizFailModalProps {
-  onClose: () => void;
-}
+export default function MiniQuizFailModal() {
+  const { closeFailModal, isFailed } = useMiniQuizStageContext();
 
-export default function MiniQuizFailModal({ onClose }: MiniQuizFailModalProps) {
+  if (!isFailed) {
+    return null;
+  }
+
   return (
-    <Modal title="에너지가 방전됐어요" onClose={onClose}>
+    <Modal title="에너지가 방전됐어요" onClose={closeFailModal}>
       <div className={styles.failModalContent}>
         <Image
           src={ggoggoHuk}

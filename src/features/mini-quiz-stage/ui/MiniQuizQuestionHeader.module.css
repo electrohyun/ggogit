@@ -1,0 +1,61 @@
+.questionHeader {
+  display: grid;
+  grid-template-columns: auto minmax(120px, 1fr) auto;
+  gap: 6px 12px;
+  align-items: center;
+}
+
+.eyebrow {
+  color: var(--text-secondary);
+  font-family: var(--font-code);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.progressTrack {
+  height: 8px;
+  overflow: hidden;
+  background: var(--primary-pale);
+  border-radius: 999px;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--primary-strong);
+  border-radius: inherit;
+}
+
+.progressCount {
+  color: var(--text-secondary);
+  font-family: var(--font-code);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.questionHeader h1 {
+  grid-column: 1 / -1;
+  font-size: 30px;
+  line-height: 1.25;
+}
+
+@media (max-width: 767px) {
+  .questionHeader {
+    gap: 5px 10px;
+    grid-template-columns: 1fr auto;
+  }
+
+  .progressTrack {
+    display: none;
+  }
+
+  .questionHeader h1 {
+    font-size: 24px;
+    line-height: 1.22;
+  }
+}
+
+@media (min-width: 1024px) {
+  .questionHeader h1 {
+    font-size: 46px;
+  }
+}
