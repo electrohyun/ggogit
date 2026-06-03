@@ -14,8 +14,7 @@ import {
   XCircle,
 } from "lucide-react";
 
-import ggoggoCheck from "@/assets/ggoggo_check1.webp";
-import ggoggoThumbsUp from "@/assets/ggoggo_thumbs_up.webp";
+import { ggoggoCheck, ggoggoThumbsUp } from "@/assets/mascot";
 import styles from "./page.module.css";
 
 interface ChallengeQuestion {

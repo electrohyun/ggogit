@@ -2,8 +2,8 @@
 
 import { useState, type ReactNode } from "react";
 import styles from "./StartButton.module.css";
-import LoginModalContent from "@/features/auth/ui/LoginModalContent";
-import Modal from "@/shared/ui/modal/Modal";
+import LoginModalContent from "./LoginModalContent";
+import { Modal } from "@/shared/ui/modal";
 
 interface StartButtonProps {
   children: ReactNode;

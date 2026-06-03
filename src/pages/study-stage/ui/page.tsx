@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 import {
   findMiniQuizStage,
   MINI_QUIZ_CHAPTERS,
-} from "@/features/study-quiz/mock/miniQuizContent";
-import MiniQuizStageClient from "@/features/mini-quiz-stage/ui/MiniQuizStageClient";
+} from "@/features/study-quiz";
+import { MiniQuizStageClient } from "@/features/mini-quiz-stage";
 
 interface MiniQuizStagePageProps {
   params: Promise<{

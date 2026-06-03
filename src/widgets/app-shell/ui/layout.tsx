@@ -1,8 +1,6 @@
 import styles from "./layout.module.css";
-import logoEng from "@/assets/logo_eng.webp";
-import logoKor from "@/assets/logo_kor.webp";
-import ggoggoSmile from "@/assets/ggoggo_smile.webp";
-import ggoggoAsk from "@/assets/ggoggo_ask.webp";
+import { logoEng, logoKor } from "@/assets/brand";
+import { ggoggoAsk, ggoggoSmile } from "@/assets/mascot";
 import Image from "next/image";
 import Link from "next/link";
 import {

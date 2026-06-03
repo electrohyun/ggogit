@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MessageCircle, ThumbsUp } from "lucide-react";
 
-import ggoggoCoding from "@/assets/ggoggo_coding.webp";
+import { ggoggoCoding } from "@/assets/mascot";
 import styles from "./CommunityPreviewPanel.module.css";
 
 const dailyTip = {

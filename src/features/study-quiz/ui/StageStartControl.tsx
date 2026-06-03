@@ -5,13 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { CheckCircle2, LockKeyhole, PlayCircle } from "lucide-react";
 
-import Modal from "@/shared/ui/modal/Modal";
-import ggoggoAdventure from "@/assets/ggoggo_adventure.webp";
+import { Modal } from "@/shared/ui/modal";
+import { ggoggoAdventure } from "@/assets/mascot";
 import type {
   MiniQuizStage,
   StageStatus,
-} from "@/features/study-quiz/mock/miniQuizContent";
-import styles from "@/pages/study/ui/page.module.css";
+} from "../mock/miniQuizContent";
 
 interface StageStartControlProps {
   chapterId: string;
@@ -19,6 +18,7 @@ interface StageStartControlProps {
   chapterNumber: number;
   stage: MiniQuizStage;
   stageNumber: number;
+  styles: Record<string, string>;
 }
 
 const STATUS_LABELS = {
@@ -39,6 +39,7 @@ export default function StageStartControl({
   chapterNumber,
   stage,
   stageNumber,
+  styles,
 }: StageStartControlProps) {
   const [isOpen, setIsOpen] = useState(false);
   const StageIcon = STATUS_ICONS[stage.status];

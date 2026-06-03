@@ -17,14 +17,12 @@ import {
   XCircle,
 } from "lucide-react";
 
-import Modal from "@/shared/ui/modal/Modal";
-import ggoggoCheck from "@/assets/ggoggo_check1.webp";
-import ggoggoHuk from "@/assets/ggoggo_huk2.webp";
-import ggoggoThumbsUp from "@/assets/ggoggo_thumbs_up.webp";
+import { Modal } from "@/shared/ui/modal";
+import { ggoggoCheck, ggoggoHuk, ggoggoThumbsUp } from "@/assets/mascot";
 import type {
   MiniQuizChapter,
   MiniQuizStage,
-} from "@/features/study-quiz/mock/miniQuizContent";
+} from "@/features/study-quiz";
 import styles from "./page.module.css";
 
 interface QuizQuestion {

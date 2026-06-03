@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ggoggoCoding from "@/assets/ggoggo_coding.webp";
+import { ggoggoCoding } from "@/assets/mascot";
 import styles from "./DailyTipContent.module.css";
 
 const dailyTip = {
