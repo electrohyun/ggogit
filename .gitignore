@@ -28,3 +28,7 @@ out
 .env
 
 docs/
+supabase/*
+
+# Local quiz content data
+src/app/(app)/study/miniQuizData.ts
