@@ -5,20 +5,20 @@ import { MessageCircle, ThumbsUp } from "lucide-react";
 import { ggoggoCoding } from "@/assets/mascot";
 import styles from "./CommunityPreviewPanel.module.css";
 
-const dailyTip = {
+const DAILY_TIP = {
   title: "작은 커밋, 자주 커밋!",
   description:
     "변경 단위를 작게 나누어 커밋하면, 기록을 읽기 쉽고 문제를 찾기도 쉬워요.",
 };
 
-const notices = [
+const NOTICES = [
   { id: 1, title: "스테이지 2-5 업데이트 안내", date: "05.27" },
   { id: 2, title: "5월 학습 챌린지 결과 발표", date: "05.24" },
   { id: 3, title: "신규 배지 3종 추가 안내", date: "05.20" },
   { id: 4, title: "Git 명령어 퀴즈 이벤트", date: "05.16" },
 ];
 
-const recentQuestions = [
+const RECENT_QUESTIONS = [
   {
     id: 1,
     title: "merge와 rebase의 차이가 헷갈려요",
@@ -61,8 +61,8 @@ export default function CommunityPreviewPanel() {
         </div>
         <div className={styles.tipContent}>
           <div className={styles.tipText}>
-            <h3>{dailyTip.title}</h3>
-            <p>{dailyTip.description}</p>
+            <h3>{DAILY_TIP.title}</h3>
+            <p>{DAILY_TIP.description}</p>
           </div>
           <Image
             src={ggoggoCoding}
@@ -79,7 +79,7 @@ export default function CommunityPreviewPanel() {
           <Link href="/community/notices">더보기 &gt;</Link>
         </div>
         <ul className={styles.noticeList}>
-          {notices.map((notice) => (
+          {NOTICES.map((notice) => (
             <li key={notice.id} className={styles.noticeItem}>
               <span className={styles.noticeTitle}>{notice.title}</span>
               <span className={styles.noticeDate}>{notice.date}</span>
@@ -97,7 +97,7 @@ export default function CommunityPreviewPanel() {
           <Link href="/community/questions">더보기 &gt;</Link>
         </div>
         <ul className={styles.questionList}>
-          {recentQuestions.map((question) => (
+          {RECENT_QUESTIONS.map((question) => (
             <li key={question.id} className={styles.questionItem}>
               <span className={styles.questionBadge} aria-hidden="true">
                 Q

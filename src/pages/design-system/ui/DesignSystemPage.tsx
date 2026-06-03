@@ -1,6 +1,6 @@
 import styles from "./DesignSystemPage.module.css";
 
-const colorGroups = [
+const COLOR_GROUPS = [
   {
     title: "Primary",
     colors: [
@@ -51,7 +51,7 @@ export default function DesignSystemPage() {
       </header>
 
       <div className={styles.groups}>
-        {colorGroups.map((group) => (
+        {COLOR_GROUPS.map((group) => (
           <section className={styles.group} key={group.title}>
             <h2>{group.title}</h2>
             <div className={styles.swatches}>

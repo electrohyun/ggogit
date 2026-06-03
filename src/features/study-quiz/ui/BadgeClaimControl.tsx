@@ -21,7 +21,7 @@ interface BadgeClaimControlProps {
   styles: Record<string, string>;
 }
 
-const chapterBadges = [
+const CHAPTER_BADGES = [
   stage1Badge,
   stage2Badge,
   stage3Badge,
@@ -41,7 +41,7 @@ export default function BadgeClaimControl({
   const [claimedChapterIds, setClaimedChapterIds] = useState<string[]>([]);
   const isBadgeClaimed = claimedChapterIds.includes(chapterId);
   const canClaimBadge = isBadgeUnlocked && !isBadgeClaimed;
-  const badgeImage = chapterBadges[chapterIndex];
+  const badgeImage = CHAPTER_BADGES[chapterIndex];
 
   function handleClaimBadge() {
     setClaimedChapterIds((ids) =>

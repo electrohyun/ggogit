@@ -3,7 +3,7 @@ import { BeanIcon, CheckCircleIcon, CircleIcon } from "lucide-react";
 
 type QuestStatus = "inProgress" | "completed" | "claimed";
 
-const dailyQuests = [
+const DAILY_QUESTS = [
   {
     id: "clear-stages",
     title: "스테이지 3회 완료하기",
@@ -37,7 +37,7 @@ const dailyQuests = [
   status: QuestStatus;
 }>;
 
-const claimableReward = dailyQuests.reduce(
+const CLAIMABLE_REWARD = DAILY_QUESTS.reduce(
   (sum, quest) => (quest.status === "completed" ? sum + quest.reward : sum),
   0
 );
@@ -46,7 +46,7 @@ export default function DailyQuestContent() {
   return (
     <div className={styles.dailyQuestCard}>
       <div className={styles.dailyQuestList}>
-        {dailyQuests.map((quest) => {
+        {DAILY_QUESTS.map((quest) => {
           const isInProgress = quest.status === "inProgress";
           const StatusIcon = isInProgress ? CircleIcon : CheckCircleIcon;
 
@@ -81,7 +81,7 @@ export default function DailyQuestContent() {
         <span>모두 받기</span>
         <div className={styles.beanContainer}>
           <BeanIcon size={16} fill="#80DD68" />
-          <span>{claimableReward}</span>
+          <span>{CLAIMABLE_REWARD}</span>
         </div>
       </button>
     </div>

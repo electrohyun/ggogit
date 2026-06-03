@@ -11,7 +11,7 @@ import {
 } from "@/features/study-quiz";
 import styles from "./StudyPage.module.css";
 
-const summaryItems = [
+const SUMMARY_ITEMS = [
   {
     id: "stars",
     label: "획득한 별",
@@ -41,7 +41,7 @@ const summaryItems = [
   },
 ] as const;
 
-const chapterImages = [stage1, stage2, stage3, stage4, stage5] as const;
+const CHAPTER_IMAGES = [stage1, stage2, stage3, stage4, stage5] as const;
 
 export default function StudyPage() {
   return (
@@ -64,7 +64,7 @@ export default function StudyPage() {
       </section>
 
       <section className={styles.summaryGrid} aria-label="미니 퀴즈 진행 요약">
-        {summaryItems.map((item) => (
+        {SUMMARY_ITEMS.map((item) => (
           <div key={item.id} className={styles.summaryCard}>
             <Image
               src={item.image}
@@ -92,7 +92,7 @@ export default function StudyPage() {
               <div className={styles.chapterInfo}>
                 <div className={styles.chapterTitleRow}>
                   <Image
-                    src={chapterImages[chapterIndex]}
+                    src={CHAPTER_IMAGES[chapterIndex]}
                     alt=""
                     width={78}
                     height={78}

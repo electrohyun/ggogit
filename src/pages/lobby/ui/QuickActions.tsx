@@ -6,7 +6,7 @@ interface QuickActionsProps {
   className?: string;
 }
 
-const quickActions = [
+const QUICK_ACTIONS = [
   {
     id: "review",
     label: "1분 복습",
@@ -36,7 +36,7 @@ const quickActions = [
 export default function QuickActions({ className }: QuickActionsProps) {
   return (
     <div className={`${styles.quickActions} ${className ?? ""}`}>
-      {quickActions.map((action) => {
+      {QUICK_ACTIONS.map((action) => {
         const Icon = action.icon;
 
         return (

@@ -1,7 +1,7 @@
 import { MessageCircle, ThumbsUp } from "lucide-react";
 import styles from "./CommunityContent.module.css";
 
-const questions = [
+const QUESTIONS = [
   {
     id: 1,
     title: "rebase와 merge의 차이는 무엇인가요?",
@@ -25,7 +25,7 @@ const questions = [
 export default function CommunityContent() {
   return (
     <ul className={styles.questionList}>
-      {questions.map((question) => (
+      {QUESTIONS.map((question) => (
         <li key={question.id} className={styles.questionItem}>
           <span className={styles.questionBadge} aria-hidden="true">
             Q
