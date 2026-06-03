@@ -1,0 +1,79 @@
+.quizHud {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.energyMeter {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 2px;
+  color: var(--text-secondary);
+}
+
+.energyMeter svg {
+  fill: currentColor;
+}
+
+.energyMeter svg[data-active="true"] {
+  color: var(--primary-deep);
+}
+
+.timerTrack {
+  flex: 1;
+  height: 14px;
+  overflow: hidden;
+  background: var(--primary-pale);
+  border: 2px solid var(--border);
+  border-radius: 999px;
+}
+
+.timerFill {
+  height: 100%;
+  background: var(--primary-strong);
+  border-radius: inherit;
+  transition: width 50ms linear;
+}
+
+.timeChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  gap: 5px;
+
+  min-width: 72px;
+  min-height: 36px;
+  padding: 0 10px;
+
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+  .quizHud {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .energyMeter svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .timeChip {
+    min-width: 64px;
+    min-height: 32px;
+    font-size: 14px;
+  }
+
+  .timerTrack {
+    order: 3;
+    flex-basis: 100%;
+    height: 10px;
+  }
+}

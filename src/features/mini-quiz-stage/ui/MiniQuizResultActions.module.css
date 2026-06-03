@@ -1,0 +1,45 @@
+.resultActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.secondaryButton,
+.primaryLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-height: 44px;
+  padding: 0 18px;
+
+  border-radius: 999px;
+  font: inherit;
+  font-size: 17px;
+}
+
+.primaryLink {
+  color: var(--text-primary);
+  background: var(--primary-strong);
+  border: 2px solid var(--primary-deep);
+}
+
+.secondaryButton {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .resultActions {
+    flex-direction: column;
+  }
+
+  .secondaryButton,
+  .primaryLink {
+    width: 100%;
+    min-height: 42px;
+    font-size: 15px;
+  }
+}

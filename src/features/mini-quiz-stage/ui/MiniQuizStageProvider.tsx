@@ -1,40 +1,85 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  type ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useRouter } from "next/navigation";
 
-import type {
-  MiniQuizChapter,
-  MiniQuizStage,
-} from "@/entities/mini-quiz";
 import {
-  buildQuizQuestions,
   getQuestionLimitMs,
   getStarCount,
   normalizeCommand,
 } from "../model/quizUtils";
-import MiniQuizFailModal from "./MiniQuizFailModal";
-import MiniQuizQuestionPanel from "./MiniQuizQuestionPanel";
-import MiniQuizStageResult from "./MiniQuizStageResult";
+import type { QuizQuestion } from "../model/types";
 
-interface MiniQuizStageClientProps {
-  chapter: MiniQuizChapter;
-  stage: MiniQuizStage;
+interface MiniQuizStageProviderProps {
+  children: ReactNode;
   chapterNumber: number;
+  questions: QuizQuestion[];
   stageNumber: number;
+  stageTitle: string;
 }
 
-export default function MiniQuizStageClient({
-  chapter,
-  stage,
+interface MiniQuizStageContextValue {
+  chapterNumber: number;
+  commandAnswer: string;
+  correctCount: number;
+  currentIndex: number;
+  currentQuestion: QuizQuestion;
+  displayTimeLeft: number;
+  energy: number;
+  isCleared: boolean;
+  isCorrect: boolean;
+  isFailed: boolean;
+  isFeedback: boolean;
+  isResult: boolean;
+  progressPercent: number;
+  questionCount: number;
+  resultPercent: number;
+  selectedAnswer: string | null;
+  setCommandAnswer: (answer: string) => void;
+  stageNumber: number;
+  stageTitle: string;
+  starCount: number;
+  submittedAnswer: string | null;
+  submitAnswer: (answer: string | null) => void;
+  timeLeftMs: number;
+  timeLimitMs: number;
+  timerPercent: number;
+  closeFailModal: () => void;
+  goNext: () => void;
+  retry: () => void;
+  selectAnswer: (answer: string) => void;
+}
+
+const MiniQuizStageContext =
+  createContext<MiniQuizStageContextValue | null>(null);
+
+export function useMiniQuizStageContext() {
+  const context = useContext(MiniQuizStageContext);
+
+  if (!context) {
+    throw new Error(
+      "useMiniQuizStageContext must be used within MiniQuizStageProvider"
+    );
+  }
+
+  return context;
+}
+
+export default function MiniQuizStageProvider({
+  children,
   chapterNumber,
+  questions,
   stageNumber,
-}: MiniQuizStageClientProps) {
+  stageTitle,
+}: MiniQuizStageProviderProps) {
   const router = useRouter();
-  const questions = useMemo(
-    () => buildQuizQuestions(chapter, stage),
-    [chapter, stage]
-  );
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [commandAnswer, setCommandAnswer] = useState("");
@@ -128,7 +173,7 @@ export default function MiniQuizStageClient({
     timeLeftMs,
   ]);
 
-  const handleSelect = (answer: string) => {
+  const selectAnswer = (answer: string) => {
     if (isFeedback) {
       return;
     }
@@ -136,7 +181,7 @@ export default function MiniQuizStageClient({
     setSelectedAnswer(answer);
   };
 
-  const handleNext = () => {
+  const goNext = () => {
     if (currentIndex === questions.length - 1) {
       setIsResult(true);
       return;
@@ -151,7 +196,7 @@ export default function MiniQuizStageClient({
     setSubmittedAnswer(null);
   };
 
-  const handleRetry = () => {
+  const retry = () => {
     setCurrentIndex(0);
     setSelectedAnswer(null);
     setCommandAnswer("");
@@ -163,52 +208,45 @@ export default function MiniQuizStageClient({
     setTimeLeftMs(getQuestionLimitMs(questions[0]));
   };
 
-  const handleFailClose = () => {
+  const closeFailModal = () => {
     router.push("/study");
   };
 
-  if (isResult) {
-    return (
-      <MiniQuizStageResult
-        chapterNumber={chapterNumber}
-        correctCount={correctCount}
-        energy={energy}
-        isCleared={isCleared}
-        onRetry={handleRetry}
-        questionCount={questions.length}
-        resultPercent={resultPercent}
-        stageNumber={stageNumber}
-        stageTitle={stage.title}
-        starCount={starCount}
-      />
-    );
-  }
+  const value = {
+    chapterNumber,
+    commandAnswer,
+    correctCount,
+    currentIndex,
+    currentQuestion,
+    displayTimeLeft,
+    energy,
+    isCleared,
+    isCorrect,
+    isFailed,
+    isFeedback,
+    isResult,
+    progressPercent,
+    questionCount: questions.length,
+    resultPercent,
+    selectedAnswer,
+    setCommandAnswer,
+    stageNumber,
+    stageTitle,
+    starCount,
+    submittedAnswer,
+    submitAnswer,
+    timeLeftMs,
+    timeLimitMs,
+    timerPercent,
+    closeFailModal,
+    goNext,
+    retry,
+    selectAnswer,
+  };
 
   return (
-    <>
-      {isFailed && <MiniQuizFailModal onClose={handleFailClose} />}
-      <MiniQuizQuestionPanel
-        chapterNumber={chapterNumber}
-        commandAnswer={commandAnswer}
-        currentIndex={currentIndex}
-        currentQuestion={currentQuestion}
-        displayTimeLeft={displayTimeLeft}
-        energy={energy}
-        isCorrect={isCorrect}
-        isFeedback={isFeedback}
-        onCommandAnswerChange={setCommandAnswer}
-        onNext={handleNext}
-        onSelect={handleSelect}
-        onSubmit={submitAnswer}
-        progressPercent={progressPercent}
-        questionCount={questions.length}
-        selectedAnswer={selectedAnswer}
-        stageNumber={stageNumber}
-        submittedAnswer={submittedAnswer}
-        timeLeftMs={timeLeftMs}
-        timeLimitMs={timeLimitMs}
-        timerPercent={timerPercent}
-      />
-    </>
+    <MiniQuizStageContext.Provider value={value}>
+      {children}
+    </MiniQuizStageContext.Provider>
   );
 }

@@ -4,7 +4,11 @@ import {
   findMiniQuizStage,
   MINI_QUIZ_CHAPTERS,
 } from "@/entities/mini-quiz";
-import { MiniQuizStageClient } from "@/features/mini-quiz-stage";
+import {
+  buildQuizQuestions,
+  MiniQuizStageProvider,
+  MiniQuizStageView,
+} from "@/features/mini-quiz-stage";
 
 interface MiniQuizStagePageProps {
   params: Promise<{
@@ -28,13 +32,16 @@ export default async function MiniQuizStagePage({
   const chapterNumber =
     MINI_QUIZ_CHAPTERS.findIndex((chapter) => chapter.id === match.chapter.id) +
     1;
+  const questions = buildQuizQuestions(match.chapter, match.stage);
 
   return (
-    <MiniQuizStageClient
-      chapter={match.chapter}
-      stage={match.stage}
+    <MiniQuizStageProvider
       chapterNumber={chapterNumber}
+      questions={questions}
       stageNumber={stageNumber}
-    />
+      stageTitle={match.stage.title}
+    >
+      <MiniQuizStageView />
+    </MiniQuizStageProvider>
   );
 }

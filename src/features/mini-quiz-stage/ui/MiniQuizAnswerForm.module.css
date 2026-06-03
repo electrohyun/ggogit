@@ -1,0 +1,122 @@
+.optionGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.optionButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  min-height: 58px;
+  padding: 12px 14px;
+
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  color: var(--text-primary);
+  cursor: pointer;
+  font: inherit;
+  font-size: 17px;
+  text-align: left;
+}
+
+.optionIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.optionIcon svg {
+  flex: 0 0 auto;
+}
+
+.optionButton[data-status="selected"] {
+  background: var(--primary-pale);
+  border-color: var(--primary-deep);
+  color: var(--primary-deep);
+}
+
+.optionButton[data-status="correct"] {
+  background: #f0fdf4;
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.optionButton[data-status="wrong"] {
+  background: #fef2f2;
+  border-color: var(--error);
+  color: var(--error);
+}
+
+.optionButton[data-status="idle"] .optionIcon {
+  color: var(--text-secondary);
+}
+
+.optionButton span:last-child {
+  min-width: 0;
+  color: var(--text-primary);
+}
+
+.optionButton:disabled {
+  cursor: default;
+}
+
+.commandAnswer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.commandAnswer span {
+  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.commandAnswer input {
+  width: 100%;
+  min-height: 58px;
+  padding: 0 16px;
+
+  color: var(--text-primary);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  font: inherit;
+  font-family: var(--font-code);
+  font-size: 18px;
+}
+
+.commandAnswer input:focus {
+  border-color: var(--primary-deep);
+  outline: none;
+}
+
+@media (max-width: 767px) {
+  .optionGrid {
+    gap: 8px;
+  }
+
+  .optionButton {
+    min-height: 52px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    font-size: 15px;
+  }
+
+  .commandAnswer input {
+    min-height: 52px;
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  .optionGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

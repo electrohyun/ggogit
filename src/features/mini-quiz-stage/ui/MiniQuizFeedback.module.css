@@ -1,0 +1,16 @@
+.feedbackBox {
+  padding: 14px 16px;
+  background: #fef2f2;
+  border: 2px solid var(--error);
+  border-radius: 18px;
+}
+
+.feedbackBox[data-correct="true"] {
+  background: #f0fdf4;
+  border-color: var(--success);
+}
+
+.feedbackBox p {
+  margin-top: 4px;
+  color: var(--text-secondary);
+}
