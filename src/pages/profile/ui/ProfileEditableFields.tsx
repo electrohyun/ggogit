@@ -1,27 +1,11 @@
 "use client";
 
 import { ggoggoSeal } from "@/assets/mascot";
+import type { Profile } from "@/entities/profile";
 import { UserIcon } from "lucide-react";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 import styles from "./ProfileEditableFields.module.css";
-
-interface Profile {
-  name: string;
-  bio: string;
-  joinedAt: string;
-  quizStats: {
-    solvedCount: number;
-    correctCount: number;
-    wrongCount: number;
-  };
-  activityStats: {
-    currentStreakDays: number;
-    bestStreakDays: number;
-    currentBeans: number;
-    totalBeans: number;
-  };
-}
 
 interface ProfileEditableFieldsProps {
   profile: Profile;

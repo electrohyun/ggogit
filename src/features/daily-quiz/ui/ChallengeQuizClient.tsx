@@ -15,18 +15,8 @@ import {
 } from "lucide-react";
 
 import { ggoggoCheck, ggoggoThumbsUp } from "@/assets/mascot";
+import type { ChallengeQuestion } from "../model/types";
 import styles from "./page.module.css";
-
-interface ChallengeQuestion {
-  id: string;
-  type: "mcq" | "command";
-  question: string;
-  description: string;
-  options?: string[];
-  placeholder?: string;
-  answer: string;
-  explanation: string;
-}
 
 const QUESTIONS = [
   {
