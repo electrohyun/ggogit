@@ -1,7 +1,7 @@
 import { BookOpen, TimerIcon, TrophyIcon } from "lucide-react";
 import styles from "./TodaySummaryContent.module.css";
 
-const todaySummaryItems = [
+const TODAY_SUMMARY_ITEMS = [
   {
     id: "learned-stages",
     label: "학습한 스테이지",
@@ -26,7 +26,7 @@ export default function TodaySummaryContent() {
   return (
     <div className={styles.todaySummaryCard}>
       <div className={styles.todaySummaryCardContent}>
-        {todaySummaryItems.map((item) => {
+        {TODAY_SUMMARY_ITEMS.map((item) => {
           const Icon = item.icon;
 
           return (

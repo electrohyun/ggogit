@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ggoggoWalk } from "@/assets/mascot";
 import styles from "./ContinueCardContent.module.css";
 
-const currentStage = {
+const CURRENT_STAGE = {
   number: "3-4",
   title: "git commit -m 이해하기",
   progress: 20,
@@ -21,12 +21,12 @@ export default function ContinueCardContent({
       <Link
         href={href}
         className={styles.mobileCardLink}
-        aria-label={`${currentStage.number} ${currentStage.title} 이어하기`}
+        aria-label={`${CURRENT_STAGE.number} ${CURRENT_STAGE.title} 이어하기`}
       />
       <div className={styles.continueInfo}>
         <div className={styles.stageInfo}>
-          <p className={styles.stageNumber}>{currentStage.number}</p>
-          <h3 className={styles.stageTitle}>{currentStage.title}</h3>
+          <p className={styles.stageNumber}>{CURRENT_STAGE.number}</p>
+          <h3 className={styles.stageTitle}>{CURRENT_STAGE.title}</h3>
         </div>
         <div className={styles.progressActions}>
           <div className={styles.progressRow}>
@@ -36,15 +36,15 @@ export default function ContinueCardContent({
               aria-label="스테이지 진행률"
               aria-valuemin={0}
               aria-valuemax={100}
-              aria-valuenow={currentStage.progress}
+              aria-valuenow={CURRENT_STAGE.progress}
             >
               <div
                 className={styles.progressFill}
-                style={{ width: `${currentStage.progress}%` }}
+                style={{ width: `${CURRENT_STAGE.progress}%` }}
               />
             </div>
             <span className={styles.progressText}>
-              {currentStage.progress}% 완료
+              {CURRENT_STAGE.progress}% 완료
             </span>
           </div>
           <Link className={styles.continueButton} href={href}>

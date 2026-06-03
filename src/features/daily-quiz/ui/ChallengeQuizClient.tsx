@@ -28,7 +28,7 @@ interface ChallengeQuestion {
   explanation: string;
 }
 
-const questions = [
+const QUESTIONS = [
   {
     id: "daily-mcq-01",
     type: "mcq",
@@ -124,7 +124,7 @@ export default function ChallengeQuizClient() {
   const [elapsedMs, setElapsedMs] = useState(0);
   const [isResult, setIsResult] = useState(false);
 
-  const currentQuestion = questions[currentIndex];
+  const currentQuestion = QUESTIONS[currentIndex];
   const isFeedback = submittedAnswer !== null;
   const normalizedSubmittedAnswer =
     currentQuestion.type === "command" && submittedAnswer
@@ -132,7 +132,7 @@ export default function ChallengeQuizClient() {
       : submittedAnswer;
   const isCorrect = normalizedSubmittedAnswer === currentQuestion.answer;
   const progressPercent = Math.round(
-    ((currentIndex + (isFeedback ? 1 : 0)) / questions.length) * 100
+    ((currentIndex + (isFeedback ? 1 : 0)) / QUESTIONS.length) * 100
   );
   const score = useMemo(
     () => calculateScore(correctCount, elapsedMs),
@@ -178,7 +178,7 @@ export default function ChallengeQuizClient() {
   }
 
   function handleNext() {
-    if (currentIndex === questions.length - 1) {
+    if (currentIndex === QUESTIONS.length - 1) {
       setIsResult(true);
       return;
     }
@@ -213,7 +213,7 @@ export default function ChallengeQuizClient() {
             <div>
               <span>정답</span>
               <strong>
-                {correctCount} / {questions.length}
+                {correctCount} / {QUESTIONS.length}
               </strong>
             </div>
             <div>
@@ -258,7 +258,7 @@ export default function ChallengeQuizClient() {
             />
           </div>
           <span className={styles.progressCount}>
-            {currentIndex + 1} / {questions.length}
+            {currentIndex + 1} / {QUESTIONS.length}
           </span>
           <span className={styles.elapsedChip}>
             <Clock3 size={18} aria-hidden="true" />
@@ -352,7 +352,7 @@ export default function ChallengeQuizClient() {
               className={styles.primaryButton}
               onClick={handleNext}
             >
-              {currentIndex === questions.length - 1
+              {currentIndex === QUESTIONS.length - 1
                 ? "결과 보기"
                 : "다음 문제 풀기"}
             </button>

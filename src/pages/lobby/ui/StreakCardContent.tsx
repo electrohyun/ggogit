@@ -2,7 +2,7 @@ import Image from "next/image";
 import { ggoggoGreet } from "@/assets/mascot";
 import styles from "./StreakCardContent.module.css";
 
-const streakDays = [
+const STREAK_DAYS = [
   { label: "월", status: "missed" },
   { label: "화", status: "completed" },
   { label: "수", status: "completed" },
@@ -26,7 +26,7 @@ export default function StreakCardContent() {
         <Image src={ggoggoGreet} alt="ggoggo greet" width={120} />
       </div>
       <div className={styles.streakFooter}>
-        {streakDays.map((day) => (
+        {STREAK_DAYS.map((day) => (
           <div key={day.label} className={styles.dayItem}>
             <span className={`${styles.dayCircle} ${styles[day.status]}`}>
               {day.status !== "missed" && "🔥"}

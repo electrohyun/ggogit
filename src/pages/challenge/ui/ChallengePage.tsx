@@ -5,7 +5,7 @@ import { Clock3, Flame, Info, Medal, TimerOff, Trophy } from "lucide-react";
 import { ggoggoPodium } from "@/assets/mascot";
 import styles from "./ChallengePage.module.css";
 
-const rules = [
+const RULES = [
   {
     id: "questions",
     icon: Trophy,
@@ -26,7 +26,7 @@ const rules = [
   },
 ] as const;
 
-const rankings = [
+const RANKINGS = [
   {
     rank: 1,
     name: "꼬닥이",
@@ -84,7 +84,7 @@ export default function ChallengePage() {
         </div>
 
         <div className={styles.ruleGrid} aria-label="오늘의 도전 규칙">
-          {rules.map((rule) => {
+          {RULES.map((rule) => {
             const RuleIcon = rule.icon;
 
             return (
@@ -132,7 +132,7 @@ export default function ChallengePage() {
         />
 
         <ol className={styles.rankingList}>
-          {rankings.map((item) => (
+          {RANKINGS.map((item) => (
             <li
               key={item.rank}
               className={styles.rankingItem}
