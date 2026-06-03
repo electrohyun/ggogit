@@ -43,12 +43,12 @@ export default function BadgeClaimControl({
   const canClaimBadge = isBadgeUnlocked && !isBadgeClaimed;
   const badgeImage = CHAPTER_BADGES[chapterIndex];
 
-  function handleClaimBadge() {
+  const handleClaimBadge = () => {
     setClaimedChapterIds((ids) =>
       ids.includes(chapterId) ? ids : [...ids, chapterId]
     );
     setIsBadgeOpen(true);
-  }
+  };
 
   return (
     <>
