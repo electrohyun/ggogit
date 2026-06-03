@@ -31,4 +31,4 @@ docs/
 supabase/*
 
 # Local quiz content data
-src/app/(app)/study/miniQuizData.ts
+src/features/study-quiz/mock/miniQuizData.ts
