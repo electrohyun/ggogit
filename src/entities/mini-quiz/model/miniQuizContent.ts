@@ -173,7 +173,7 @@ export const MINI_QUIZ_CHAPTERS = [
   },
 ] as const satisfies readonly MiniQuizChapter[];
 
-export function findMiniQuizStage(chapterId: string, stageId: string) {
+export const findMiniQuizStage = (chapterId: string, stageId: string) => {
   const chapter = MINI_QUIZ_CHAPTERS.find((item) => item.id === chapterId);
   const stage = chapter?.stages.find((item) => item.id === stageId);
 
@@ -182,4 +182,4 @@ export function findMiniQuizStage(chapterId: string, stageId: string) {
   }
 
   return { chapter, stage };
-}
+};
