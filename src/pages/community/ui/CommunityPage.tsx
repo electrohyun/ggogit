@@ -2,10 +2,10 @@ import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 
 import { ggoggoSmile } from "@/assets/mascot";
-import styles from "./page.module.css";
+import styles from "./CommunityPage.module.css";
 
 // TODO: Supabase 연동 시 created_at 기준 최신순으로 조회합니다.
-const guestbookEntries = [
+const GUESTBOOK_ENTRIES = [
   {
     id: 1,
     nickname: "나는짱",
@@ -55,7 +55,7 @@ export default function CommunityPage() {
     <div className={styles.container}>
       <div className={styles.titleRow}>
         <h1>방명록</h1>
-        <p>({guestbookEntries.length})</p>
+        <p>({GUESTBOOK_ENTRIES.length})</p>
       </div>
       <form className={styles.form}>
         <textarea
@@ -69,7 +69,7 @@ export default function CommunityPage() {
       </form>
       <hr className={styles.divider} />
       <div className={styles.commentList}>
-        {guestbookEntries.map((entry) => (
+        {GUESTBOOK_ENTRIES.map((entry) => (
           <div key={entry.id} className={styles.commentBox}>
             <Image
               src={entry.avatar}

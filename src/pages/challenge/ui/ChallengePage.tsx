@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Clock3, Flame, Info, Medal, TimerOff, Trophy } from "lucide-react";
 
 import { ggoggoPodium } from "@/assets/mascot";
-import styles from "./page.module.css";
+import styles from "./ChallengePage.module.css";
 
 const rules = [
   {

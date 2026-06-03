@@ -1,10 +1,10 @@
 import { ChevronDown } from "lucide-react";
 
-import styles from "./page.module.css";
+import styles from "./CommunityTipsPage.module.css";
 
-const tipTags = ["전체", "commit", "branch", "merge", "reset", "remote"];
+const TIP_TAGS = ["전체", "commit", "branch", "merge", "reset", "remote"];
 
-const tipCards = [
+const TIP_CARDS = [
   {
     id: 1,
     title: "작은 커밋, 자주 커밋!",
@@ -53,14 +53,14 @@ const tipCards = [
 ];
 
 export default function TipsPage() {
-  const visibleTips = tipCards.slice(0, 4);
+  const visibleTips = TIP_CARDS.slice(0, 4);
 
   return (
     <div className={styles.container}>
       <div className={styles.titleRow}>
         <h1>팁 모음</h1>
         <div className={styles.tagFilter} aria-label="팁 태그 필터">
-          {tipTags.map((tag, index) => (
+          {TIP_TAGS.map((tag, index) => (
             <button
               key={tag}
               type="button"

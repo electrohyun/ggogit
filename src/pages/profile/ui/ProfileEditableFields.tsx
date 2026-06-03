@@ -4,7 +4,7 @@ import { ggoggoSeal } from "@/assets/mascot";
 import { UserIcon } from "lucide-react";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
-import styles from "./page.module.css";
+import styles from "./ProfileEditableFields.module.css";
 
 interface Profile {
   name: string;

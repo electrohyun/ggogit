@@ -7,11 +7,11 @@ import {
   Search,
 } from "lucide-react";
 
-import styles from "./page.module.css";
+import styles from "./CommunityQuestionsPage.module.css";
 
 const POSTS_PER_PAGE = 10;
 
-const questionPosts = [
+const QUESTION_POSTS = [
   {
     id: 1,
     title: "첫 질문입니다...",
@@ -114,8 +114,8 @@ const questionPosts = [
 ];
 
 export default function QuestionsPage() {
-  const visiblePosts = questionPosts.slice(0, POSTS_PER_PAGE);
-  const totalPages = Math.ceil(questionPosts.length / POSTS_PER_PAGE);
+  const visiblePosts = QUESTION_POSTS.slice(0, POSTS_PER_PAGE);
+  const totalPages = Math.ceil(QUESTION_POSTS.length / POSTS_PER_PAGE);
 
   return (
     <div className={styles.container}>

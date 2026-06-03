@@ -4,12 +4,12 @@ import { Sparkles } from "lucide-react";
 import { ggoggoWalk } from "@/assets/mascot";
 import { stage1, stage2, stage3, stage4, stage5 } from "@/assets/chapters";
 import { stageCheck, stageStar, stageStreak } from "@/assets/stats";
+import { MINI_QUIZ_CHAPTERS } from "@/entities/mini-quiz";
 import {
   BadgeClaimControl,
-  MINI_QUIZ_CHAPTERS,
   StageStartControl,
 } from "@/features/study-quiz";
-import styles from "./page.module.css";
+import styles from "./StudyPage.module.css";
 
 const summaryItems = [
   {

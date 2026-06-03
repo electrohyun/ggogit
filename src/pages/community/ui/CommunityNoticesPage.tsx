@@ -7,11 +7,11 @@ import {
   Search,
 } from "lucide-react";
 
-import styles from "./page.module.css";
+import styles from "./CommunityNoticesPage.module.css";
 
 const POSTS_PER_PAGE = 10;
 
-const noticePosts = [
+const NOTICE_POSTS = [
   {
     id: 1,
     title: "꼬깃 커뮤니티 오픈 준비 안내",
@@ -45,7 +45,7 @@ const noticePosts = [
 ];
 
 export default function NoticesPage() {
-  const totalPages = Math.ceil(noticePosts.length / POSTS_PER_PAGE);
+  const totalPages = Math.ceil(NOTICE_POSTS.length / POSTS_PER_PAGE);
 
   return (
     <div className={styles.container}>
@@ -73,7 +73,7 @@ export default function NoticesPage() {
           <span>작성일</span>
           <span>조회</span>
         </div>
-        {noticePosts.map((post) => (
+        {NOTICE_POSTS.map((post) => (
           <Link
             key={post.id}
             href={`/community/notices/${post.id}`}

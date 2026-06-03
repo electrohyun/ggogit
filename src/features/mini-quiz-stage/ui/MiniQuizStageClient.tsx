@@ -22,7 +22,7 @@ import { ggoggoCheck, ggoggoHuk, ggoggoThumbsUp } from "@/assets/mascot";
 import type {
   MiniQuizChapter,
   MiniQuizStage,
-} from "@/features/study-quiz";
+} from "@/entities/mini-quiz";
 import styles from "./page.module.css";
 
 interface QuizQuestion {
