@@ -13,6 +13,19 @@ export async function GET(request: NextRequest) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (!error) {
+      const { error: initializationError } = await supabase.rpc(
+        "ensure_user_app_data",
+      );
+
+      if (initializationError) {
+        console.error(
+          "Failed to initialize user app data",
+          initializationError,
+        );
+
+        return NextResponse.redirect(origin);
+      }
+
       return NextResponse.redirect(`${origin}/lobby`);
     }
   }
