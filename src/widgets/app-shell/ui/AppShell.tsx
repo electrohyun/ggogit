@@ -85,23 +85,15 @@ export default function AppShell({
               <Link className={styles.logoutLink} href="/auth/logout">
                 로그아웃
               </Link>
-              {currentUser.avatarUrl ? (
+              <div className={styles.profileImageFrame}>
                 <Image
-                  src={currentUser.avatarUrl}
+                  src={currentUser.avatarUrl ?? ggoggoSmile}
                   alt={`${currentUser.name} 프로필`}
-                  width={50}
-                  height={50}
+                  fill
+                  sizes="50px"
                   className={styles.profileImage}
                 />
-              ) : (
-                <Image
-                  src={ggoggoSmile}
-                  alt={`${currentUser.name} 프로필`}
-                  width={50}
-                  height={50}
-                  className={styles.profileImage}
-                />
-              )}
+              </div>
             </div>
           </div>
         </div>
