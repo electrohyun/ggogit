@@ -1,4 +1,4 @@
-import styles from "./layout.module.css";
+import styles from "./AppShell.module.css";
 import { logoEng, logoKor } from "@/assets/brand";
 import { ggoggoAsk, ggoggoSmile } from "@/assets/mascot";
 import Image from "next/image";
@@ -17,7 +17,17 @@ import { ReactNode } from "react";
 import AppLocation from "./AppLocation";
 import AppNavLink from "./AppNavLink";
 
-export default function LobbyLayout({ children }: { children: ReactNode }) {
+interface AppShellProps {
+  children: ReactNode;
+  viewerAvatarUrl: string | null;
+  viewerName: string;
+}
+
+export default function AppShell({
+  children,
+  viewerAvatarUrl,
+  viewerName,
+}: AppShellProps) {
   return (
     <>
       <header className={styles.header}>
@@ -41,7 +51,7 @@ export default function LobbyLayout({ children }: { children: ReactNode }) {
             <div className={styles.ggoggo}>
               <Image src={ggoggoSmile} alt="꼬꼬 웃는 얼굴" width={50} />
               <p className={styles.ggoggoGreeting}>
-                Guest님! 오늘은 어떤 여정이 펼쳐질까요?
+                {viewerName}님! 오늘은 어떤 여정이 펼쳐질까요?
               </p>
             </div>
           </div>
@@ -57,8 +67,27 @@ export default function LobbyLayout({ children }: { children: ReactNode }) {
               </div>
             </div>
             <div className={styles.profileContainer}>
-              <p className={styles.profileText}>어서와요, Guest님!</p>
-              <UserIcon className={styles.profileIcon} size={50} />
+              <p className={styles.profileText}>어서와요, {viewerName}님!</p>
+              <Link className={styles.logoutLink} href="/auth/logout">
+                로그아웃
+              </Link>
+              {viewerAvatarUrl ? (
+                <Image
+                  src={viewerAvatarUrl}
+                  alt={`${viewerName} 프로필`}
+                  width={50}
+                  height={50}
+                  className={styles.profileImage}
+                />
+              ) : (
+                <Image
+                  src={ggoggoSmile}
+                  alt={`${viewerName} 프로필`}
+                  width={50}
+                  height={50}
+                  className={styles.profileImage}
+                />
+              )}
             </div>
           </div>
         </div>
