@@ -26,6 +26,12 @@
   align-items: center;
 }
 
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
 .nonLogoContainer {
   display: flex;
   align-items: center;
@@ -84,22 +90,6 @@
 
 .profileText {
   display: none;
-}
-
-.logoutLink {
-  display: none;
-}
-
-.profileImageFrame {
-  position: relative;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  overflow: hidden;
-}
-
-.profileImage {
-  object-fit: cover;
 }
 
 .aside {
@@ -215,25 +205,6 @@
 
   .statusContainer {
     padding: 0px 20px;
-  }
-
-  .logoutLink {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 32px;
-    padding: 0 10px;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    color: var(--text-secondary);
-    font-size: 13px;
-    white-space: nowrap;
-    cursor: pointer;
-  }
-
-  .logoutLink:hover {
-    background-color: var(--primary-pale);
-    color: var(--text-primary);
   }
 
   .aside {
