@@ -75,6 +75,7 @@
 .profileContainer {
   display: flex;
   align-items: center;
+  gap: 8px;
 }
 
 .greetingContainer {
@@ -85,10 +86,17 @@
   display: none;
 }
 
-.profileIcon {
-  padding: 5px 5px;
-  background-color: lightgray;
+.logoutLink {
+  display: none;
+}
+
+.profileImage {
+  display: block;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
+  object-fit: cover;
+  overflow: hidden;
 }
 
 .aside {
@@ -129,6 +137,7 @@
 
   font-size: 12px;
   color: var(--text-primary);
+  cursor: pointer;
 }
 
 .mobileNavItem::before {
@@ -205,6 +214,25 @@
     padding: 0px 20px;
   }
 
+  .logoutLink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+    padding: 0 10px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .logoutLink:hover {
+    background-color: var(--primary-pale);
+    color: var(--text-primary);
+  }
+
   .aside {
     display: flex;
     flex-direction: column;
@@ -237,6 +265,7 @@
 
     padding: 10px 15px;
     margin: 10px 0;
+    cursor: pointer;
   }
 
   .sectionTitle {
