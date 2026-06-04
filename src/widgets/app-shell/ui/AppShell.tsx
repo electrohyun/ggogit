@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "./AppShell.module.css";
 import { logoEng, logoKor } from "@/assets/brand";
 import { ggoggoAsk, ggoggoSmile } from "@/assets/mascot";
@@ -13,21 +15,27 @@ import {
   TrophyIcon,
   UserIcon,
 } from "lucide-react";
-import { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import AppLocation from "./AppLocation";
 import AppNavLink from "./AppNavLink";
+import { type CurrentUser, useCurrentUserStore } from "@/entities/user";
 
 interface AppShellProps {
   children: ReactNode;
-  viewerAvatarUrl: string | null;
-  viewerName: string;
+  initialCurrentUser: CurrentUser;
 }
 
 export default function AppShell({
+  initialCurrentUser,
   children,
-  viewerAvatarUrl,
-  viewerName,
 }: AppShellProps) {
+  const currentUser = useCurrentUserStore((state) => state.currentUser);
+  const setCurrentUser = useCurrentUserStore((state) => state.setCurrentUser);
+
+  useEffect(() => {
+    setCurrentUser(initialCurrentUser);
+  }, [initialCurrentUser, setCurrentUser]);
+
   return (
     <>
       <header className={styles.header}>
@@ -51,7 +59,7 @@ export default function AppShell({
             <div className={styles.ggoggo}>
               <Image src={ggoggoSmile} alt="꼬꼬 웃는 얼굴" width={50} />
               <p className={styles.ggoggoGreeting}>
-                {viewerName}님! 오늘은 어떤 여정이 펼쳐질까요?
+                {currentUser.name}님! 오늘은 어떤 여정이 펼쳐질까요?
               </p>
             </div>
           </div>
@@ -59,22 +67,28 @@ export default function AppShell({
             <div className={styles.status}>
               <div className={styles.streakStatus}>
                 <Flame size={24} fill="lightcoral" />
-                <span className={styles.streakText}>7</span>
+                <span className={styles.streakText}>
+                  {currentUser.currentStreakDays}
+                </span>
               </div>
               <div className={styles.beanStatus}>
                 <Bean size={24} fill="lightgreen" />
-                <span className={styles.beanText}>619</span>
+                <span className={styles.beanText}>
+                  {currentUser.currentBeans}
+                </span>
               </div>
             </div>
             <div className={styles.profileContainer}>
-              <p className={styles.profileText}>어서와요, {viewerName}님!</p>
+              <p className={styles.profileText}>
+                어서와요, {currentUser.name}님!
+              </p>
               <Link className={styles.logoutLink} href="/auth/logout">
                 로그아웃
               </Link>
-              {viewerAvatarUrl ? (
+              {currentUser.avatarUrl ? (
                 <Image
-                  src={viewerAvatarUrl}
-                  alt={`${viewerName} 프로필`}
+                  src={currentUser.avatarUrl}
+                  alt={`${currentUser.name} 프로필`}
                   width={50}
                   height={50}
                   className={styles.profileImage}
@@ -82,7 +96,7 @@ export default function AppShell({
               ) : (
                 <Image
                   src={ggoggoSmile}
-                  alt={`${viewerName} 프로필`}
+                  alt={`${currentUser.name} 프로필`}
                   width={50}
                   height={50}
                   className={styles.profileImage}
@@ -132,7 +146,6 @@ export default function AppShell({
               </li>
             </ul>
           </nav>
-          {/* <hr className={styles.divider} /> */}
           <section
             className={styles.noticeSection}
             aria-labelledby="notice-title"
