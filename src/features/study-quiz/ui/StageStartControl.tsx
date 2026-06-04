@@ -11,6 +11,7 @@ import type {
   MiniQuizStage,
   StageStatus,
 } from "@/entities/mini-quiz";
+import styles from "./StageStartControl.module.css";
 
 interface StageStartControlProps {
   chapterId: string;
@@ -18,7 +19,6 @@ interface StageStartControlProps {
   chapterNumber: number;
   stage: MiniQuizStage;
   stageNumber: number;
-  styles: Record<string, string>;
 }
 
 const STATUS_LABELS = {
@@ -39,7 +39,6 @@ export default function StageStartControl({
   chapterNumber,
   stage,
   stageNumber,
-  styles,
 }: StageStartControlProps) {
   const [isOpen, setIsOpen] = useState(false);
   const StageIcon = STATUS_ICONS[stage.status];

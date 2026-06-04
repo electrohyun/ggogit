@@ -31,8 +31,7 @@
   min-width: 0;
 }
 
-.eyebrow,
-.stageStep {
+.eyebrow {
   color: var(--text-secondary);
 }
 
@@ -193,8 +192,7 @@
   margin-top: 12px;
 }
 
-.commandList code,
-.stageContent code {
+.commandList code {
   font-family: var(--font-code);
 }
 
@@ -228,350 +226,6 @@
   height: 8px;
   border-radius: 999px;
   background: var(--border);
-}
-
-.stageNode {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  width: 100%;
-  min-height: 92px;
-  padding: 12px;
-
-  color: var(--text-primary);
-  background: var(--primary-pale);
-  border: 2px solid var(--primary-strong);
-  border-radius: 20px;
-  cursor: pointer;
-  font: inherit;
-  text-align: left;
-}
-
-.stageNode[data-status="completed"] {
-  background: #f0fdf4;
-  border-color: var(--success);
-}
-
-.stageNode[data-status="locked"] {
-  color: var(--text-secondary);
-  background: #f5f5f5;
-  border-color: var(--border);
-}
-
-.stageBadge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-
-  width: 48px;
-  height: 48px;
-
-  background: var(--surface);
-  border: 2px solid currentColor;
-  border-radius: 50%;
-}
-
-.stageNode[data-status="completed"] .stageBadge {
-  color: var(--success);
-}
-
-.stageNode[data-status="available"] .stageBadge {
-  color: var(--primary-deep);
-}
-
-.stageNode[data-status="locked"] .stageBadge {
-  color: #999999;
-}
-
-.stageContent {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-}
-
-.stageContent strong {
-  font-size: 18px;
-  line-height: 1.2;
-}
-
-.stageContent code {
-  color: var(--text-secondary);
-  font-size: 13px;
-}
-
-.stageStars {
-  display: inline-flex;
-  gap: 2px;
-  margin-top: 4px;
-  font-size: 18px;
-  line-height: 1;
-}
-
-.stageStars span {
-  color: #d8d8d8;
-  -webkit-text-stroke: 1px #b7b7b7;
-}
-
-.stageStars span[data-filled="true"] {
-  color: var(--primary-strong);
-  -webkit-text-stroke: 1px var(--primary-deep);
-  filter: drop-shadow(0 2px 2px rgb(0 0 0 / 10%));
-}
-
-.stageNode[data-status="locked"] .stageStars span {
-  color: #e2e2e2;
-  -webkit-text-stroke-color: #c7c7c7;
-}
-
-.rewardPreview {
-  position: relative;
-  overflow: hidden;
-
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  min-width: 0;
-  padding: 12px;
-
-  background: var(--chapter-soft);
-  border: 2px dashed color-mix(in srgb, var(--chapter-color) 38%, transparent);
-  border-radius: 20px;
-}
-
-.rewardPreview[data-claimable="true"]::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-
-  background: rgb(0 0 0 / 52%);
-}
-
-.rewardSlot {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-
-  width: 74px;
-  height: 74px;
-
-  color: var(--chapter-color);
-  background: transparent;
-  border-radius: 50%;
-}
-
-.rewardBadge {
-  width: 74px;
-  height: 74px;
-  object-fit: contain;
-  opacity: 0.58;
-  filter: grayscale(1) drop-shadow(0 6px 10px rgb(0 0 0 / 12%));
-}
-
-.rewardPreview[data-unlocked="true"] .rewardBadge {
-  opacity: 1;
-  filter: drop-shadow(0 8px 14px rgb(0 0 0 / 16%));
-}
-
-.rewardPreview[data-claimed="true"] .rewardBadge {
-  opacity: 1;
-  filter: drop-shadow(0 8px 14px rgb(0 0 0 / 16%));
-}
-
-.rewardPreview p {
-  color: var(--text-secondary);
-  font-size: 13px;
-}
-
-.rewardPreview strong {
-  display: block;
-}
-
-.rewardPreview strong {
-  color: var(--chapter-color);
-  font-size: 17px;
-  line-height: 1.25;
-}
-
-.claimButton {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 6;
-  transform: translate(-50%, -50%);
-
-  min-height: 42px;
-  padding: 0 22px;
-
-  color: var(--text-primary);
-  background: var(--primary-strong);
-  border: 2px solid var(--primary-deep);
-  border-radius: 999px;
-  cursor: pointer;
-  font: inherit;
-  font-size: 16px;
-  white-space: nowrap;
-}
-
-.badgeModalContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  text-align: center;
-}
-
-.modalBadge {
-  width: 120px;
-  height: 120px;
-  object-fit: contain;
-  filter: drop-shadow(0 8px 14px rgb(0 0 0 / 16%));
-}
-
-.badgeModalContent p {
-  color: var(--text-secondary);
-  font-size: 18px;
-  line-height: 1.45;
-}
-
-.stageModalContent {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.stageModalImage {
-  align-self: center;
-  width: min(70%, 180px);
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 8px 10px rgb(255 210 77 / 24%));
-}
-
-.stageModalText {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  text-align: center;
-}
-
-.stageModalStep {
-  color: var(--text-secondary);
-  font-family: var(--font-code);
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.stageModalText h3 {
-  font-size: 26px;
-  line-height: 1.15;
-}
-
-.stageModalDescription {
-  color: var(--text-secondary);
-  font-size: 17px;
-  line-height: 1.45;
-  text-align: center;
-}
-
-.stageModalTableWrap {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  overflow: hidden;
-  -webkit-overflow-scrolling: touch;
-  border: 2px solid var(--primary-strong);
-  border-radius: 12px;
-}
-
-.stageModalTable {
-  width: 100%;
-  table-layout: fixed;
-  border-collapse: collapse;
-  background: var(--surface);
-  font-size: 13px;
-  text-align: center;
-}
-
-.stageModalTable th,
-.stageModalTable td {
-  width: 25%;
-  padding: 9px 6px;
-  border: 1px solid var(--primary-strong);
-  word-break: keep-all;
-}
-
-.stageModalTable th:first-child,
-.stageModalTable td:first-child {
-  border-left: 0;
-}
-
-.stageModalTable th:last-child,
-.stageModalTable td:last-child {
-  border-right: 0;
-}
-
-.stageModalTable tr:first-child th {
-  border-top: 0;
-}
-
-.stageModalTable tr:last-child td {
-  border-bottom: 0;
-}
-
-.stageModalTable th {
-  background: var(--primary-base);
-  font-weight: 700;
-}
-
-.stageModalTable td {
-  font-weight: 700;
-}
-
-.stageModalPrompt {
-  color: var(--text-secondary);
-  font-size: 16px;
-  line-height: 1.45;
-  text-align: center;
-}
-
-.stageModalActions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-.stageModalGhostButton,
-.stageModalStartButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  min-height: 44px;
-  padding: 0 18px;
-  border-radius: 999px;
-  font: inherit;
-  font-size: 16px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.stageModalGhostButton {
-  color: var(--text-secondary);
-  background: var(--surface);
-  border: 2px solid var(--border);
-  cursor: pointer;
-}
-
-.stageModalStartButton {
-  color: var(--text-primary);
-  background: var(--primary-strong);
-  border: 2px solid var(--primary-deep);
 }
 
 .tipBox {
@@ -663,14 +317,6 @@
     font-size: 15px;
   }
 
-  .stageModalActions {
-    flex-direction: column-reverse;
-  }
-
-  .stageModalGhostButton,
-  .stageModalStartButton {
-    width: 100%;
-  }
 }
 
 @media (min-width: 768px) {
@@ -701,15 +347,6 @@
     transform: translateY(-50%);
   }
 
-  .stageNode {
-    flex-direction: column;
-    align-items: flex-start;
-    min-height: 148px;
-  }
-
-  .rewardPreview {
-    grid-column: 1 / -1;
-  }
 }
 
 @media (min-width: 1024px) {
@@ -735,9 +372,6 @@
     padding: 20px;
   }
 
-  .rewardPreview {
-    grid-column: 1 / -1;
-  }
 }
 
 @media (min-width: 1280px) {
@@ -753,13 +387,6 @@
     height: 96px;
   }
 
-  .rewardPreview {
-    grid-column: auto;
-    align-self: stretch;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-  }
 }
 
 @media (min-width: 1024px) and (max-width: 1439px) {
@@ -788,21 +415,4 @@
     font-size: clamp(14px, 1.1vw, 16px);
   }
 
-  .stageContent strong {
-    font-size: clamp(16px, 1.3vw, 18px);
-  }
-
-  .rewardSlot {
-    width: clamp(58px, 5vw, 74px);
-    height: clamp(58px, 5vw, 74px);
-  }
-
-  .rewardBadge {
-    width: clamp(58px, 5vw, 74px);
-    height: clamp(58px, 5vw, 74px);
-  }
-
-  .rewardPreview strong {
-    font-size: clamp(14px, 1.15vw, 17px);
-  }
 }

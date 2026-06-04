@@ -57,15 +57,16 @@ interface MiniQuizStageContextValue {
   selectAnswer: (answer: string) => void;
 }
 
-const MiniQuizStageContext =
-  createContext<MiniQuizStageContextValue | null>(null);
+const MiniQuizStageContext = createContext<MiniQuizStageContextValue | null>(
+  null,
+);
 
 export function useMiniQuizStageContext() {
   const context = useContext(MiniQuizStageContext);
 
   if (!context) {
     throw new Error(
-      "useMiniQuizStageContext must be used within MiniQuizStageProvider"
+      "useMiniQuizStageContext must be used within MiniQuizStageProvider",
     );
   }
 
@@ -91,6 +92,7 @@ export default function MiniQuizStageProvider({
 
   const currentQuestion = questions[currentIndex];
   const timeLimitMs = getQuestionLimitMs(currentQuestion);
+  // TODO: 50ms 리렌더링이 발생하는 문제 있음.
   const [timeLeftMs, setTimeLeftMs] = useState(timeLimitMs);
   const isFeedback = submittedAnswer !== null;
   const normalizedSubmittedAnswer =
@@ -99,7 +101,7 @@ export default function MiniQuizStageProvider({
       : submittedAnswer;
   const isCorrect = normalizedSubmittedAnswer === currentQuestion.answer;
   const progressPercent = Math.round(
-    ((currentIndex + (isFeedback ? 1 : 0)) / questions.length) * 100
+    ((currentIndex + (isFeedback ? 1 : 0)) / questions.length) * 100,
   );
   const timerPercent = Math.max(0, (timeLeftMs / timeLimitMs) * 100);
   const displayTimeLeft = Math.ceil(timeLeftMs / 1000);
@@ -137,7 +139,7 @@ export default function MiniQuizStageProvider({
         return nextEnergy;
       });
     },
-    [currentQuestion, isFeedback]
+    [currentQuestion, isFeedback],
   );
 
   useEffect(() => {
@@ -150,7 +152,7 @@ export default function MiniQuizStageProvider({
         submitAnswer(
           currentQuestion.type === "command"
             ? commandAnswer || null
-            : selectedAnswer
+            : selectedAnswer,
         );
       }, 0);
 
