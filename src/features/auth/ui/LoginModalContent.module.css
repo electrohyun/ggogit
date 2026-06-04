@@ -23,6 +23,7 @@
     sans-serif;
   font-size: 16px;
   gap: 8px;
+  cursor: pointer;
 }
 
 .github {
@@ -43,6 +44,14 @@
     sans-serif;
   font-size: 16px;
   gap: 8px;
+  cursor: pointer;
+}
+
+.kakao:hover,
+.github:hover,
+.kakao:focus-visible,
+.github:focus-visible {
+  text-decoration: underline;
 }
 
 .icon {
@@ -75,6 +84,12 @@
   text-decoration: none;
   font-size: 16px;
   color: #555555;
+  cursor: pointer;
+}
+
+.guest:hover,
+.guest:focus-visible {
+  text-decoration: underline;
 }
 
 @media (min-width: 768px) {
