@@ -1,59 +1,47 @@
-import type { JwtPayload, SupabaseClient } from "@supabase/supabase-js";
-import { GUEST_CURRENT_USER, type CurrentUser } from "@/entities/user";
-import { getCurrentUserAvatarUrl, getCurrentUserName } from "./session";
+import type { JwtPayload } from "@supabase/supabase-js";
 
-interface GetInitialCurrentUserParams {
-  claims: JwtPayload | null;
-  isGuest: boolean;
-  supabase: SupabaseClient;
-}
+export const GUEST_ENTRY_COOKIE = "ggogit_entry";
 
-export const getInitialCurrentUser = async ({
-  claims,
-  isGuest,
-  supabase,
-}: GetInitialCurrentUserParams): Promise<CurrentUser> => {
+export const getCurrentUserName = (claims: JwtPayload | null) => {
   if (!claims) {
-    return {
-      ...GUEST_CURRENT_USER,
-      isGuest,
-    };
+    return "Guest"; // 이미 layout에서 검증 통과함
   }
 
-  const [
-    { data: profile, error: profileError },
-    { data: activityStats, error: activityStatsError },
-    { data: wallet, error: walletError },
-  ] = await Promise.all([
-    supabase.from("profiles").select("name,bio,avatar_url").maybeSingle(),
-    supabase
-      .from("user_activity_stats")
-      .select("current_streak_days")
-      .maybeSingle(),
-    supabase.from("user_wallets").select("current_beans").maybeSingle(),
-  ]);
+  const metadata = claims.user_metadata;
 
-  if (profileError) {
-    console.error("현재 사용자 프로필을 불러오지 못했습니다.", profileError);
+  const nameCandidates = [
+    // 안전하게 확인하면서 여러 후보를 순서대로 시도
+    metadata?.name,
+    metadata?.full_name,
+    metadata?.user_name,
+    metadata?.preferred_username,
+    claims.email,
+  ];
+
+  const currentUserName = nameCandidates.find(
+    (value): value is string => typeof value === "string" && value.length > 0,
+  );
+
+  return currentUserName ?? "Guest";
+};
+
+export const getCurrentUserAvatarUrl = (claims: JwtPayload | null) => {
+  if (!claims) {
+    return null;
   }
 
-  if (activityStatsError) {
-    console.error(
-      "현재 사용자 활동 정보를 불러오지 못했습니다.",
-      activityStatsError,
-    );
-  }
+  const metadata = claims.user_metadata;
 
-  if (walletError) {
-    console.error("현재 사용자 콩 정보를 불러오지 못했습니다.", walletError);
-  }
+  const avatarCandidates = [
+    metadata?.avatar_url,
+    metadata?.picture,
+    metadata?.profile_image_url,
+  ];
 
-  return {
-    isGuest: false,
-    name: profile?.name ?? getCurrentUserName(claims),
-    bio: profile?.bio ?? "",
-    avatarUrl: profile?.avatar_url ?? getCurrentUserAvatarUrl(claims),
-    currentStreakDays: activityStats?.current_streak_days ?? 0,
-    currentBeans: wallet?.current_beans ?? 0,
-  };
+  const avatarUrl =
+    avatarCandidates.find(
+      (value): value is string => typeof value === "string" && value.length > 0,
+    ) ?? null;
+
+  return avatarUrl?.replace(/^http:\/\//, "https://") ?? null;
 };

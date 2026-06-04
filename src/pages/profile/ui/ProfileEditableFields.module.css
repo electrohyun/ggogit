@@ -98,11 +98,13 @@
   place-items: center;
   width: clamp(72px, 20vw, 84px);
   height: clamp(72px, 20vw, 84px);
+  padding: 0;
   border: none;
   border-radius: 50%;
   background-color: lightgray;
   color: var(--text-primary);
   cursor: pointer;
+  overflow: hidden;
 }
 
 .avatarPreview {
@@ -113,6 +115,14 @@
   border-radius: 50%;
   background-color: lightgray;
   color: var(--text-primary);
+  overflow: hidden;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .profileSummary,

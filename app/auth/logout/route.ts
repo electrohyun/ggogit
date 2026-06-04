@@ -1,4 +1,4 @@
-import { GUEST_ENTRY_COOKIE } from "@/features/auth/model/session";
+import { GUEST_ENTRY_COOKIE } from "@/features/auth/model/currentUser";
 import { createClient } from "@/shared/lib/supabase/server";
 import { NextResponse, type NextRequest } from "next/server";
 

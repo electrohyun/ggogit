@@ -1,6 +1,7 @@
 export interface UserProfile {
   name: string;
   bio: string;
+  avatarUrl: string | null;
   joinedAt: string;
   quizStats: {
     solvedCount: number;

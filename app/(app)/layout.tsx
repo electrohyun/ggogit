@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { getInitialCurrentUser } from "@/features/auth/model/currentUser";
-import { GUEST_ENTRY_COOKIE } from "@/features/auth/model/session";
+import { getCurrentUser } from "@/features/auth";
+import { GUEST_ENTRY_COOKIE } from "@/features/auth/model/currentUser";
 import { createClient } from "@/shared/lib/supabase/server";
 import { AppShell } from "@/widgets/app-shell";
 
@@ -17,7 +17,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
     redirect("/");
   }
 
-  const initialCurrentUser = await getInitialCurrentUser({
+  const initialCurrentUser = await getCurrentUser({
     claims: data?.claims ?? null,
     isGuest,
     supabase,

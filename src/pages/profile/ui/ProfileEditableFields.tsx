@@ -1,8 +1,7 @@
 "use client";
 
-import { ggoggoSeal } from "@/assets/mascot";
+import { ggoggoSeal, ggoggoSmile } from "@/assets/mascot";
 import type { UserProfile } from "@/entities/profile";
-import { UserIcon } from "lucide-react";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 import styles from "./ProfileEditableFields.module.css";
@@ -17,6 +16,7 @@ export default function ProfileEditableFields({
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(userProfile.name);
   const [bio, setBio] = useState(userProfile.bio);
+  const avatarImage = userProfile.avatarUrl ?? ggoggoSmile;
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -54,7 +54,13 @@ export default function ProfileEditableFields({
               className={styles.avatarButton}
               aria-label="프로필 사진 수정"
             >
-              <UserIcon size={48} />
+              <Image
+                src={avatarImage}
+                alt=""
+                width={96}
+                height={96}
+                className={styles.avatarImage}
+              />
             </button>
           </div>
           <label className={styles.field}>
@@ -78,8 +84,14 @@ export default function ProfileEditableFields({
               <span className={styles.label}>이름</span>
               <p className={styles.profileName}>{name}</p>
             </div>
-            <div className={styles.avatarPreview} aria-hidden="true">
-              <UserIcon size={48} />
+            <div className={styles.avatarPreview}>
+              <Image
+                src={avatarImage}
+                alt={`${name} 프로필 사진`}
+                width={96}
+                height={96}
+                className={styles.avatarImage}
+              />
             </div>
           </div>
           <div className={styles.bioSection}>
