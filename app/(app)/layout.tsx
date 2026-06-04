@@ -1,11 +1,8 @@
 import type { ReactNode } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import {
-  getViewerAvatarUrl,
-  getViewerName,
-  GUEST_ENTRY_COOKIE,
-} from "@/features/auth/model/session";
+import { getInitialCurrentUser } from "@/features/auth/model/currentUser";
+import { GUEST_ENTRY_COOKIE } from "@/features/auth/model/session";
 import { createClient } from "@/shared/lib/supabase/server";
 import { AppShell } from "@/widgets/app-shell";
 
@@ -20,12 +17,13 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
     redirect("/");
   }
 
-  const viewerName = getViewerName(data?.claims ?? null);
-  const viewerAvatarUrl = getViewerAvatarUrl(data?.claims ?? null);
+  const initialCurrentUser = await getInitialCurrentUser({
+    claims: data?.claims ?? null,
+    isGuest,
+    supabase,
+  });
 
   return (
-    <AppShell viewerAvatarUrl={viewerAvatarUrl} viewerName={viewerName}>
-      {children}
-    </AppShell>
+    <AppShell initialCurrentUser={initialCurrentUser}>{children}</AppShell>
   );
 }

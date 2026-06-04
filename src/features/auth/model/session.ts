@@ -2,7 +2,7 @@ import type { JwtPayload } from "@supabase/supabase-js";
 
 export const GUEST_ENTRY_COOKIE = "ggogit_entry";
 
-export const getViewerName = (claims: JwtPayload | null) => {
+export const getCurrentUserName = (claims: JwtPayload | null) => {
   if (!claims) {
     return "Guest"; // 이미 layout에서 검증 통과함
   }
@@ -18,14 +18,14 @@ export const getViewerName = (claims: JwtPayload | null) => {
     claims.email,
   ];
 
-  const viewerName = nameCandidates.find(
+  const currentUserName = nameCandidates.find(
     (value): value is string => typeof value === "string" && value.length > 0,
   );
 
-  return viewerName ?? "Guest";
+  return currentUserName ?? "Guest";
 };
 
-export const getViewerAvatarUrl = (claims: JwtPayload | null) => {
+export const getCurrentUserAvatarUrl = (claims: JwtPayload | null) => {
   if (!claims) {
     return null;
   }
