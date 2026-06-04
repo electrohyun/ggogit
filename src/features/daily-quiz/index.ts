@@ -1,1 +1,2 @@
-export { default as ChallengeQuizClient } from "./ui/ChallengeQuizClient";
+export { default as ChallengeQuizProvider } from "./ui/ChallengeQuizProvider";
+export { default as ChallengeQuizView } from "./ui/ChallengeQuizView";

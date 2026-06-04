@@ -12,43 +12,28 @@ import {
 } from "lucide-react";
 
 import { ggoggoThumbsUp } from "@/assets/mascot";
-import type { ChallengeQuestion } from "../model/types";
 import { formatElapsedTime, normalizeCommand } from "../model/quizUtils";
-import styles from "./ChallengeQuizClient.module.css";
+import styles from "./ChallengeQuizQuestionPanel.module.css";
+import { useChallengeQuizContext } from "./ChallengeQuizProvider";
 
-interface ChallengeQuizQuestionPanelProps {
-  commandAnswer: string;
-  currentIndex: number;
-  currentQuestion: ChallengeQuestion;
-  elapsedMs: number;
-  isCorrect: boolean;
-  isFeedback: boolean;
-  onCommandAnswerChange: (answer: string) => void;
-  onNext: () => void;
-  onSelect: (answer: string) => void;
-  onSubmit: (answer: string | null) => void;
-  progressPercent: number;
-  questionCount: number;
-  selectedAnswer: string | null;
-  submittedAnswer: string | null;
-}
+export default function ChallengeQuizQuestionPanel() {
+  const {
+    commandAnswer,
+    currentIndex,
+    currentQuestion,
+    elapsedMs,
+    isCorrect,
+    isFeedback,
+    progressPercent,
+    questionCount,
+    selectedAnswer,
+    setCommandAnswer,
+    submittedAnswer,
+    goNext,
+    selectAnswer,
+    submitAnswer,
+  } = useChallengeQuizContext();
 
-export default function ChallengeQuizQuestionPanel({
-  commandAnswer,
-  currentIndex,
-  currentQuestion,
-  elapsedMs,
-  isCorrect,
-  isFeedback,
-  onCommandAnswerChange,
-  onNext,
-  onSelect,
-  onSubmit,
-  progressPercent,
-  questionCount,
-  selectedAnswer,
-  submittedAnswer,
-}: ChallengeQuizQuestionPanelProps) {
   return (
     <div className={styles.challengeQuizPage}>
       <Link href="/challenge" className={styles.backLink}>
@@ -117,7 +102,7 @@ export default function ChallengeQuizQuestionPanel({
                   className={styles.optionButton}
                   data-status={status}
                   disabled={isFeedback}
-                  onClick={() => onSelect(option)}
+                  onClick={() => selectAnswer(option)}
                 >
                   <span className={styles.optionIcon}>
                     {submittedAnswer ? (
@@ -148,7 +133,7 @@ export default function ChallengeQuizQuestionPanel({
               value={commandAnswer}
               placeholder={currentQuestion.placeholder}
               disabled={isFeedback}
-              onChange={(event) => onCommandAnswerChange(event.target.value)}
+              onChange={(event) => setCommandAnswer(event.target.value)}
             />
           </label>
         )}
@@ -165,7 +150,7 @@ export default function ChallengeQuizQuestionPanel({
             <button
               type="button"
               className={styles.primaryButton}
-              onClick={onNext}
+              onClick={goNext}
             >
               {currentIndex === questionCount - 1 ? "결과 보기" : "다음 문제 풀기"}
             </button>
@@ -179,7 +164,7 @@ export default function ChallengeQuizQuestionPanel({
                   : !selectedAnswer
               }
               onClick={() =>
-                onSubmit(
+                submitAnswer(
                   currentQuestion.type === "command"
                     ? commandAnswer
                     : selectedAnswer

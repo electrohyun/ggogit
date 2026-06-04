@@ -1,5 +1,12 @@
-import { ChallengeQuizClient } from "@/features/daily-quiz";
+import {
+  ChallengeQuizProvider,
+  ChallengeQuizView,
+} from "@/features/daily-quiz";
 
 export default function ChallengePlayPage() {
-  return <ChallengeQuizClient />;
+  return (
+    <ChallengeQuizProvider>
+      <ChallengeQuizView />
+    </ChallengeQuizProvider>
+  );
 }

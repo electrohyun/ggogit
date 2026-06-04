@@ -3,21 +3,13 @@ import Link from "next/link";
 
 import { ggoggoCheck } from "@/assets/mascot";
 import { formatElapsedTime } from "../model/quizUtils";
-import styles from "./ChallengeQuizClient.module.css";
+import styles from "./ChallengeQuizResult.module.css";
+import { useChallengeQuizContext } from "./ChallengeQuizProvider";
 
-interface ChallengeQuizResultProps {
-  correctCount: number;
-  elapsedMs: number;
-  questionCount: number;
-  score: number;
-}
+export default function ChallengeQuizResult() {
+  const { correctCount, elapsedMs, questionCount, score } =
+    useChallengeQuizContext();
 
-export default function ChallengeQuizResult({
-  correctCount,
-  elapsedMs,
-  questionCount,
-  score,
-}: ChallengeQuizResultProps) {
   return (
     <div className={styles.challengeQuizPage}>
       <section className={styles.resultPanel} aria-labelledby="result-title">

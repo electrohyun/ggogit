@@ -11,6 +11,7 @@ import {
   stage4Badge,
   stage5Badge,
 } from "@/assets/badges";
+import styles from "./BadgeClaimControl.module.css";
 
 interface BadgeClaimControlProps {
   chapterId: string;
@@ -18,7 +19,6 @@ interface BadgeClaimControlProps {
   chapterTitle: string;
   badgeName: string;
   isBadgeUnlocked: boolean;
-  styles: Record<string, string>;
 }
 
 const CHAPTER_BADGES = [
@@ -35,7 +35,6 @@ export default function BadgeClaimControl({
   chapterTitle,
   badgeName,
   isBadgeUnlocked,
-  styles,
 }: BadgeClaimControlProps) {
   const [isBadgeOpen, setIsBadgeOpen] = useState(false);
   const [claimedChapterIds, setClaimedChapterIds] = useState<string[]>([]);

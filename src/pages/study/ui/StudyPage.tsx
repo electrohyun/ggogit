@@ -128,7 +128,6 @@ export default function StudyPage() {
                         chapterNumber={chapterIndex + 1}
                         stage={stage}
                         stageNumber={stageIndex + 1}
-                        styles={styles}
                       />
                     </li>
                   );
@@ -141,7 +140,6 @@ export default function StudyPage() {
                 chapterTitle={chapter.title}
                 badgeName={chapter.badgeName}
                 isBadgeUnlocked={chapter.isBadgeUnlocked}
-                styles={styles}
               />
             </article>
           );

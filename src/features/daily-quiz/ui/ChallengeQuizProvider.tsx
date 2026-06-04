@@ -1,11 +1,16 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  type ReactNode,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
-import type { ChallengeQuestion } from "../model/types";
 import { calculateScore, normalizeCommand } from "../model/quizUtils";
-import ChallengeQuizQuestionPanel from "./ChallengeQuizQuestionPanel";
-import ChallengeQuizResult from "./ChallengeQuizResult";
+import type { ChallengeQuestion } from "../model/types";
 
 const QUESTIONS = [
   {
@@ -75,7 +80,48 @@ const QUESTIONS = [
   },
 ] as const satisfies readonly ChallengeQuestion[];
 
-export default function ChallengeQuizClient() {
+interface ChallengeQuizProviderProps {
+  children: ReactNode;
+}
+
+interface ChallengeQuizContextValue {
+  commandAnswer: string;
+  correctCount: number;
+  currentIndex: number;
+  currentQuestion: ChallengeQuestion;
+  elapsedMs: number;
+  isCorrect: boolean;
+  isFeedback: boolean;
+  isResult: boolean;
+  progressPercent: number;
+  questionCount: number;
+  score: number;
+  selectedAnswer: string | null;
+  setCommandAnswer: (answer: string) => void;
+  submittedAnswer: string | null;
+  goNext: () => void;
+  selectAnswer: (answer: string) => void;
+  submitAnswer: (answer: string | null) => void;
+}
+
+const ChallengeQuizContext =
+  createContext<ChallengeQuizContextValue | null>(null);
+
+export function useChallengeQuizContext() {
+  const context = useContext(ChallengeQuizContext);
+
+  if (!context) {
+    throw new Error(
+      "useChallengeQuizContext must be used within ChallengeQuizProvider"
+    );
+  }
+
+  return context;
+}
+
+export default function ChallengeQuizProvider({
+  children,
+}: ChallengeQuizProviderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [commandAnswer, setCommandAnswer] = useState("");
@@ -111,7 +157,7 @@ export default function ChallengeQuizClient() {
     return () => window.clearInterval(timerId);
   }, [isResult]);
 
-  const handleSelect = (answer: string) => {
+  const selectAnswer = (answer: string) => {
     if (isFeedback) {
       return;
     }
@@ -137,7 +183,7 @@ export default function ChallengeQuizClient() {
     }
   };
 
-  const handleNext = () => {
+  const goNext = () => {
     if (currentIndex === QUESTIONS.length - 1) {
       setIsResult(true);
       return;
@@ -149,33 +195,29 @@ export default function ChallengeQuizClient() {
     setSubmittedAnswer(null);
   };
 
-  if (isResult) {
-    return (
-      <ChallengeQuizResult
-        correctCount={correctCount}
-        elapsedMs={elapsedMs}
-        questionCount={QUESTIONS.length}
-        score={score}
-      />
-    );
-  }
+  const value = {
+    commandAnswer,
+    correctCount,
+    currentIndex,
+    currentQuestion,
+    elapsedMs,
+    isCorrect,
+    isFeedback,
+    isResult,
+    progressPercent,
+    questionCount: QUESTIONS.length,
+    score,
+    selectedAnswer,
+    setCommandAnswer,
+    submittedAnswer,
+    goNext,
+    selectAnswer,
+    submitAnswer,
+  };
 
   return (
-    <ChallengeQuizQuestionPanel
-      commandAnswer={commandAnswer}
-      currentIndex={currentIndex}
-      currentQuestion={currentQuestion}
-      elapsedMs={elapsedMs}
-      isCorrect={isCorrect}
-      isFeedback={isFeedback}
-      onCommandAnswerChange={setCommandAnswer}
-      onNext={handleNext}
-      onSelect={handleSelect}
-      onSubmit={submitAnswer}
-      progressPercent={progressPercent}
-      questionCount={QUESTIONS.length}
-      selectedAnswer={selectedAnswer}
-      submittedAnswer={submittedAnswer}
-    />
+    <ChallengeQuizContext.Provider value={value}>
+      {children}
+    </ChallengeQuizContext.Provider>
   );
 }
