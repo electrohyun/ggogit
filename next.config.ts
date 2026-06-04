@@ -16,6 +16,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "img1.kakaocdn.net",
       },
+      {
+        protocol: "https",
+        hostname: "juuuzuagrbpoxruupiuj.supabase.co",
+        pathname: "/storage/v1/object/public/profile-avatars/**",
+      },
     ],
   },
 };

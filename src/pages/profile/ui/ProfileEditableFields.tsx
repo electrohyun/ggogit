@@ -2,8 +2,11 @@
 
 import { ggoggoSeal, ggoggoSmile } from "@/assets/mascot";
 import type { UserProfile } from "@/entities/profile";
+import { useCurrentUserStore } from "@/entities/user";
+import { updateUserProfile, updateUserProfileAvatar } from "@/features/profile";
+import { Camera } from "lucide-react";
 import Image from "next/image";
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useRef, useState, useTransition } from "react";
 import styles from "./ProfileEditableFields.module.css";
 
 interface ProfileEditableFieldsProps {
@@ -16,11 +19,60 @@ export default function ProfileEditableFields({
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(userProfile.name);
   const [bio, setBio] = useState(userProfile.bio);
-  const avatarImage = userProfile.avatarUrl ?? ggoggoSmile;
+  const [avatarUrl, setAvatarUrl] = useState(userProfile.avatarUrl);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isSavingProfile, startSavingProfile] = useTransition();
+  const [isSavingAvatar, startSavingAvatar] = useTransition();
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const updateCurrentUser = useCurrentUserStore(
+    (state) => state.updateCurrentUser,
+  );
+  const avatarImage = avatarUrl ?? ggoggoSmile;
+
+  const handleAvatarButtonClick = () => {
+    avatarInputRef.current?.click();
+  };
+
+  const handleAvatarChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("avatar", file);
+    event.target.value = "";
+    setErrorMessage(null);
+
+    startSavingAvatar(async () => {
+      const result = await updateUserProfileAvatar(formData);
+
+      if (!result.ok) {
+        setErrorMessage(result.message);
+        return;
+      }
+
+      setAvatarUrl(result.data.avatarUrl);
+      updateCurrentUser({ avatarUrl: result.data.avatarUrl });
+    });
+  };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsEditing(false);
+    setErrorMessage(null);
+
+    startSavingProfile(async () => {
+      const result = await updateUserProfile({ name, bio });
+
+      if (!result.ok) {
+        setErrorMessage(result.message);
+        return;
+      }
+
+      setName(result.data.name);
+      setBio(result.data.bio);
+      updateCurrentUser(result.data);
+      setIsEditing(false);
+    });
   };
 
   return (
@@ -30,6 +82,7 @@ export default function ProfileEditableFields({
         <button
           type="button"
           className={styles.editButton}
+          disabled={isSavingProfile || isSavingAvatar}
           onClick={() => setIsEditing((current) => !current)}
         >
           {isEditing ? "취소" : "수정"}
@@ -46,6 +99,7 @@ export default function ProfileEditableFields({
                 value={name}
                 className={styles.input}
                 aria-label="이름"
+                disabled={isSavingProfile}
                 onChange={(event) => setName(event.target.value)}
               />
             </label>
@@ -53,15 +107,29 @@ export default function ProfileEditableFields({
               type="button"
               className={styles.avatarButton}
               aria-label="프로필 사진 수정"
+              disabled={isSavingProfile || isSavingAvatar}
+              onClick={handleAvatarButtonClick}
             >
               <Image
                 src={avatarImage}
                 alt=""
-                width={96}
-                height={96}
+                fill
+                sizes="96px"
                 className={styles.avatarImage}
               />
+              <Camera
+                size={28}
+                className={styles.avatarEditIcon}
+                aria-hidden="true"
+              />
             </button>
+            <input
+              ref={avatarInputRef}
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              className={styles.avatarInput}
+              onChange={handleAvatarChange}
+            />
           </div>
           <label className={styles.field}>
             <span className={styles.label}>소개</span>
@@ -70,11 +138,21 @@ export default function ProfileEditableFields({
               value={bio}
               className={styles.textarea}
               aria-label="바이오"
+              disabled={isSavingProfile}
               onChange={(event) => setBio(event.target.value)}
             />
           </label>
-          <button type="submit" className={styles.button}>
-            저장
+          {errorMessage ? (
+            <p className={styles.errorMessage} role="alert">
+              {errorMessage}
+            </p>
+          ) : null}
+          <button
+            type="submit"
+            className={styles.button}
+            disabled={isSavingProfile || isSavingAvatar}
+          >
+            {isSavingProfile ? "저장 중" : "저장"}
           </button>
         </form>
       ) : (
@@ -88,8 +166,8 @@ export default function ProfileEditableFields({
               <Image
                 src={avatarImage}
                 alt={`${name} 프로필 사진`}
-                width={96}
-                height={96}
+                fill
+                sizes="96px"
                 className={styles.avatarImage}
               />
             </div>
