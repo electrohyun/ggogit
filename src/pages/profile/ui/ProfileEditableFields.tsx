@@ -1,22 +1,22 @@
 "use client";
 
 import { ggoggoSeal } from "@/assets/mascot";
-import type { Profile } from "@/entities/profile";
+import type { UserProfile } from "@/entities/profile";
 import { UserIcon } from "lucide-react";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 import styles from "./ProfileEditableFields.module.css";
 
 interface ProfileEditableFieldsProps {
-  profile: Profile;
+  userProfile: UserProfile;
 }
 
 export default function ProfileEditableFields({
-  profile,
+  userProfile,
 }: ProfileEditableFieldsProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [name, setName] = useState(profile.name);
-  const [bio, setBio] = useState(profile.bio);
+  const [name, setName] = useState(userProfile.name);
+  const [bio, setBio] = useState(userProfile.bio);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -99,9 +99,9 @@ export default function ProfileEditableFields({
                 </thead>
                 <tbody>
                   <tr>
-                    <td>{profile.quizStats.solvedCount}문제</td>
-                    <td>{profile.quizStats.correctCount}문제</td>
-                    <td>{profile.quizStats.wrongCount}문제</td>
+                    <td>{userProfile.quizStats.solvedCount}문제</td>
+                    <td>{userProfile.quizStats.correctCount}문제</td>
+                    <td>{userProfile.quizStats.wrongCount}문제</td>
                   </tr>
                 </tbody>
               </table>
@@ -121,14 +121,14 @@ export default function ProfileEditableFields({
                 <tbody>
                   <tr>
                     <td>
-                      {profile.activityStats.currentStreakDays}일 (
-                      {profile.activityStats.bestStreakDays}일)
+                      {userProfile.activityStats.currentStreakDays}일 (
+                      {userProfile.activityStats.bestStreakDays}일)
                     </td>
                     <td>
-                      {profile.activityStats.currentBeans}개 (
-                      {profile.activityStats.totalBeans}개)
+                      {userProfile.activityStats.currentBeans}개 (
+                      {userProfile.activityStats.totalBeans}개)
                     </td>
-                    <td>{profile.joinedAt}</td>
+                    <td>{userProfile.joinedAt}</td>
                   </tr>
                 </tbody>
               </table>
@@ -140,7 +140,7 @@ export default function ProfileEditableFields({
               약속합니다.
             </p>
             <div className={styles.certificateFooter}>
-              <time className={styles.joinedAt}>{profile.joinedAt}</time>
+              <time className={styles.joinedAt}>{userProfile.joinedAt}</time>
               <Image
                 src={ggoggoSeal}
                 alt="꼬꼬 인증 도장"
