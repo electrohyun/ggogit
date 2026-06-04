@@ -1,10 +1,10 @@
 "use client";
 
-import styles from "./AppShell.module.css";
 import { logoEng, logoKor } from "@/assets/brand";
 import { ggoggoAsk, ggoggoSmile } from "@/assets/mascot";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Bean,
   BookIcon,
@@ -18,7 +18,10 @@ import {
 import { useEffect, type ReactNode } from "react";
 import AppLocation from "./AppLocation";
 import AppNavLink from "./AppNavLink";
+import AppShellProfileMenu from "./AppShellProfileMenu";
+import styles from "./AppShell.module.css";
 import { type CurrentUser, useCurrentUserStore } from "@/entities/user";
+import { getAppShellGreeting } from "../model/greeting";
 
 interface AppShellProps {
   children: ReactNode;
@@ -29,12 +32,17 @@ export default function AppShell({
   initialCurrentUser,
   children,
 }: AppShellProps) {
+  const pathname = usePathname();
   const currentUser = useCurrentUserStore((state) => state.currentUser);
   const setCurrentUser = useCurrentUserStore((state) => state.setCurrentUser);
   const displayCurrentUser =
     currentUser.isGuest && !initialCurrentUser.isGuest
       ? initialCurrentUser
       : currentUser;
+  const greeting = getAppShellGreeting({
+    pathname: pathname ?? "",
+    name: displayCurrentUser.name,
+  });
 
   useEffect(() => {
     setCurrentUser(initialCurrentUser);
@@ -44,27 +52,27 @@ export default function AppShell({
     <>
       <header className={styles.header}>
         <div className={styles.logoContainer}>
-          <Image
-            src={logoEng}
-            alt="꼬깃 영어 로고"
-            width={100}
-            className={styles.logoEng}
-          />
-          <Image
-            src={logoKor}
-            alt="꼬깃 한국어 로고"
-            width={60}
-            className={styles.logoKor}
-          />
+          <Link href="/lobby" className={styles.logoLink}>
+            <Image
+              src={logoEng}
+              alt="꼬깃 영어 로고"
+              width={100}
+              className={styles.logoEng}
+            />
+            <Image
+              src={logoKor}
+              alt="꼬깃 한국어 로고"
+              width={60}
+              className={styles.logoKor}
+            />
+          </Link>
         </div>
         <div className={styles.nonLogoContainer}>
           <div className={styles.greetingContainer}>
             <AppLocation className={styles.location} />
             <div className={styles.ggoggo}>
               <Image src={ggoggoSmile} alt="꼬꼬 웃는 얼굴" width={50} />
-              <p className={styles.ggoggoGreeting}>
-                {displayCurrentUser.name}님! 오늘은 어떤 여정이 펼쳐질까요?
-              </p>
+              <p className={styles.ggoggoGreeting}>{greeting}</p>
             </div>
           </div>
           <div className={styles.statusContainer}>
@@ -86,18 +94,7 @@ export default function AppShell({
               <p className={styles.profileText}>
                 어서와요, {displayCurrentUser.name}님!
               </p>
-              <Link className={styles.logoutLink} href="/auth/logout">
-                로그아웃
-              </Link>
-              <div className={styles.profileImageFrame}>
-                <Image
-                  src={displayCurrentUser.avatarUrl ?? ggoggoSmile}
-                  alt={`${displayCurrentUser.name} 프로필`}
-                  fill
-                  sizes="50px"
-                  className={styles.profileImage}
-                />
-              </div>
+              <AppShellProfileMenu currentUser={displayCurrentUser} />
             </div>
           </div>
         </div>
