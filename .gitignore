@@ -26,6 +26,7 @@ out
 *.sw?
 
 .env
+next-env.d.ts
 
 docs/
 supabase/*
