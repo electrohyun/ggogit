@@ -31,6 +31,10 @@ export default function AppShell({
 }: AppShellProps) {
   const currentUser = useCurrentUserStore((state) => state.currentUser);
   const setCurrentUser = useCurrentUserStore((state) => state.setCurrentUser);
+  const displayCurrentUser =
+    currentUser.isGuest && !initialCurrentUser.isGuest
+      ? initialCurrentUser
+      : currentUser;
 
   useEffect(() => {
     setCurrentUser(initialCurrentUser);
@@ -59,7 +63,7 @@ export default function AppShell({
             <div className={styles.ggoggo}>
               <Image src={ggoggoSmile} alt="꼬꼬 웃는 얼굴" width={50} />
               <p className={styles.ggoggoGreeting}>
-                {currentUser.name}님! 오늘은 어떤 여정이 펼쳐질까요?
+                {displayCurrentUser.name}님! 오늘은 어떤 여정이 펼쳐질까요?
               </p>
             </div>
           </div>
@@ -68,27 +72,27 @@ export default function AppShell({
               <div className={styles.streakStatus}>
                 <Flame size={24} fill="lightcoral" />
                 <span className={styles.streakText}>
-                  {currentUser.currentStreakDays}
+                  {displayCurrentUser.currentStreakDays}
                 </span>
               </div>
               <div className={styles.beanStatus}>
                 <Bean size={24} fill="lightgreen" />
                 <span className={styles.beanText}>
-                  {currentUser.currentBeans}
+                  {displayCurrentUser.currentBeans}
                 </span>
               </div>
             </div>
             <div className={styles.profileContainer}>
               <p className={styles.profileText}>
-                어서와요, {currentUser.name}님!
+                어서와요, {displayCurrentUser.name}님!
               </p>
               <Link className={styles.logoutLink} href="/auth/logout">
                 로그아웃
               </Link>
               <div className={styles.profileImageFrame}>
                 <Image
-                  src={currentUser.avatarUrl ?? ggoggoSmile}
-                  alt={`${currentUser.name} 프로필`}
+                  src={displayCurrentUser.avatarUrl ?? ggoggoSmile}
+                  alt={`${displayCurrentUser.name} 프로필`}
                   fill
                   sizes="50px"
                   className={styles.profileImage}
