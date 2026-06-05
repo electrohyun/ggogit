@@ -1,0 +1,150 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-family: var(--font-character);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.titleRow > h1 {
+  flex-shrink: 0;
+  font-size: clamp(18px, 6vw, 24px);
+}
+
+.tagFilter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin-bottom: 12px;
+  overflow-x: auto;
+}
+
+.tagButton,
+.activeTagButton {
+  flex: 0 0 auto;
+  min-height: 34px;
+  padding: 7px 12px;
+  border: 2px solid var(--primary-base);
+  border-radius: 999px;
+  background-color: var(--surface);
+  color: black;
+  cursor: pointer;
+  font: inherit;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.activeTagButton {
+  background-color: var(--primary-base);
+}
+
+.divider {
+  margin-bottom: 16px;
+}
+
+.tipGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.tipCard {
+  display: flex;
+  flex-direction: column;
+  min-height: 190px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background-color: var(--primary-soft);
+}
+
+.tipCard:hover {
+  background-color: var(--primary-base);
+}
+
+.tipContent {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tipContent h2 {
+  font-size: 20px;
+  font-weight: 400;
+  word-break: keep-all;
+}
+
+.tipContent p {
+  color: var(--text-secondary);
+  line-height: 1.45;
+  word-break: keep-all;
+}
+
+.tipTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.tipTags span {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background-color: var(--surface);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.tipMeta {
+  margin-top: 10px;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.loadMoreButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  gap: 4px;
+  min-width: 120px;
+  min-height: 40px;
+  padding: 8px 18px;
+  margin-top: 18px;
+  border: 2px solid var(--primary-base);
+  border-radius: 999px;
+  background-color: var(--surface);
+  color: var(--text-primary);
+  cursor: pointer;
+  font: inherit;
+  font-weight: bold;
+}
+
+@media (max-width: 767px) {
+  .titleRow {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .tagFilter {
+    width: 100%;
+  }
+
+  .tipGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .tipCard {
+    min-height: 170px;
+  }
+}

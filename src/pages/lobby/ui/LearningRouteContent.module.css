@@ -1,0 +1,19 @@
+.learningRouteCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 10px;
+}
+
+.workingImage {
+  height: auto;
+  object-fit: contain;
+  transform-origin: 50% 82%;
+  transition: transform 180ms ease;
+}
+
+.learningRouteCard:hover .workingImage {
+  transform: scale(1.05) rotate(-3deg);
+}

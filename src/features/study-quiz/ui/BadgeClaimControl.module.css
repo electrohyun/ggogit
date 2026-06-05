@@ -1,0 +1,185 @@
+.rewardPreview {
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  min-width: 0;
+  padding: 12px;
+
+  background: var(--chapter-soft);
+  border: 2px dashed color-mix(in srgb, var(--chapter-color) 38%, transparent);
+  border-radius: 20px;
+}
+
+.rewardPreview[data-claimable="true"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  background: rgb(0 0 0 / 52%);
+}
+
+.rewardSlot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+
+  width: 74px;
+  height: 74px;
+
+  color: var(--chapter-color);
+  background: transparent;
+  border-radius: 50%;
+}
+
+.rewardBadge {
+  width: 74px;
+  height: 74px;
+  object-fit: contain;
+  opacity: 0.58;
+  filter: grayscale(1) drop-shadow(0 6px 10px rgb(0 0 0 / 12%));
+}
+
+.rewardPreview[data-unlocked="true"] .rewardBadge {
+  opacity: 1;
+  filter: drop-shadow(0 8px 14px rgb(0 0 0 / 16%));
+}
+
+.rewardPreview[data-claimed="true"] .rewardBadge {
+  opacity: 1;
+  filter: drop-shadow(0 8px 14px rgb(0 0 0 / 16%));
+}
+
+.rewardPreview p {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.rewardPreview strong {
+  display: block;
+  color: var(--chapter-color);
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.claimButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 6;
+  transform: translate(-50%, -50%);
+
+  min-height: 42px;
+  padding: 0 22px;
+
+  color: var(--text-primary);
+  background: var(--primary-strong);
+  border: 2px solid var(--primary-deep);
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 16px;
+  white-space: nowrap;
+  transition: transform 120ms ease;
+}
+
+.claimButton:not(:disabled):active {
+  transform: translate(-50%, -50%) scale(0.97);
+}
+
+.claimButton:disabled {
+  cursor: wait;
+  opacity: 0.76;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .claimButton {
+    transition: none;
+  }
+
+  .claimButton:not(:disabled):active {
+    transform: translate(-50%, -50%);
+  }
+}
+
+.claimError {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  left: 10px;
+  z-index: 7;
+
+  color: var(--error-text, #b42318);
+  font-size: 12px;
+  text-align: center;
+}
+
+.badgeModalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.modalBadge {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 14px rgb(0 0 0 / 16%));
+}
+
+.badgeModalContent p {
+  color: var(--text-secondary);
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.beanReward {
+  color: var(--primary-deep);
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  .rewardPreview {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .rewardPreview {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1280px) {
+  .rewardPreview {
+    grid-column: auto;
+    align-self: stretch;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .rewardSlot {
+    width: clamp(58px, 5vw, 74px);
+    height: clamp(58px, 5vw, 74px);
+  }
+
+  .rewardBadge {
+    width: clamp(58px, 5vw, 74px);
+    height: clamp(58px, 5vw, 74px);
+  }
+
+  .rewardPreview strong {
+    font-size: clamp(14px, 1.15vw, 17px);
+  }
+}

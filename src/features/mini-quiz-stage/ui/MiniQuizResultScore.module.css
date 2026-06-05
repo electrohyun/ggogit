@@ -1,0 +1,133 @@
+.resultScore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.resultStars {
+  display: inline-flex;
+  gap: 6px;
+  font-size: 46px;
+  line-height: 1;
+}
+
+.resultStars span {
+  color: #d8d8d8;
+  -webkit-text-stroke: 1px #b7b7b7;
+}
+
+.resultStars span[data-filled="true"] {
+  color: var(--primary-strong);
+  -webkit-text-stroke: 1px var(--primary-deep);
+  filter: drop-shadow(0 3px 3px rgb(0 0 0 / 12%));
+  transform-origin: 50% 70%;
+  animation: rewardPop 360ms cubic-bezier(0.2, 0.9, 0.2, 1.18) both;
+}
+
+.resultStars span[data-filled="true"]:nth-child(2) {
+  animation-delay: 80ms;
+}
+
+.resultStars span[data-filled="true"]:nth-child(3) {
+  animation-delay: 160ms;
+}
+
+.resultMetrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+}
+
+.resultMetrics div {
+  min-width: 0;
+  padding: 12px 8px;
+  background: var(--primary-pale);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  animation: rewardPop 320ms cubic-bezier(0.2, 0.9, 0.2, 1.12) both;
+}
+
+.resultMetrics div:nth-child(2) {
+  animation-delay: 70ms;
+}
+
+.resultMetrics div:nth-child(3) {
+  animation-delay: 140ms;
+}
+
+.resultMetrics span {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.resultMetrics strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.resultScore p {
+  color: var(--text-secondary);
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+@media (max-width: 767px) {
+  .resultScore {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .resultStars {
+    font-size: 38px;
+  }
+
+  .resultMetrics {
+    grid-template-columns: 1fr;
+  }
+
+  .resultMetrics div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+  }
+
+  .resultMetrics strong {
+    margin-top: 0;
+    font-size: 22px;
+  }
+}
+
+@keyframes rewardPop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.92);
+  }
+
+  70% {
+    transform: translateY(-2px) scale(1.04);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resultStars span[data-filled="true"],
+  .resultMetrics div {
+    animation: none;
+  }
+}

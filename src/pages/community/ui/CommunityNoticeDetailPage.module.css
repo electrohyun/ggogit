@@ -1,0 +1,88 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  font-family: var(--font-character);
+}
+
+.noticeCard {
+  overflow: hidden;
+  border: 3px solid var(--primary-base);
+  border-radius: 10px;
+  background-color: var(--surface);
+}
+
+.noticeHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: clamp(16px, 4vw, 24px) clamp(16px, 4vw, 28px) 0;
+}
+
+.noticeLabel {
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background-color: var(--primary-soft);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.noticeHeader h1 {
+  font-size: clamp(20px, 6vw, 30px);
+  line-height: 1.25;
+}
+
+.noticeMeta {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.noticeContent {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: clamp(18px, 4vw, 28px);
+  line-height: 1.7;
+}
+
+.contentImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 10 / 3;
+  border: none;
+  border-radius: 0;
+  object-fit: cover;
+}
+
+.noticeContent p {
+  overflow-wrap: anywhere;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: fit-content;
+  min-height: 42px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background-color: var(--border);
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+@media (max-width: 767px) {
+  .noticeCard {
+    border-width: 2px;
+  }
+
+  .backLink {
+    width: 100%;
+  }
+}

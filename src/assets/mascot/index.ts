@@ -1,0 +1,12 @@
+export { default as ggoggoAdventure } from "./ggoggo_adventure.webp";
+export { default as ggoggoAsk } from "./ggoggo_ask.webp";
+export { default as ggoggoCheck } from "./ggoggo_check1.webp";
+export { default as ggoggoCoding } from "./ggoggo_coding.webp";
+export { default as ggoggoGreet } from "./ggoggo_greet.webp";
+export { default as ggoggoHuk } from "./ggoggo_huk2.webp";
+export { default as ggoggoPodium } from "./ggoggo_podium.webp";
+export { default as ggoggoSeal } from "./ggoggo_seal.webp";
+export { default as ggoggoSmile } from "./ggoggo_smile.webp";
+export { default as ggoggoThumbsUp } from "./ggoggo_thumbs_up.webp";
+export { default as ggoggoWalk } from "./ggoggo_walk.webp";
+export { default as ggoggoWorking } from "./ggoggo_working.webp";

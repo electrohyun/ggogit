@@ -1,0 +1,63 @@
+:root {
+  /* Font */
+  --font-sans: var(--font-pretendard);
+  --font-character: var(--font-school-safe-diary);
+  --font-code: var(--font-cascadia-code);
+
+  /* Primary */
+  --primary-deep: #b89b00;
+  --primary-strong: #f6d94a;
+  --primary-base: #fff176;
+  --primary-soft: #fff8b8;
+  --primary-pale: #fffdeb;
+
+  /* Secondary */
+  --secondary-deep: #4f4a9c;
+  --secondary-strong: #6d68b8;
+  --secondary-base: #8887ce;
+  --secondary-soft: #c9c7f0;
+  --secondary-pale: #f0eeff;
+
+  /* Neutral */
+  --background: #fffaf6;
+  --surface: #fffdf9;
+  --border: #e5e0d8;
+  --text-primary: #111111;
+  --text-secondary: #666666;
+
+  /* Semantic */
+  --success: #22c55e;
+  --warning: #fb923c;
+  --error: #ef4444;
+  --info: #3b82f6;
+}
+
+html {
+  height: 100%;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

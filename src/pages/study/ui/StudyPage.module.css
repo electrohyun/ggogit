@@ -1,0 +1,429 @@
+.studyPage {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-family: var(--font-character);
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  min-height: 180px;
+  padding: 24px;
+
+  background: var(--primary-pale);
+  border: 2px solid var(--border);
+  border-radius: 28px;
+}
+
+.heroText {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.eyebrow {
+  color: var(--text-secondary);
+}
+
+.eyebrow {
+  font-family: var(--font-code);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.hero h1 {
+  font-size: 42px;
+  line-height: 1.05;
+}
+
+.heroDescription {
+  font-size: 20px;
+  color: var(--text-secondary);
+}
+
+.heroImage {
+  position: relative;
+  z-index: 1;
+  width: min(42%, 280px);
+  height: auto;
+  object-fit: contain;
+  transform-origin: 50% 82%;
+  transition: transform 180ms ease;
+}
+
+.hero:hover .heroImage {
+  transform: scale(1.04) rotate(3deg);
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.summaryCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  min-width: 0;
+  padding: 14px 16px;
+
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 22px;
+}
+
+.summaryIcon {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+}
+
+.summaryText {
+  min-width: 0;
+}
+
+.summaryText p {
+  color: var(--text-secondary);
+  font-size: 15px;
+}
+
+.summaryText strong {
+  display: block;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+.summaryText span {
+  color: var(--text-secondary);
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.chapterList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.chapterRow {
+  --chapter-color: var(--success);
+  --chapter-soft: #f0fdf4;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+
+  padding: 18px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 24px;
+}
+
+.chapterRow:nth-child(2) {
+  --chapter-color: #d84a4a;
+  --chapter-soft: #fff1f1;
+}
+
+.chapterRow:nth-child(3) {
+  --chapter-color: #7651b7;
+  --chapter-soft: #f3edff;
+}
+
+.chapterRow:nth-child(4) {
+  --chapter-color: #d66b1f;
+  --chapter-soft: #fff4e8;
+}
+
+.chapterRow:nth-child(5) {
+  --chapter-color: #2d7fc4;
+  --chapter-soft: #edf7ff;
+}
+
+.chapterInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.chapterTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.chapterImage {
+  flex: 0 0 auto;
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+  transition: transform 180ms ease;
+}
+
+.chapterRow:hover .chapterImage {
+  transform: scale(1.05);
+}
+
+.chapterTitleRow h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+
+  color: var(--chapter-color);
+  font-size: 26px;
+  line-height: 1.15;
+}
+
+.chapterTitleRow h2 span {
+  font-family: var(--font-code);
+}
+
+.chapterDescription {
+  color: var(--text-secondary);
+  margin-top: 10px;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.commandList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.commandList code {
+  font-family: var(--font-code);
+}
+
+.commandList code {
+  padding: 7px 12px;
+  color: var(--chapter-color);
+  background: var(--chapter-soft);
+  border: 1px solid color-mix(in srgb, var(--chapter-color) 35%, transparent);
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.stagePath {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  list-style: none;
+}
+
+.stageItem {
+  position: relative;
+}
+
+.stageItem:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 28px;
+  top: calc(100% + 2px);
+  width: 3px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--border);
+}
+
+.tipBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 14px 16px;
+  background: var(--primary-pale);
+  border: 2px solid var(--border);
+  border-radius: 18px;
+  font-size: 16px;
+}
+
+@media (max-width: 420px) {
+  .hero {
+    align-items: flex-start;
+    min-height: 160px;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+  }
+
+  .heroDescription {
+    font-size: 18px;
+  }
+
+  .heroImage {
+    display: none;
+  }
+
+  .summaryGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .summaryCard {
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    min-height: 118px;
+    padding: 10px 6px;
+    border-radius: 18px;
+    text-align: center;
+  }
+
+  .summaryIcon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .summaryText p {
+    font-size: 0;
+    line-height: 1.2;
+  }
+
+  .summaryText p::before {
+    content: attr(data-mobile-label);
+    font-size: 13px;
+  }
+
+  .summaryText strong {
+    font-size: 24px;
+    white-space: nowrap;
+  }
+
+  .summaryText span {
+    font-size: 15px;
+  }
+
+  .chapterTitleRow {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .chapterImage {
+    width: 64px;
+    height: 64px;
+  }
+
+  .chapterTitleRow h2 {
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 23px;
+  }
+
+  .chapterDescription {
+    font-size: 15px;
+  }
+
+}
+
+@media (min-width: 768px) {
+  .summaryGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .chapterRow {
+    grid-template-columns: minmax(220px, 0.85fr) minmax(0, 1.7fr);
+    align-items: center;
+  }
+
+  .chapterImage {
+    width: 86px;
+    height: 86px;
+  }
+
+  .stagePath {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .stageItem:not(:last-child)::after {
+    left: calc(100% + 4px);
+    top: 50%;
+    width: 10px;
+    height: 3px;
+    transform: translateY(-50%);
+  }
+
+}
+
+@media (min-width: 1024px) {
+  .studyPage {
+    gap: 18px;
+  }
+
+  .hero {
+    min-height: 200px;
+    padding: 28px 32px;
+  }
+
+  .hero h1 {
+    font-size: 56px;
+  }
+
+  .heroDescription {
+    font-size: 24px;
+  }
+
+  .chapterRow {
+    grid-template-columns: minmax(250px, 0.82fr) minmax(0, 1.9fr);
+    padding: 20px;
+  }
+
+}
+
+@media (min-width: 1280px) {
+  .chapterRow {
+    grid-template-columns:
+      minmax(280px, 0.82fr)
+      minmax(0, 1.85fr)
+      minmax(160px, 0.45fr);
+  }
+
+  .chapterImage {
+    width: 96px;
+    height: 96px;
+  }
+
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .hero h1 {
+    font-size: clamp(44px, 4vw, 56px);
+  }
+
+  .heroDescription {
+    font-size: clamp(18px, 1.7vw, 24px);
+  }
+
+  .summaryText strong {
+    font-size: clamp(22px, 2.1vw, 28px);
+  }
+
+  .chapterTitleRow h2 {
+    font-size: clamp(20px, 1.7vw, 24px);
+  }
+
+  .chapterImage {
+    width: clamp(72px, 6.6vw, 88px);
+    height: clamp(72px, 6.6vw, 88px);
+  }
+
+  .chapterDescription {
+    font-size: clamp(14px, 1.1vw, 16px);
+  }
+
+}

@@ -1,0 +1,57 @@
+.quizActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-height: 44px;
+  padding: 0 18px;
+
+  color: var(--text-primary);
+  background: var(--primary-strong);
+  border: 2px solid var(--primary-deep);
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 17px;
+  transition: transform 120ms ease;
+}
+
+.primaryButton:not(:disabled):active {
+  transform: scale(0.97);
+}
+
+.primaryButton:disabled {
+  color: var(--text-secondary);
+  background: #eeeeee;
+  border-color: var(--border);
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primaryButton {
+    transition: none;
+  }
+
+  .primaryButton:not(:disabled):active {
+    transform: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .quizActions {
+    justify-content: stretch;
+  }
+
+  .primaryButton {
+    width: 100%;
+    min-height: 42px;
+    font-size: 15px;
+  }
+}

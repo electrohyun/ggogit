@@ -1,0 +1,38 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+
+import { SoundLink } from "@/shared/ui/sound-link";
+import styles from "./CommunityLayout.module.css";
+
+const COMMUNITY_TABS = [
+  { href: "/community", label: "방명록" },
+  { href: "/community/questions", label: "질문과 대답" },
+  { href: "/community/notices", label: "공지사항" },
+  { href: "/community/tips", label: "팁 모음" },
+];
+
+export default function CommunityTabs() {
+  const pathname = usePathname() ?? "";
+
+  return (
+    <nav className={styles.tabbar} aria-label="커뮤니티 메뉴">
+      {COMMUNITY_TABS.map((tab) => {
+        const isActive =
+          tab.href === "/community"
+            ? pathname === tab.href
+            : pathname === tab.href || pathname.startsWith(`${tab.href}/`);
+
+        return (
+          <SoundLink
+            key={tab.href}
+            href={tab.href}
+            className={`${styles.tab} ${isActive ? styles.activeTab : ""}`}
+          >
+            {tab.label}
+          </SoundLink>
+        );
+      })}
+    </nav>
+  );
+}

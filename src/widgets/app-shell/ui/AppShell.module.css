@@ -1,0 +1,655 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 70px;
+  background-color: var(--surface);
+  padding: 0px 15px;
+
+  border-bottom: 2px solid var(--border);
+}
+
+.body {
+  display: flex;
+}
+
+.main {
+  flex: 1;
+  padding: 10px 20px;
+  padding-bottom: calc(120px + env(safe-area-inset-bottom));
+  min-height: calc(100vh - 70px);
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+}
+
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  transform-origin: left center;
+  transition: transform 160ms ease;
+}
+
+.logoLink:hover,
+.logoLink:focus-visible {
+  transform: scale(1.03);
+}
+
+.logoLink:active {
+  transform: scale(0.98);
+}
+
+.nonLogoContainer {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.logoEng {
+  display: none;
+}
+
+.ggoggo {
+  display: none;
+}
+
+.statusContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+  padding: 0 clamp(8px, 1.4vw, 20px);
+}
+
+.streakStatus,
+.beanStatus {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0px 5px;
+  transform-origin: center;
+  transition: transform 160ms ease;
+}
+
+.streakStatus:hover,
+.beanStatus:hover {
+  transform: scale(1.04);
+}
+
+.streakStatus:active,
+.beanStatus:active {
+  transform: scale(0.97);
+}
+
+.soundButton {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 2px solid var(--primary-base);
+  border-radius: 50%;
+  background-color: var(--surface);
+  color: var(--text-primary);
+  cursor: pointer;
+  transform-origin: center;
+  transition: transform 160ms ease;
+}
+
+.soundButton:hover {
+  transform: scale(1.05);
+}
+
+.soundButton:active {
+  transform: scale(0.92);
+}
+
+.soundButton[aria-pressed="true"] {
+  background-color: var(--primary-soft);
+}
+
+.soundButton:focus-visible {
+  outline: 3px solid var(--primary-base);
+  outline-offset: 3px;
+}
+
+.streakText {
+  color: red;
+}
+
+.beanText {
+  color: green;
+}
+
+.profileContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.greetingContainer {
+  display: none;
+}
+
+.profileText {
+  display: none;
+}
+
+.aside {
+  display: none;
+}
+
+.mobileNav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+
+  min-height: 100px;
+  padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+.mobileNavItem {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  min-width: 0;
+  min-height: 56px;
+  border-radius: 20px;
+
+  padding-top: 10px;
+
+  font-size: 12px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: transform 120ms ease;
+}
+
+.mobileNavItem:active {
+  transform: scale(0.97);
+}
+
+.mobileNavItem::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  z-index: 1;
+
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background-color: var(--primary-strong);
+
+  transform: translateX(-50%);
+}
+
+.mobileNavItem::after {
+  content: "";
+  position: absolute;
+  top: calc(-20% + 4px);
+  left: calc(50% + 12px);
+  z-index: 0;
+
+  width: calc(100% - 24px);
+  height: 1px;
+  background-color: var(--primary-strong);
+}
+
+.mobileNavItem:last-child::after {
+  display: none;
+}
+
+.mobileNavItem[aria-current="page"] {
+  background-color: var(--primary-soft);
+}
+
+.mobileNavText {
+  overflow: hidden;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 767px) {
+  .header {
+    height: 64px;
+    padding: 0 8px 0 12px;
+  }
+
+  .logoContainer {
+    flex: 0 0 auto;
+  }
+
+  .nonLogoContainer {
+    min-width: 0;
+  }
+
+  .statusContainer {
+    min-width: 0;
+    gap: 4px;
+  }
+
+  .status {
+    min-width: 0;
+    gap: 4px;
+    padding: 0 6px;
+  }
+
+  .streakStatus,
+  .beanStatus {
+    gap: 3px;
+    padding: 0 2px;
+  }
+
+  .streakStatus svg,
+  .beanStatus svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .streakText,
+  .beanText {
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .soundButton {
+    width: 32px;
+    height: 32px;
+    border-width: 2px;
+  }
+
+  .soundButton svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .profileContainer {
+    flex: 0 0 auto;
+    gap: 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .main {
+    padding-bottom: 20px;
+  }
+
+  .mobileNav {
+    display: none;
+  }
+
+  .logoContainer {
+    width: 170px;
+  }
+
+  .logoEng {
+    display: block;
+  }
+
+  .greetingContainer {
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .location {
+    flex: 0 0 auto;
+    padding: 0 clamp(16px, 2vw, 32px);
+    font-size: clamp(20px, 1.35vw, 24px);
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .statusContainer {
+    padding: 0 clamp(4px, 0.8vw, 10px);
+  }
+
+  .aside {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    height: auto;
+
+    padding: 0 15px;
+    margin: 0;
+    background-color: var(--surface);
+
+    border-left: 2px solid var(--border);
+    border-right: 2px solid var(--border);
+    font-size: 20px;
+  }
+
+  .navList,
+  .noticeList {
+    list-style: none;
+  }
+
+  .noticeList {
+    padding: 0;
+    margin: 0;
+  }
+
+  .navItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px 15px;
+    margin: 10px 0;
+    cursor: pointer;
+  }
+
+  .sectionTitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+  }
+
+  .navItem {
+    border-radius: 20px;
+    transition: transform 120ms ease;
+  }
+
+  .navItem:active {
+    transform: scale(0.97);
+  }
+
+  .navItem::before,
+  .sectionTitle::before,
+  .noticeContent::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background-color: var(--primary-strong);
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .navItem::after {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 45px;
+    background-color: var(--primary-strong);
+    transform: translateX(2px) translateY(70%);
+  }
+
+  .sectionTitle::after {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 175px;
+    background-color: var(--primary-strong);
+    transform: translateX(2px) translateY(55%);
+  }
+
+  .askSection .sectionTitle::after {
+    display: none;
+  }
+
+  .noticeContent::after {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 20px;
+    background-color: var(--primary-strong);
+    transform: translateX(2px) translateY(75%);
+  }
+
+  .noticeContent:last-child::after {
+    display: none;
+  }
+
+  .navList li:last-child .navItem::after {
+    display: none;
+  }
+
+  .navItem:hover,
+  .navItem:focus,
+  .navItem:active,
+  .navItem[aria-current="page"] {
+    background-color: var(--primary-soft);
+  }
+
+  .divider {
+    width: 100%;
+  }
+
+  .noticeHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px 0;
+  }
+
+  .noticeContent {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 5px 0px 5px 30px;
+    margin: 5px 0;
+
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .noticeLink {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 36px;
+    align-items: center;
+    column-gap: 6px;
+    width: 100%;
+  }
+
+  .noticeText {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .noticeDate {
+    flex: 0 0 auto;
+    font-size: 11px;
+    text-align: right;
+    color: var(--text-secondary);
+    opacity: 0.75;
+  }
+
+  .sectionTitle {
+    font-weight: 700;
+  }
+
+  .noticeMore {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .noticeMore:hover,
+  .noticeMore:focus {
+    text-decoration: underline;
+  }
+
+  .noticeLink:hover .noticeText,
+  .noticeLink:focus .noticeText {
+    text-decoration: underline;
+  }
+
+  .askContent {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    border-radius: 30px;
+    background-color: var(--primary-base);
+  }
+
+  .askImage {
+    height: auto;
+    object-fit: contain;
+    transform-origin: 50% 82%;
+    transition: transform 180ms ease;
+  }
+
+  .askContent:hover .askImage {
+    transform: scale(1.05) rotate(3deg);
+  }
+
+  .askText {
+    font-size: 16px;
+    padding: 2px 0;
+  }
+
+  .askButton {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 20px 0;
+    background-color: var(--primary-pale);
+    color: black;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: transform 120ms ease;
+  }
+
+  .askButton:active {
+    transform: scale(0.97);
+  }
+}
+
+@media (min-width: 1024px) {
+  .ggoggo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 0;
+  }
+
+  .ggoggoSticker {
+    transform-origin: 50% 82%;
+    animation: stickerWiggle 2.8s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .ggoggoGreeting {
+    overflow: hidden;
+    max-width: clamp(240px, 32vw, 460px);
+    padding: 5px 20px;
+    margin: 0 0 0 10px;
+
+    font-family: var(--font-character);
+    border-radius: 20px;
+    background-color: var(--primary-soft);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+@keyframes stickerWiggle {
+  0%,
+  100% {
+    transform: rotate(-5deg);
+  }
+
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logoLink,
+  .streakStatus,
+  .beanStatus,
+  .soundButton,
+  .navItem,
+  .askButton,
+  .mobileNavItem {
+    transition: none;
+  }
+
+  .logoLink:hover,
+  .logoLink:focus-visible,
+  .streakStatus:hover,
+  .beanStatus:hover,
+  .soundButton:hover,
+  .logoLink:active,
+  .streakStatus:active,
+  .beanStatus:active,
+  .soundButton:active,
+  .navItem:active,
+  .askButton:active,
+  .mobileNavItem:active {
+    transform: none;
+  }
+
+  .ggoggoSticker {
+    animation: none;
+  }
+}
+
+@media (min-width: 1440px) {
+  .profileText {
+    display: block;
+    overflow: hidden;
+    max-width: clamp(180px, 16vw, 240px);
+    padding: 0 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .aside {
+    width: 72px;
+    padding: 0 8px;
+  }
+
+  .navItem {
+    justify-content: center;
+    gap: 0;
+    padding: 12px;
+  }
+
+  .navText,
+  .divider,
+  .noticeSection,
+  .askSection,
+  .navItem::before,
+  .navItem::after {
+    display: none;
+  }
+}
