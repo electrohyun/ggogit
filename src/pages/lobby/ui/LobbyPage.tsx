@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { DailyQuest, DailyQuestKey } from "@/entities/daily-quest";
 import type { MiniQuizStage } from "@/entities/mini-quiz";
 import { getLatestCommunityPostsByBoard } from "@/features/community/api/communityPosts";
 import { createClient } from "@/shared/lib/supabase/server";
@@ -17,6 +18,23 @@ import TodaySummaryContent from "./TodaySummaryContent";
 const POPULAR_QUESTION_COUNT = 3;
 const DAILY_TIP_POOL_SIZE = 7;
 const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
+const DAILY_QUEST_DEFINITIONS = [
+  {
+    id: "login",
+    reward: 10,
+    title: "로그인하기",
+  },
+  {
+    id: "community_post",
+    reward: 20,
+    title: "커뮤니티에 글 남기기",
+  },
+  {
+    id: "daily_challenge",
+    reward: 30,
+    title: "오늘의 챌린지 완료",
+  },
+] as const satisfies readonly Pick<DailyQuest, "id" | "reward" | "title">[];
 
 interface LobbyActivityStats {
   currentStreakDays: number;
@@ -27,6 +45,11 @@ interface LobbyLearningSummary {
   challengeCompleted: boolean;
   joinedDayCount: number;
   learnedStageCount: number;
+}
+
+interface LobbyDailyQuestSummary {
+  isAuthenticated: boolean;
+  quests: DailyQuest[];
 }
 
 interface ContinueStage {
@@ -69,6 +92,36 @@ const getInclusiveDayCount = (dateText: string | null) => {
     1,
     Math.floor((Date.now() - createdAt.getTime()) / MILLISECONDS_PER_DAY) + 1,
   );
+};
+
+const getKstDayRange = (dateText: string) => {
+  const startedAt = new Date(`${dateText}T00:00:00+09:00`);
+  const endedAt = new Date(startedAt.getTime() + MILLISECONDS_PER_DAY);
+
+  return {
+    endedAt: endedAt.toISOString(),
+    startedAt: startedAt.toISOString(),
+  };
+};
+
+const createDailyQuest = ({
+  completedQuestKeys,
+  claimedQuestKeys,
+  definition,
+}: {
+  claimedQuestKeys: Set<DailyQuestKey>;
+  completedQuestKeys: Set<DailyQuestKey>;
+  definition: (typeof DAILY_QUEST_DEFINITIONS)[number];
+}): DailyQuest => {
+  const isClaimed = claimedQuestKeys.has(definition.id);
+  const isCompleted = completedQuestKeys.has(definition.id);
+
+  return {
+    ...definition,
+    currentProgress: isCompleted ? 1 : 0,
+    status: isClaimed ? "claimed" : isCompleted ? "completed" : "inProgress",
+    targetProgress: 1,
+  };
 };
 
 const getLatestBadge = async (
@@ -290,6 +343,85 @@ const getLobbyLearningSummary = async (
   };
 };
 
+const getLobbyDailyQuestSummary = async (
+  supabase: Awaited<ReturnType<typeof createClient>>,
+): Promise<LobbyDailyQuestSummary> => {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      isAuthenticated: false,
+      quests: DAILY_QUEST_DEFINITIONS.map((definition) =>
+        createDailyQuest({
+          claimedQuestKeys: new Set(),
+          completedQuestKeys: new Set(),
+          definition,
+        }),
+      ),
+    };
+  }
+
+  const todayDate = getKstDateString();
+  const { endedAt, startedAt } = getKstDayRange(todayDate);
+  const [
+    { data: completions },
+    { data: communityPost },
+    { data: challengeAttempt },
+  ] = await Promise.all([
+    supabase
+      .from("user_daily_quest_completions")
+      .select("quest_key,claimed_at")
+      .eq("user_id", user.id)
+      .eq("quest_date", todayDate),
+    supabase
+      .from("community_posts")
+      .select("id")
+      .eq("author_id", user.id)
+      .eq("author_role", "user")
+      .eq("is_published", true)
+      .in("board", ["guestbook", "question"])
+      .gte("created_at", startedAt)
+      .lt("created_at", endedAt)
+      .limit(1)
+      .maybeSingle(),
+    supabase
+      .from("daily_git_quiz_attempts")
+      .select("id")
+      .eq("user_id", user.id)
+      .eq("author_role", "user")
+      .eq("quiz_date", todayDate)
+      .eq("status", "completed")
+      .maybeSingle(),
+  ]);
+  const completedQuestKeys = new Set<DailyQuestKey>(["login"]);
+  const claimedQuestKeys = new Set<DailyQuestKey>(
+    (completions ?? [])
+      .filter((completion) => completion.claimed_at)
+      .map((completion) => completion.quest_key as DailyQuestKey),
+  );
+
+  if (communityPost) {
+    completedQuestKeys.add("community_post");
+  }
+
+  if (challengeAttempt) {
+    completedQuestKeys.add("daily_challenge");
+  }
+
+  return {
+    isAuthenticated: true,
+    quests: DAILY_QUEST_DEFINITIONS.map((definition) =>
+      createDailyQuest({
+        claimedQuestKeys,
+        completedQuestKeys,
+        definition,
+      }),
+    ),
+  };
+};
+
 export default async function LobbyPage() {
   const supabase = await createClient();
   const [
@@ -298,6 +430,7 @@ export default async function LobbyPage() {
     latestBadge,
     activityStats,
     continueStage,
+    dailyQuestSummary,
     learningSummary,
   ] = await Promise.all([
     getLatestCommunityPostsByBoard(supabase, "question", 20),
@@ -305,6 +438,7 @@ export default async function LobbyPage() {
     getLatestBadge(supabase),
     getLobbyActivityStats(supabase),
     getContinueStage(supabase),
+    getLobbyDailyQuestSummary(supabase),
     getLobbyLearningSummary(supabase),
   ]);
   const popularQuestions = [...questionPosts]
@@ -372,7 +506,10 @@ export default async function LobbyPage() {
           headerAction={<a href="#">13:45 남음</a>}
           className={`${styles.span3} ${styles.backgroundPrimaryPale} `}
         >
-          <DailyQuestContent />
+          <DailyQuestContent
+            isAuthenticated={dailyQuestSummary.isAuthenticated}
+            quests={dailyQuestSummary.quests}
+          />
         </Card>
         <Card
           id="learning-route-card"
