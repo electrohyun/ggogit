@@ -1,7 +1,14 @@
 {
   "name": "ggogit",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "private": true,
+  "description": "게임처럼 Git 개념을 배우는 Git 학습 퀴즈 서비스",
+  "author": "electrohyun",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/electrohyun/ggogit.git"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
