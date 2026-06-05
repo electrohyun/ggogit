@@ -6,6 +6,7 @@ import { ChevronLeft } from "lucide-react";
 import { type CommunityContentBlock } from "@/entities/community";
 import { getCommunityPostById } from "@/features/community/api/communityPosts";
 import { createClient } from "@/shared/lib/supabase/server";
+import CommunityPostViewCounter from "./CommunityPostViewCounter";
 import styles from "./CommunityNoticeDetailPage.module.css";
 
 interface NoticeDetailPageProps {
@@ -55,10 +56,14 @@ export default async function NoticeDetailPage({
           <p className={styles.noticeLabel}>공지사항</p>
           <h1>{notice.title}</h1>
           <p className={styles.noticeMeta}>
-            #{notice.id} ·{" "}
+            #{notice.boardPostNumber} ·{" "}
             {notice.authorName} ·{" "}
             <time dateTime={notice.createdAtDateTime}>{notice.createdAt}</time> ·
-            조회 {notice.viewCount}
+            {" "}
+            <CommunityPostViewCounter
+              postId={notice.id}
+              initialViewCount={notice.viewCount}
+            />
           </p>
         </div>
         <div className={styles.noticeContent}>
