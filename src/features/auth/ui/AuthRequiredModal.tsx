@@ -15,7 +15,12 @@ type AuthPromptReason =
   | "save_progress"
   | "write_community";
 
-type AuthPromptSource = "challenge" | "community" | "daily_quest" | "study";
+type AuthPromptSource =
+  | "challenge"
+  | "community"
+  | "daily_quest"
+  | "profile"
+  | "study";
 
 interface AuthRequiredModalProps {
   description: string;

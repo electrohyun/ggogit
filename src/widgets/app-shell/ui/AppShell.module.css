@@ -47,6 +47,8 @@
   display: flex;
   align-items: center;
   flex: 1;
+  min-width: 0;
+  gap: 10px;
   justify-content: space-between;
 }
 
@@ -62,7 +64,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  flex: 1;
+  flex: 0 0 auto;
+  min-width: 0;
 }
 
 .status {
@@ -70,7 +73,7 @@
   align-items: center;
 
   gap: 10px;
-  padding: 0px 30px;
+  padding: 0 clamp(8px, 1.4vw, 20px);
 }
 
 .streakStatus,
@@ -137,6 +140,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
 }
 
 .greetingContainer {
@@ -315,16 +319,20 @@
   .greetingContainer {
     display: flex;
     align-items: center;
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   .location {
-    padding: 0 50px;
-    font-size: 24px;
+    flex: 0 0 auto;
+    padding: 0 clamp(16px, 2vw, 32px);
+    font-size: clamp(20px, 1.35vw, 24px);
     font-weight: bold;
+    white-space: nowrap;
   }
 
   .statusContainer {
-    padding: 0px 20px;
+    padding: 0 clamp(4px, 0.8vw, 10px);
   }
 
   .aside {
@@ -548,6 +556,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    min-width: 0;
   }
 
   .ggoggoSticker {
@@ -557,12 +566,16 @@
   }
 
   .ggoggoGreeting {
+    overflow: hidden;
+    max-width: clamp(240px, 32vw, 460px);
     padding: 5px 20px;
     margin: 0 0 0 10px;
 
     font-family: var(--font-character);
     border-radius: 20px;
     background-color: var(--primary-soft);
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 
@@ -611,7 +624,11 @@
 @media (min-width: 1440px) {
   .profileText {
     display: block;
-    padding: 0px 20px;
+    overflow: hidden;
+    max-width: clamp(180px, 16vw, 240px);
+    padding: 0 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 

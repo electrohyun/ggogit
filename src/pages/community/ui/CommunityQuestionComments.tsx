@@ -6,10 +6,8 @@ import { useMemo, useState, useTransition, type FormEvent } from "react";
 
 import { ggoggoSmile } from "@/assets/mascot";
 import type { CommunityComment } from "@/entities/community";
-import { getOrCreateGuestIdentity, useCurrentUserStore } from "@/entities/user";
-import { AuthRequiredModal } from "@/features/auth";
+import { getOrCreateGuestIdentity } from "@/entities/user";
 import { createCommunityComment } from "@/features/community/api/communityComments.action";
-import { trackEvent } from "@/shared/lib/analytics";
 import { SoundLink } from "@/shared/ui/sound-link";
 import styles from "./CommunityQuestionDetailPage.module.css";
 
@@ -26,9 +24,7 @@ export default function CommunityQuestionComments({
   const [content, setContent] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [addedComments, setAddedComments] = useState<CommunityComment[]>([]);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const authRole = useCurrentUserStore((state) => state.currentUser.authRole);
   const visibleComments = useMemo(() => {
     const commentIds = new Set(comments.map((comment) => comment.id));
     const visibleAddedComments = addedComments.filter(
@@ -44,14 +40,6 @@ export default function CommunityQuestionComments({
 
     if (!newContent) {
       setErrorMessage("답변 내용을 입력해주세요.");
-      return;
-    }
-
-    if (authRole === "anonymous") {
-      trackEvent("anonymous_community_write_attempt", {
-        source: "comment",
-      });
-      setIsAuthModalOpen(true);
       return;
     }
 
@@ -139,15 +127,6 @@ export default function CommunityQuestionComments({
           {isPending ? "등록 중..." : "등록"}
         </button>
       </form>
-      {isAuthModalOpen && (
-        <AuthRequiredModal
-          title="로그인해야 답변할 수 있어요"
-          description="게스트로 시작하거나 로그인하면 질문에 답변을 남길 수 있어요."
-          reason="write_community"
-          source="community"
-          onClose={() => setIsAuthModalOpen(false)}
-        />
-      )}
     </>
   );
 }
