@@ -42,8 +42,15 @@ const toCommunityContentBlock = (
   return null;
 };
 
+const getCommunityPostAuthorAvatarUrl = (row: CommunityPostRow) => {
+  const profile = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles;
+
+  return profile?.avatar_url ?? undefined;
+};
+
 export const toCommunityPost = (row: CommunityPostRow): CommunityPost => ({
   id: row.id,
+  boardPostNumber: row.board_post_number ?? row.id,
   board: row.board,
   title: row.title ?? undefined,
   content: row.content_blocks
@@ -51,6 +58,7 @@ export const toCommunityPost = (row: CommunityPostRow): CommunityPost => ({
     .filter((block): block is CommunityContentBlock => block !== null),
   authorId: row.author_id ?? undefined,
   authorName: row.author_name,
+  authorAvatarUrl: getCommunityPostAuthorAvatarUrl(row),
   authorRole: row.author_role,
   tags: row.tags,
   viewCount: row.view_count,

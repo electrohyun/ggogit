@@ -1,6 +1,12 @@
 import type { CommunityComment, CommunityCommentRow } from "@/entities/community";
 import { formatDateWithDots } from "@/shared/lib/date";
 
+const getCommunityCommentAuthorAvatarUrl = (row: CommunityCommentRow) => {
+  const profile = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles;
+
+  return profile?.avatar_url ?? undefined;
+};
+
 export const toCommunityComment = (
   row: CommunityCommentRow,
 ): CommunityComment => ({
@@ -9,6 +15,7 @@ export const toCommunityComment = (
   content: row.content,
   authorId: row.author_id ?? undefined,
   authorName: row.author_name,
+  authorAvatarUrl: getCommunityCommentAuthorAvatarUrl(row),
   authorRole: row.author_role,
   likeCount: row.like_count,
   isDeleted: row.is_deleted,

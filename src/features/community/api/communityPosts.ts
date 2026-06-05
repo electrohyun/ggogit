@@ -6,8 +6,8 @@ import {
   type CommunityPostRow,
 } from "@/entities/community";
 
-const COMMUNITY_POST_SELECT =
-  "id,board,title,content_blocks,author_id,author_name,author_role,tags,view_count,like_count,comment_count,is_pinned,is_published,created_at,updated_at";
+export const COMMUNITY_POST_SELECT =
+  "id,board_post_number,board,title,content_blocks,author_id,author_name,author_role,tags,view_count,like_count,comment_count,is_pinned,is_published,created_at,updated_at,profiles!community_posts_author_profile_fkey(avatar_url)";
 
 export const getCommunityPostsByBoard = async (
   supabase: SupabaseClient,
@@ -55,12 +55,18 @@ export const getCommunityPostById = async (
   board: CommunityPost["board"],
   id: string,
 ): Promise<CommunityPost | null> => {
+  const postId = Number(id);
+
+  if (!Number.isInteger(postId)) {
+    return null;
+  }
+
   const { data, error } = await supabase
     .from("community_posts")
     .select(COMMUNITY_POST_SELECT)
     .eq("board", board)
     .eq("is_published", true)
-    .eq("id", Number(id))
+    .eq("id", postId)
     .maybeSingle();
 
   if (error) {
@@ -68,5 +74,9 @@ export const getCommunityPostById = async (
     return null;
   }
 
-  return data ? toCommunityPost(data as CommunityPostRow) : null;
+  if (!data) {
+    return null;
+  }
+
+  return toCommunityPost(data as CommunityPostRow);
 };

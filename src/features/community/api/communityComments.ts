@@ -6,8 +6,8 @@ import {
   type CommunityCommentRow,
 } from "@/entities/community";
 
-const COMMUNITY_COMMENT_SELECT =
-  "id,post_id,content,author_id,author_name,author_role,like_count,is_deleted,created_at,updated_at";
+export const COMMUNITY_COMMENT_SELECT =
+  "id,post_id,content,author_id,author_name,author_role,like_count,is_deleted,created_at,updated_at,profiles!community_comments_author_profile_fkey(avatar_url)";
 
 export const getCommunityCommentsByPostId = async (
   supabase: SupabaseClient,

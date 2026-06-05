@@ -86,3 +86,17 @@
 .submitButton {
   background-color: var(--primary-base);
 }
+
+.submitButton:disabled,
+.input:disabled,
+.textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.errorMessage {
+  margin: 0;
+  color: var(--danger, #d33);
+  font-size: 13px;
+  line-height: 1.4;
+}
