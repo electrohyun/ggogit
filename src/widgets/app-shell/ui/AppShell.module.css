@@ -70,6 +70,28 @@
   padding: 0px 5px;
 }
 
+.soundButton {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 2px solid var(--primary-base);
+  border-radius: 50%;
+  background-color: var(--surface);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.soundButton[aria-pressed="true"] {
+  background-color: var(--primary-soft);
+}
+
+.soundButton:focus-visible {
+  outline: 3px solid var(--primary-base);
+  outline-offset: 3px;
+}
+
 .streakText {
   color: red;
 }
