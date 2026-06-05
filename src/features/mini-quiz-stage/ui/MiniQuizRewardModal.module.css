@@ -1,0 +1,123 @@
+.rewardModalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+
+  padding: 6px 4px 2px;
+  text-align: center;
+}
+
+.visualStage {
+  position: relative;
+  display: grid;
+  place-items: center;
+
+  width: 190px;
+  min-height: 150px;
+}
+
+.visualStage::before {
+  content: "";
+  position: absolute;
+  inset: 18px 10px 6px;
+  z-index: 0;
+
+  background: var(--primary-pale);
+  border: 2px solid var(--border);
+  border-radius: 50%;
+}
+
+.mascotImage,
+.streakImage {
+  position: relative;
+  z-index: 1;
+  object-fit: contain;
+}
+
+.mascotImage {
+  width: 150px;
+  height: 150px;
+  filter: drop-shadow(0 10px 12px rgb(0 0 0 / 14%));
+}
+
+.streakImage {
+  width: 128px;
+  height: 128px;
+  filter: drop-shadow(0 8px 12px rgb(255 137 60 / 22%));
+}
+
+.beanBurst {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.beanIcon {
+  position: absolute;
+  display: grid;
+  place-items: center;
+
+  color: #6c9f3d;
+  background: #dff7a8;
+  border: 2px solid #7aa842;
+  border-radius: 999px;
+  box-shadow: 0 5px 8px rgb(0 0 0 / 12%);
+}
+
+.beanIcon:nth-child(1) {
+  top: 26px;
+  right: 16px;
+  width: 46px;
+  height: 46px;
+  transform: rotate(-16deg);
+}
+
+.beanIcon:nth-child(2) {
+  top: 72px;
+  left: 14px;
+  width: 36px;
+  height: 36px;
+  transform: rotate(18deg);
+}
+
+.beanIcon:nth-child(3) {
+  right: 40px;
+  bottom: 18px;
+  width: 30px;
+  height: 30px;
+  transform: rotate(28deg);
+}
+
+.rewardText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.rewardText p {
+  color: var(--text-secondary);
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+.rewardText strong {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  color: var(--primary-deep);
+  font-size: 34px;
+  line-height: 1.1;
+}
+
+.rewardModalContent[data-kind="streak"] .visualStage::before {
+  background: color-mix(in srgb, var(--primary-strong) 22%, white);
+}
+
+.rewardModalContent[data-kind="streak"] .rewardText strong {
+  color: #e46f19;
+}

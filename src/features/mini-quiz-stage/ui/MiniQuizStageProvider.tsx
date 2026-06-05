@@ -10,20 +10,21 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 
-import {
-  getQuestionLimitMs,
-  getStarCount,
-  normalizeCommand,
-} from "../model/quizUtils";
+import { useCurrentUserStore } from "@/entities/user";
+import { submitMiniQuizAnswer } from "../api/miniQuizStage.actions";
+import { getQuestionLimitMs } from "../model/quizUtils";
 import type { QuizQuestion } from "../model/types";
 
 interface MiniQuizStageProviderProps {
+  attemptId: string;
   children: ReactNode;
   chapterNumber: number;
   questions: QuizQuestion[];
   stageNumber: number;
   stageTitle: string;
 }
+
+type RewardModalKind = "beans" | "streak" | null;
 
 interface MiniQuizStageContextValue {
   chapterNumber: number;
@@ -38,6 +39,8 @@ interface MiniQuizStageContextValue {
   isFailed: boolean;
   isFeedback: boolean;
   isResult: boolean;
+  isRewardModalOpen: boolean;
+  isSubmitting: boolean;
   progressPercent: number;
   questionCount: number;
   resultPercent: number;
@@ -46,12 +49,16 @@ interface MiniQuizStageContextValue {
   stageNumber: number;
   stageTitle: string;
   starCount: number;
+  stageRewardBeans: number;
+  rewardModalKind: RewardModalKind;
+  streakIncremented: boolean;
   submittedAnswer: string | null;
   submitAnswer: (answer: string | null) => void;
   timeLeftMs: number;
   timeLimitMs: number;
   timerPercent: number;
   closeFailModal: () => void;
+  closeRewardModal: () => void;
   goNext: () => void;
   retry: () => void;
   selectAnswer: (answer: string) => void;
@@ -74,6 +81,7 @@ export function useMiniQuizStageContext() {
 }
 
 export default function MiniQuizStageProvider({
+  attemptId,
   children,
   chapterNumber,
   questions,
@@ -89,61 +97,95 @@ export default function MiniQuizStageProvider({
   const [energy, setEnergy] = useState(3);
   const [isResult, setIsResult] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
+  const [rewardModalKind, setRewardModalKind] =
+    useState<RewardModalKind>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [starCount, setStarCount] = useState(0);
+  const [stageRewardBeans, setStageRewardBeans] = useState(0);
+  const [streakIncremented, setStreakIncremented] = useState(false);
+  const [currentFeedback, setCurrentFeedback] = useState<{
+    correctAnswer: string;
+    explanation: string;
+    isCorrect: boolean;
+  } | null>(null);
 
-  const currentQuestion = questions[currentIndex];
+  const currentQuestion = {
+    ...questions[currentIndex],
+    answer: currentFeedback?.correctAnswer ?? "",
+    explanation: currentFeedback?.explanation ?? "",
+  };
   const timeLimitMs = getQuestionLimitMs(currentQuestion);
   // TODO: 50ms 리렌더링이 발생하는 문제 있음.
   const [timeLeftMs, setTimeLeftMs] = useState(timeLimitMs);
-  const isFeedback = submittedAnswer !== null;
-  const normalizedSubmittedAnswer =
-    currentQuestion.type === "command" && submittedAnswer
-      ? normalizeCommand(submittedAnswer)
-      : submittedAnswer;
-  const isCorrect = normalizedSubmittedAnswer === currentQuestion.answer;
+  const isFeedback = submittedAnswer !== null && currentFeedback !== null;
+  const isCorrect = currentFeedback?.isCorrect ?? false;
   const progressPercent = Math.round(
     ((currentIndex + (isFeedback ? 1 : 0)) / questions.length) * 100,
   );
   const timerPercent = Math.max(0, (timeLeftMs / timeLimitMs) * 100);
   const displayTimeLeft = Math.ceil(timeLeftMs / 1000);
   const resultPercent = Math.round((correctCount / questions.length) * 100);
-  const starCount = getStarCount(correctCount);
   const isCleared = starCount > 0;
 
   const submitAnswer = useCallback(
-    (answer: string | null) => {
-      if (isFeedback) {
+    async (answer: string | null) => {
+      if (isFeedback || isSubmitting) {
         return;
       }
 
       const nextSubmittedAnswer = answer ?? "";
-      const normalizedAnswer =
-        currentQuestion.type === "command"
-          ? normalizeCommand(nextSubmittedAnswer)
-          : nextSubmittedAnswer;
-      const nextIsCorrect = normalizedAnswer === currentQuestion.answer;
+      const submitReason = timeLeftMs <= 0 ? "timeout" : "manual";
 
-      setSubmittedAnswer(nextSubmittedAnswer);
+      setIsSubmitting(true);
 
-      if (nextIsCorrect) {
-        setCorrectCount((count) => count + 1);
-        return;
-      }
+      try {
+        const result = await submitMiniQuizAnswer({
+          attemptId,
+          questionId: questions[currentIndex].id,
+          submittedAnswer: nextSubmittedAnswer,
+          submitReason,
+        });
 
-      setEnergy((currentEnergy) => {
-        const nextEnergy = Math.max(0, currentEnergy - 1);
+        setSubmittedAnswer(nextSubmittedAnswer);
+        setCurrentFeedback({
+          correctAnswer: result.correctAnswer,
+          explanation: result.explanation,
+          isCorrect: result.isCorrect,
+        });
+        setCorrectCount(result.correctCount);
+        setEnergy(result.energy);
+        setStarCount(result.starCount);
+        setIsFailed(result.isFailed);
+        setStageRewardBeans(result.earnedBeans);
+        setStreakIncremented(result.streakIncremented);
 
-        if (nextEnergy === 0) {
-          setIsFailed(true);
+        if (result.earnedBeans > 0 || result.streakIncremented) {
+          const { currentUser, updateCurrentUser } =
+            useCurrentUserStore.getState();
+
+          updateCurrentUser({
+            currentBeans: currentUser.currentBeans + result.earnedBeans,
+            currentStreakDays:
+              currentUser.currentStreakDays +
+              (result.streakIncremented ? 1 : 0),
+          });
         }
-
-        return nextEnergy;
-      });
+      } finally {
+        setIsSubmitting(false);
+      }
     },
-    [currentQuestion, isFeedback],
+    [
+      attemptId,
+      currentIndex,
+      isFeedback,
+      isSubmitting,
+      questions,
+      timeLeftMs,
+    ],
   );
 
   useEffect(() => {
-    if (isFeedback || isResult || isFailed) {
+    if (isFeedback || isResult || isFailed || isSubmitting) {
       return;
     }
 
@@ -170,6 +212,7 @@ export default function MiniQuizStageProvider({
     isFailed,
     isFeedback,
     isResult,
+    isSubmitting,
     selectedAnswer,
     submitAnswer,
     timeLeftMs,
@@ -186,6 +229,13 @@ export default function MiniQuizStageProvider({
   const goNext = () => {
     if (currentIndex === questions.length - 1) {
       setIsResult(true);
+      setRewardModalKind(
+        stageRewardBeans > 0
+          ? "beans"
+          : streakIncremented
+            ? "streak"
+            : null,
+      );
       return;
     }
 
@@ -196,22 +246,21 @@ export default function MiniQuizStageProvider({
     setSelectedAnswer(null);
     setCommandAnswer("");
     setSubmittedAnswer(null);
+    setCurrentFeedback(null);
   };
 
   const retry = () => {
-    setCurrentIndex(0);
-    setSelectedAnswer(null);
-    setCommandAnswer("");
-    setSubmittedAnswer(null);
-    setCorrectCount(0);
-    setEnergy(3);
-    setIsResult(false);
-    setIsFailed(false);
-    setTimeLeftMs(getQuestionLimitMs(questions[0]));
+    window.location.reload();
   };
 
   const closeFailModal = () => {
     router.push("/study");
+  };
+
+  const closeRewardModal = () => {
+    setRewardModalKind((currentKind) =>
+      currentKind === "beans" && streakIncremented ? "streak" : null,
+    );
   };
 
   const value = {
@@ -227,6 +276,8 @@ export default function MiniQuizStageProvider({
     isFailed,
     isFeedback,
     isResult,
+    isRewardModalOpen: rewardModalKind !== null,
+    isSubmitting,
     progressPercent,
     questionCount: questions.length,
     resultPercent,
@@ -235,12 +286,16 @@ export default function MiniQuizStageProvider({
     stageNumber,
     stageTitle,
     starCount,
+    stageRewardBeans,
+    rewardModalKind,
+    streakIncremented,
     submittedAnswer,
     submitAnswer,
     timeLeftMs,
     timeLimitMs,
     timerPercent,
     closeFailModal,
+    closeRewardModal,
     goNext,
     retry,
     selectAnswer,

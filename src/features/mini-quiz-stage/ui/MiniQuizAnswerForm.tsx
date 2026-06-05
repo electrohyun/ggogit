@@ -40,8 +40,8 @@ export default function MiniQuizAnswerForm() {
   return (
     <div className={styles.optionGrid}>
       {currentQuestion.options.map((option) => {
-        const isSelected = selectedAnswer === option;
-        const isAnswer = currentQuestion.answer === option;
+        const isSelected = selectedAnswer === option.id;
+        const isAnswer = currentQuestion.answer === option.id;
         const status =
           submittedAnswer && isAnswer
             ? "correct"
@@ -53,12 +53,12 @@ export default function MiniQuizAnswerForm() {
 
         return (
           <button
-            key={option}
+            key={option.id}
             type="button"
             className={styles.optionButton}
             data-status={status}
             disabled={isFeedback}
-            onClick={() => selectAnswer(option)}
+            onClick={() => selectAnswer(option.id)}
           >
             <span className={styles.optionIcon}>
               {submittedAnswer ? (
@@ -75,7 +75,7 @@ export default function MiniQuizAnswerForm() {
                 <Circle size={20} aria-hidden="true" />
               )}
             </span>
-            <span>{option}</span>
+            <span>{option.text}</span>
           </button>
         );
       })}
