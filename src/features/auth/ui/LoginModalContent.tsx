@@ -1,11 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { createGuestName } from "@/entities/user";
 import { playClickSound } from "@/shared/lib/sound/soundPlayer";
 import { trackEvent } from "@/shared/lib/analytics";
 import { createClient } from "@/shared/lib/supabase/client";
 import { useSoundStore } from "@/shared/model/sound/soundStore";
-import { SoundLink } from "@/shared/ui/sound-link";
 import styles from "./LoginModalContent.module.css";
 
 interface LoginModalContentProps {
@@ -15,6 +17,9 @@ interface LoginModalContentProps {
 export default function LoginModalContent({
   source = "header",
 }: LoginModalContentProps) {
+  const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isGuestPending, setIsGuestPending] = useState(false);
   const soundSettings = useSoundStore((state) => state.soundSettings);
 
   const handleOAuthLogin = async (provider: "github" | "kakao") => {
@@ -44,6 +49,44 @@ export default function LoginModalContent({
       provider,
       options: authOptions,
     });
+  };
+
+  const handleGuestLogin = async () => {
+    playClickSound(soundSettings);
+    trackEvent("guest_start_clicked", { source });
+    setErrorMessage("");
+    setIsGuestPending(true);
+
+    const supabase = createClient();
+    const guestName = createGuestName();
+    const { error } = await supabase.auth.signInAnonymously({
+      options: {
+        data: {
+          name: guestName,
+        },
+      },
+    });
+
+    if (error) {
+      setErrorMessage(
+        "게스트 로그인을 시작하지 못했어요. Supabase Anonymous Sign-Ins 설정을 확인해주세요.",
+      );
+      setIsGuestPending(false);
+      return;
+    }
+
+    const { error: initializationError } = await supabase.rpc(
+      "ensure_user_app_data",
+    );
+
+    if (initializationError) {
+      setErrorMessage("게스트 데이터를 준비하지 못했어요. 잠시 후 다시 시도해주세요.");
+      setIsGuestPending(false);
+      return;
+    }
+
+    router.push("/lobby");
+    router.refresh();
   };
 
   return (
@@ -81,13 +124,15 @@ export default function LoginModalContent({
         <span>또는</span>
         <hr />
       </div>
-      <SoundLink
+      {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
+      <button
+        type="button"
         className={styles.guest}
-        href="/auth/guest"
-        onClick={() => trackEvent("guest_start_clicked", { source })}
+        disabled={isGuestPending}
+        onClick={handleGuestLogin}
       >
-        게스트 로그인
-      </SoundLink>
+        {isGuestPending ? "게스트 시작 중..." : "게스트 로그인"}
+      </button>
     </div>
   );
 }
