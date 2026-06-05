@@ -14,11 +14,9 @@ export default function Home() {
           <Image src={logoEng} alt="꼬깃 로고" width={100} />
         </a>
         <div className={styles.navContainer}>
-          <nav className={styles.nav}>
+          {/* <nav className={styles.nav}>
             <a href="#about">소개</a>
-            <a href="#learning">학습 방식</a>
-            <a href="#play-mode">플레이 모드</a>
-          </nav>
+          </nav> */}
           <StartButton allowGuestEntry variant="header">
             시작하기
           </StartButton>
@@ -49,7 +47,7 @@ export default function Home() {
             <p className={styles.heroHeadline}>가장 친절한 Git 여행</p>
 
             <p className={styles.heroDescription}>
-              직접 명령어를 입력하고, 브랜치를 이어 보세요!
+              퀴즈를 해결하며, Git 학습을 시작해 보세요!
             </p>
 
             <StartButton allowGuestEntry variant="hero">
