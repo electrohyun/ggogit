@@ -1,6 +1,15 @@
-<p align="center">
-  <img width="400" height="400" alt="꼬깃 마스코트 꼬꼬" src="https://github.com/user-attachments/assets/a9ac7043-3a66-48ab-9772-58d2524aa969" />
-</p>
+<img width="1672" height="941" alt="og" src="https://github.com/user-attachments/assets/a7faaa2c-7a37-415f-94cc-2164b48cb362" />
+
+<img width="1629" height="1121" alt="스크린샷 2026-06-06 오전 2 35 39" src="https://github.com/user-attachments/assets/48627786-54e1-4ccb-a904-d4375dc2748c" />
+<img width="1629" height="1121" alt="스크린샷 2026-06-06 오전 2 35 44" src="https://github.com/user-attachments/assets/43b1a21f-91be-4beb-9eb8-17e5de2dea5d" />
+<img width="1629" height="1121" alt="스크린샷 2026-06-06 오전 2 35 48" src="https://github.com/user-attachments/assets/94666939-bd9a-42cb-9876-bd57e331feb4" />
+<img width="1629" height="1121" alt="스크린샷 2026-06-06 오전 2 36 15" src="https://github.com/user-attachments/assets/00a3baf7-432d-4e70-b1af-1255096e2d0d" />
+<img width="1629" height="1121" alt="스크린샷 2026-06-06 오전 2 36 20" src="https://github.com/user-attachments/assets/49423996-94d6-439b-8add-5c56a1db4454" />
+<img width="1629" height="1121" alt="스크린샷 2026-06-06 오전 2 36 54" src="https://github.com/user-attachments/assets/cc51728e-8139-490c-bbea-3e9dae0ef731" />
+<img width="1629" height="1121" alt="스크린샷 2026-06-06 오전 2 37 01" src="https://github.com/user-attachments/assets/166e52f8-e598-4c1c-9419-52535c5bf80e" />
+<img width="1629" height="1121" alt="스크린샷 2026-06-06 오전 2 37 36" src="https://github.com/user-attachments/assets/7b20adbb-a07d-4f0c-af25-ef3c4e776af4" />
+<img width="1536" height="1024" alt="ggoggo-credits-group" src="https://github.com/user-attachments/assets/7dedcb05-14e3-4cd3-8299-2bd76cb59abc" />
+
 
 # 🐤 GGoGit (꼬깃)
 
