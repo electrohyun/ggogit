@@ -44,7 +44,14 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 
+  color: var(--text-primary);
   font-size: 20px;
+  text-decoration: none;
+}
+
+.questionTitle:hover,
+.questionTitle:focus {
+  text-decoration: underline;
 }
 
 .meta {
@@ -60,4 +67,12 @@
 
   color: var(--text-secondary);
   font-size: 16px;
+}
+
+.emptyText {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  color: var(--text-secondary);
+  font-size: 18px;
 }

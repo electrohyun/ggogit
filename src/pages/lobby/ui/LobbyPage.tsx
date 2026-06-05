@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { getLatestCommunityPostsByBoard } from "@/features/community/api/communityPosts";
+import { createClient } from "@/shared/lib/supabase/server";
 import { Card } from "@/shared/ui/card";
 import styles from "./LobbyPage.module.css";
 import CommunityContent from "./CommunityContent";
@@ -10,7 +13,34 @@ import RecentBadgeContent from "./RecentBadgeContent";
 import StreakCardContent from "./StreakCardContent";
 import TodaySummaryContent from "./TodaySummaryContent";
 
-export default function LobbyPage() {
+const POPULAR_QUESTION_COUNT = 3;
+const DAILY_TIP_POOL_SIZE = 7;
+
+export default async function LobbyPage() {
+  const supabase = await createClient();
+  const [questionPosts, latestTips] = await Promise.all([
+    getLatestCommunityPostsByBoard(supabase, "question", 20),
+    getLatestCommunityPostsByBoard(supabase, "tip", DAILY_TIP_POOL_SIZE),
+  ]);
+  const popularQuestions = [...questionPosts]
+    .sort((firstQuestion, secondQuestion) => {
+      const firstScore =
+        firstQuestion.likeCount * 2 +
+        firstQuestion.commentCount * 3 +
+        firstQuestion.viewCount;
+      const secondScore =
+        secondQuestion.likeCount * 2 +
+        secondQuestion.commentCount * 3 +
+        secondQuestion.viewCount;
+
+      return secondScore - firstScore;
+    })
+    .slice(0, POPULAR_QUESTION_COUNT);
+  const dailyTip =
+    latestTips.length > 0
+      ? latestTips[new Date().getDay() % latestTips.length]
+      : null;
+
   return (
     <>
       <div className={styles.lobbyGrid}>
@@ -62,17 +92,17 @@ export default function LobbyPage() {
         <Card
           id="community-card"
           title="커뮤니티 인기 질문"
-          headerAction={<a href="#">더 보기</a>}
+          headerAction={<Link href="/community/questions">더 보기</Link>}
           className={`${styles.span4} ${styles.backgroundPrimaryPale} ${styles.desktopOnly}`}
         >
-          <CommunityContent />
+          <CommunityContent questions={popularQuestions} />
         </Card>
         <Card
           id="daily-tip-card"
           title="오늘의 팁"
           className={`${styles.span4} ${styles.backgroundPrimaryPale} `}
         >
-          <DailyTipContent />
+          <DailyTipContent tip={dailyTip} />
         </Card>
       </div>
     </>

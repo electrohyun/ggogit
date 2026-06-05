@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import styles from "./layout.module.css";
+import styles from "./CommunityLayout.module.css";
 
 const COMMUNITY_TABS = [
   { href: "/community", label: "방명록" },
@@ -13,12 +13,15 @@ const COMMUNITY_TABS = [
 ];
 
 export default function CommunityTabs() {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
 
   return (
     <nav className={styles.tabbar} aria-label="커뮤니티 메뉴">
       {COMMUNITY_TABS.map((tab) => {
-        const isActive = pathname === tab.href;
+        const isActive =
+          tab.href === "/community"
+            ? pathname === tab.href
+            : pathname === tab.href || pathname.startsWith(`${tab.href}/`);
 
         return (
           <Link

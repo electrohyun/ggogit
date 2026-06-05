@@ -1,46 +1,40 @@
+import Link from "next/link";
 import { MessageCircle, ThumbsUp } from "lucide-react";
+import type { CommunityPost } from "@/entities/community";
 import styles from "./CommunityContent.module.css";
 
-const QUESTIONS = [
-  {
-    id: 1,
-    title: "rebase와 merge의 차이는 무엇인가요?",
-    likes: 22,
-    comments: 10,
-  },
-  {
-    id: 2,
-    title: "Cherry-pick은 언제 사용하나요?",
-    likes: 22,
-    comments: 10,
-  },
-  {
-    id: 3,
-    title: ".gitignore에 .gitignore를 넣으면 어떻게 되나요?",
-    likes: 22,
-    comments: 10,
-  },
-];
+interface CommunityContentProps {
+  questions: CommunityPost[];
+}
 
-export default function CommunityContent() {
+export default function CommunityContent({ questions }: CommunityContentProps) {
+  if (questions.length === 0) {
+    return <p className={styles.emptyText}>아직 인기 질문이 없어요.</p>;
+  }
+
   return (
     <ul className={styles.questionList}>
-      {QUESTIONS.map((question) => (
+      {questions.map((question) => (
         <li key={question.id} className={styles.questionItem}>
           <span className={styles.questionBadge} aria-hidden="true">
             Q
           </span>
 
-          <p className={styles.questionTitle}>{question.title}</p>
+          <Link
+            href={`/community/questions/${question.id}`}
+            className={styles.questionTitle}
+          >
+            {question.title}
+          </Link>
 
           <div className={styles.meta}>
-            <span aria-label={`추천 ${question.likes}개`}>
+            <span aria-label={`추천 ${question.likeCount}개`}>
               <ThumbsUp size={18} />
-              {question.likes}
+              {question.likeCount}
             </span>
-            <span aria-label={`댓글 ${question.comments}개`}>
+            <span aria-label={`댓글 ${question.commentCount}개`}>
               <MessageCircle size={18} />
-              {question.comments}
+              {question.commentCount}
             </span>
           </div>
         </li>

@@ -1,20 +1,24 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ggoggoCoding } from "@/assets/mascot";
+import { getCommunityFirstParagraph, type CommunityPost } from "@/entities/community";
 import styles from "./DailyTipContent.module.css";
 
-const DAILY_TIP = {
-  title: "작은 커밋, 자주 커밋!",
-  description:
-    "변경 단위를 작게 나누어 커밋하면, 기록을 읽기 쉽고 문제를 찾기도 쉬워요.",
-};
+interface DailyTipContentProps {
+  tip: CommunityPost | null;
+}
 
-export default function DailyTipContent() {
+export default function DailyTipContent({ tip }: DailyTipContentProps) {
   return (
     <div className={styles.dailyTipContentCard}>
       <div className={styles.dailyTipContent}>
-        <h3>{DAILY_TIP.title}</h3>
-        <p>{DAILY_TIP.description}</p>
-        <button type="button">더 많은 팁 보기 &gt;</button>
+        <h3>{tip?.title ?? "오늘의 팁을 준비 중이에요"}</h3>
+        <p>
+          {tip
+            ? getCommunityFirstParagraph(tip)
+            : "커뮤니티 팁 모음에서 Git 학습 힌트를 곧 만나볼 수 있어요."}
+        </p>
+        <Link href="/community/tips">더 많은 팁 보기 &gt;</Link>
       </div>
       <Image
         src={ggoggoCoding}
