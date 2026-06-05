@@ -4,4 +4,5 @@ export * from "./brand";
 export * from "./chapters";
 export * from "./community";
 export * from "./mascot";
+export * from "./sounds";
 export * from "./stats";

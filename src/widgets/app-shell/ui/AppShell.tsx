@@ -14,6 +14,8 @@ import {
   MessageCircleHeartIcon,
   TrophyIcon,
   UserIcon,
+  Volume2Icon,
+  VolumeXIcon,
 } from "lucide-react";
 import { useEffect, type ReactNode } from "react";
 import AppLocation from "./AppLocation";
@@ -27,6 +29,8 @@ import {
   useCurrentUserStore,
 } from "@/entities/user";
 import type { CommunityPost } from "@/entities/community";
+import { playClickSound } from "@/shared/lib/sound/soundPlayer";
+import { useSoundStore } from "@/shared/model/sound/soundStore";
 import { getAppShellGreeting } from "../model/greeting";
 
 interface AppShellProps {
@@ -45,6 +49,11 @@ export default function AppShell({
   const pathname = usePathname();
   const currentUser = useCurrentUserStore((state) => state.currentUser);
   const setCurrentUser = useCurrentUserStore((state) => state.setCurrentUser);
+  const loadSoundSettings = useSoundStore((state) => state.loadSoundSettings);
+  const soundSettings = useSoundStore((state) => state.soundSettings);
+  const updateSoundSettings = useSoundStore(
+    (state) => state.updateSoundSettings,
+  );
   const displayCurrentUser =
     currentUser.isGuest && !initialCurrentUser.isGuest
       ? initialCurrentUser
@@ -53,6 +62,10 @@ export default function AppShell({
     pathname: pathname ?? "",
     name: displayCurrentUser.name,
   });
+
+  useEffect(() => {
+    loadSoundSettings();
+  }, [loadSoundSettings]);
 
   useEffect(() => {
     if (!initialCurrentUser.isGuest) {
@@ -74,6 +87,20 @@ export default function AppShell({
       name: guestName,
     });
   }, [initialCurrentUser, initialGuestSessionId, setCurrentUser]);
+
+  const isSoundMuted =
+    !soundSettings.isBgmEnabled && !soundSettings.isSfxEnabled;
+
+  const handleSoundToggle = () => {
+    const isCurrentlyMuted =
+      !soundSettings.isBgmEnabled && !soundSettings.isSfxEnabled;
+    const nextSettings = updateSoundSettings({
+      isBgmEnabled: isCurrentlyMuted,
+      isSfxEnabled: isCurrentlyMuted,
+    });
+
+    playClickSound(nextSettings);
+  };
 
   return (
     <>
@@ -116,6 +143,20 @@ export default function AppShell({
                   {displayCurrentUser.currentBeans}
                 </span>
               </div>
+              <button
+                type="button"
+                className={styles.soundButton}
+                aria-label={isSoundMuted ? "소리 켜기" : "소리 끄기"}
+                aria-pressed={!isSoundMuted}
+                title={isSoundMuted ? "소리 켜기" : "소리 끄기"}
+                onClick={handleSoundToggle}
+              >
+                {isSoundMuted ? (
+                  <VolumeXIcon size={22} aria-hidden="true" />
+                ) : (
+                  <Volume2Icon size={22} aria-hidden="true" />
+                )}
+              </button>
             </div>
             <div className={styles.profileContainer}>
               <p className={styles.profileText}>
