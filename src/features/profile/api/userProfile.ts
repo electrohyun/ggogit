@@ -10,23 +10,58 @@ const formatJoinedAt = (dateValue: string) => {
   return `${year}년 ${month}월 ${day}일`;
 };
 
+const getGuestUserProfile = (): UserProfile => ({
+  name: "Guest",
+  bio: "",
+  avatarUrl: null,
+  joinedAt: "-",
+  quizStats: {
+    solvedCount: 0,
+    correctCount: 0,
+    wrongCount: 0,
+  },
+  activityStats: {
+    currentStreakDays: 0,
+    bestStreakDays: 0,
+    currentBeans: 0,
+    totalBeans: 0,
+  },
+});
+
 export const getUserProfile = async (
   supabase: SupabaseClient,
+  userId?: string,
 ): Promise<UserProfile> => {
+  const {
+    data: { user },
+  } = userId
+    ? { data: { user: null } }
+    : await supabase.auth.getUser();
+  const targetUserId = userId ?? user?.id;
+
+  if (!targetUserId) {
+    return getGuestUserProfile();
+  }
+
+  const profileQuery = supabase
+    .from("profiles")
+    .select("name,bio,avatar_url,created_at");
+  const activityStatsQuery = supabase
+    .from("user_activity_stats")
+    .select("current_streak_days,best_streak_days");
+  const walletQuery = supabase
+    .from("user_wallets")
+    .select("current_beans,total_earned_beans");
+
+  profileQuery.eq("id", targetUserId);
+  activityStatsQuery.eq("user_id", targetUserId);
+  walletQuery.eq("user_id", targetUserId);
+
   const [{ data: profile }, { data: activityStats }, { data: wallet }] =
     await Promise.all([
-      supabase
-        .from("profiles")
-        .select("name,bio,avatar_url,created_at")
-        .maybeSingle(),
-      supabase
-        .from("user_activity_stats")
-        .select("current_streak_days,best_streak_days")
-        .maybeSingle(),
-      supabase
-        .from("user_wallets")
-        .select("current_beans,total_earned_beans")
-        .maybeSingle(),
+      profileQuery.maybeSingle(),
+      activityStatsQuery.maybeSingle(),
+      walletQuery.maybeSingle(),
     ]);
 
   return {

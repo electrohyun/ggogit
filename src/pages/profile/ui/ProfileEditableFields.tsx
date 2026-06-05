@@ -11,10 +11,12 @@ import styles from "./ProfileEditableFields.module.css";
 
 interface ProfileEditableFieldsProps {
   userProfile: UserProfile;
+  canEdit: boolean;
 }
 
 export default function ProfileEditableFields({
   userProfile,
+  canEdit,
 }: ProfileEditableFieldsProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(userProfile.name);
@@ -30,6 +32,10 @@ export default function ProfileEditableFields({
   const avatarImage = avatarUrl ?? ggoggoSmile;
 
   const handleAvatarButtonClick = () => {
+    if (!canEdit) {
+      return;
+    }
+
     avatarInputRef.current?.click();
   };
 
@@ -78,18 +84,20 @@ export default function ProfileEditableFields({
   return (
     <>
       <div className={styles.titleRow}>
-        <h1>내 정보</h1>
-        <button
-          type="button"
-          className={styles.editButton}
-          disabled={isSavingProfile || isSavingAvatar}
-          onClick={() => setIsEditing((current) => !current)}
-        >
-          {isEditing ? "취소" : "수정"}
-        </button>
+        <h1>{canEdit ? "내 정보" : "프로필"}</h1>
+        {canEdit ? (
+          <button
+            type="button"
+            className={styles.editButton}
+            disabled={isSavingProfile || isSavingAvatar}
+            onClick={() => setIsEditing((current) => !current)}
+          >
+            {isEditing ? "취소" : "수정"}
+          </button>
+        ) : null}
       </div>
 
-      {isEditing ? (
+      {canEdit && isEditing ? (
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.profileRow}>
             <label className={styles.field}>

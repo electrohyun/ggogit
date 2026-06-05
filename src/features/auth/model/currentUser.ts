@@ -2,6 +2,27 @@ import type { JwtPayload } from "@supabase/supabase-js";
 
 export const GUEST_ENTRY_COOKIE = "ggogit_entry";
 
+export const getUserMetadataName = (
+  metadata: Record<string, unknown> | null | undefined,
+) => {
+  if (!metadata) {
+    return null;
+  }
+
+  const nameCandidates = [
+    metadata.name,
+    metadata.full_name,
+    metadata.user_name,
+    metadata.preferred_username,
+  ];
+
+  return (
+    nameCandidates.find(
+      (value): value is string => typeof value === "string" && value.length > 0,
+    ) ?? null
+  );
+};
+
 export const getCurrentUserName = (claims: JwtPayload | null) => {
   if (!claims) {
     return "Guest"; // 이미 layout에서 검증 통과함
@@ -11,10 +32,7 @@ export const getCurrentUserName = (claims: JwtPayload | null) => {
 
   const nameCandidates = [
     // 안전하게 확인하면서 여러 후보를 순서대로 시도
-    metadata?.name,
-    metadata?.full_name,
-    metadata?.user_name,
-    metadata?.preferred_username,
+    getUserMetadataName(metadata),
     claims.email,
   ];
 

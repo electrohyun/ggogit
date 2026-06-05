@@ -20,17 +20,27 @@ export const getCurrentUser = async ({
     };
   }
 
+  const userId = claims.sub;
   const [
     { data: profile, error: profileError },
     { data: activityStats, error: activityStatsError },
     { data: wallet, error: walletError },
   ] = await Promise.all([
-    supabase.from("profiles").select("name,bio,avatar_url").maybeSingle(),
+    supabase
+      .from("profiles")
+      .select("name,bio,avatar_url")
+      .eq("id", userId)
+      .maybeSingle(),
     supabase
       .from("user_activity_stats")
       .select("current_streak_days")
+      .eq("user_id", userId)
       .maybeSingle(),
-    supabase.from("user_wallets").select("current_beans").maybeSingle(),
+    supabase
+      .from("user_wallets")
+      .select("current_beans")
+      .eq("user_id", userId)
+      .maybeSingle(),
   ]);
 
   if (profileError) {
