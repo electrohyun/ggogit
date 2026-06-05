@@ -3,30 +3,32 @@ import Link from "next/link";
 import { ggoggoWalk } from "@/assets/mascot";
 import styles from "./ContinueCardContent.module.css";
 
-const CURRENT_STAGE = {
-  number: "3-4",
-  title: "git commit -m 이해하기",
-  progress: 20,
-};
-
 interface ContinueCardContentProps {
-  href?: string;
+  href: string;
+  progressPercent: number;
+  stageNumber: string;
+  stageTitle: string;
+  totalProgressText: string;
 }
 
 export default function ContinueCardContent({
-  href = "/study",
+  href,
+  progressPercent,
+  stageNumber,
+  stageTitle,
+  totalProgressText,
 }: ContinueCardContentProps) {
   return (
     <div className={styles.continueCard}>
       <Link
         href={href}
         className={styles.mobileCardLink}
-        aria-label={`${CURRENT_STAGE.number} ${CURRENT_STAGE.title} 이어하기`}
+        aria-label={`${stageNumber} ${stageTitle} 이어하기`}
       />
       <div className={styles.continueInfo}>
         <div className={styles.stageInfo}>
-          <p className={styles.stageNumber}>{CURRENT_STAGE.number}</p>
-          <h3 className={styles.stageTitle}>{CURRENT_STAGE.title}</h3>
+          <p className={styles.stageNumber}>{stageNumber}</p>
+          <h3 className={styles.stageTitle}>{stageTitle}</h3>
         </div>
         <div className={styles.progressActions}>
           <div className={styles.progressRow}>
@@ -36,15 +38,15 @@ export default function ContinueCardContent({
               aria-label="스테이지 진행률"
               aria-valuemin={0}
               aria-valuemax={100}
-              aria-valuenow={CURRENT_STAGE.progress}
+              aria-valuenow={progressPercent}
             >
               <div
                 className={styles.progressFill}
-                style={{ width: `${CURRENT_STAGE.progress}%` }}
+                style={{ width: `${progressPercent}%` }}
               />
             </div>
             <span className={styles.progressText}>
-              {CURRENT_STAGE.progress}% 완료
+              {totalProgressText}
             </span>
           </div>
           <Link className={styles.continueButton} href={href}>
