@@ -1,17 +1,23 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { buildQuizQuestions } from "../model/quizUtils";
 
 import type { QuizOption, QuizQuestion } from "../model/types";
 
 interface ChapterRow {
   id: string;
+  commands: string[];
+  description: string;
   display_order: number;
   title: string;
 }
 
 interface StageRow {
+  display_order: number;
   chapter_id: string;
-  stage_number: number;
+  command: string;
+  description: string;
   title: string;
+  stage_number: number;
 }
 
 interface QuestionRow {
@@ -25,11 +31,15 @@ interface QuestionRow {
 }
 
 export interface MiniQuizStagePlayData {
-  attemptId: string;
+  attemptId: string | null;
   chapterNumber: number;
   questions: QuizQuestion[];
   stageNumber: number;
   stageTitle: string;
+}
+
+interface GetMiniQuizStagePlayDataOptions {
+  shouldCreateAttempt?: boolean;
 }
 
 const parseOptions = (options: unknown): QuizOption[] | undefined => {
@@ -74,20 +84,21 @@ export const getMiniQuizStagePlayData = async (
   supabase: SupabaseClient,
   chapterId: string,
   stageNumber: number,
+  { shouldCreateAttempt = true }: GetMiniQuizStagePlayDataOptions = {},
 ): Promise<MiniQuizStagePlayData | null> => {
   const [
     { data: chapters, error: chaptersError },
     { data: stage, error: stageError },
     { data: questions, error: questionsError },
-    { data: attemptId, error: attemptError },
+    attemptResult,
   ] = await Promise.all([
     supabase
       .from("mini_quiz_chapters")
-      .select("id,display_order,title")
+      .select("id,display_order,title,description,commands")
       .order("display_order", { ascending: true }),
     supabase
       .from("mini_quiz_stages")
-      .select("chapter_id,stage_number,title")
+      .select("chapter_id,stage_number,display_order,title,command,description")
       .eq("chapter_id", chapterId)
       .eq("stage_number", stageNumber)
       .maybeSingle(),
@@ -97,21 +108,23 @@ export const getMiniQuizStagePlayData = async (
       .eq("chapter_id", chapterId)
       .eq("stage_number", stageNumber)
       .order("display_order", { ascending: true }),
-    supabase.rpc("start_mini_quiz_stage_attempt", {
-      p_chapter_id: chapterId,
-      p_stage_number: stageNumber,
-    }),
+    shouldCreateAttempt
+      ? supabase.rpc("start_mini_quiz_stage_attempt", {
+          p_chapter_id: chapterId,
+          p_stage_number: stageNumber,
+        })
+      : Promise.resolve({ data: null, error: null }),
   ]);
+  const { data: attemptId, error: attemptError } = attemptResult;
 
   if (
     chaptersError ||
     stageError ||
     questionsError ||
-    attemptError ||
     !chapters ||
     !stage ||
     !questions ||
-    !attemptId
+    (shouldCreateAttempt && (attemptError || !attemptId))
   ) {
     console.error("미니 퀴즈 스테이지 데이터를 불러오지 못했습니다.", {
       attemptError,
@@ -126,8 +139,43 @@ export const getMiniQuizStagePlayData = async (
   const chapterRows = chapters as ChapterRow[];
   const stageRow = stage as StageRow;
   const questionRows = questions as QuestionRow[];
-  const chapterNumber =
-    chapterRows.findIndex((chapter) => chapter.id === stageRow.chapter_id) + 1;
+  const chapterIndex = chapterRows.findIndex(
+    (chapter) => chapter.id === stageRow.chapter_id,
+  );
+  const chapterNumber = chapterIndex + 1;
+  const chapterRow = chapterRows[chapterIndex];
+
+  if (!chapterRow) {
+    return null;
+  }
+
+  if (!shouldCreateAttempt) {
+    return {
+      attemptId: null,
+      chapterNumber,
+      questions: buildQuizQuestions(
+        {
+          badgeName: "",
+          commands: chapterRow.commands,
+          description: chapterRow.description,
+          id: chapterRow.id,
+          stages: [],
+          title: chapterRow.title,
+        },
+        {
+          command: stageRow.command,
+          description: stageRow.description,
+          id: String(stageRow.stage_number),
+          stageNumber: stageRow.stage_number,
+          starCount: 0,
+          status: "available",
+          title: stageRow.title,
+        },
+      ),
+      stageNumber: stageRow.stage_number,
+      stageTitle: stageRow.title,
+    };
+  }
 
   return {
     attemptId: String(attemptId),

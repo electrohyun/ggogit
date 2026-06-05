@@ -5,6 +5,7 @@
 }
 
 .secondaryButton,
+.primaryButton,
 .primaryLink {
   display: inline-flex;
   align-items: center;
@@ -21,10 +22,12 @@
 }
 
 .secondaryButton:active,
+.primaryButton:active,
 .primaryLink:active {
   transform: scale(0.97);
 }
 
+.primaryButton,
 .primaryLink {
   color: var(--text-primary);
   background: var(--primary-strong);
@@ -37,13 +40,19 @@
   cursor: pointer;
 }
 
+.primaryButton {
+  cursor: pointer;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .secondaryButton,
+  .primaryButton,
   .primaryLink {
     transition: none;
   }
 
   .secondaryButton:active,
+  .primaryButton:active,
   .primaryLink:active {
     transform: none;
   }
@@ -55,6 +64,7 @@
   }
 
   .secondaryButton,
+  .primaryButton,
   .primaryLink {
     width: 100%;
     min-height: 42px;

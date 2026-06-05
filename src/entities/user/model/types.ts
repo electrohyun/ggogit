@@ -1,4 +1,5 @@
 export interface CurrentUser {
+  authRole: "anonymous" | "guest" | "user";
   isGuest: boolean;
   name: string;
   bio: string;

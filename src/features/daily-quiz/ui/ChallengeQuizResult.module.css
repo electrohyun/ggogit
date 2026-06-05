@@ -22,6 +22,13 @@
   font-weight: 700;
 }
 
+.resultActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.primaryButton,
 .primaryLink {
   display: inline-flex;
   align-items: center;
@@ -39,6 +46,7 @@
   transition: transform 120ms ease;
 }
 
+.primaryButton:active,
 .primaryLink:active {
   transform: scale(0.97);
 }
@@ -122,6 +130,11 @@
     line-height: 1.22;
   }
 
+  .resultActions {
+    flex-direction: column;
+  }
+
+  .primaryButton,
   .primaryLink {
     width: 100%;
     min-height: 42px;
@@ -156,10 +169,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .primaryButton,
   .primaryLink {
     transition: none;
   }
 
+  .primaryButton:active,
   .primaryLink:active {
     transform: none;
   }

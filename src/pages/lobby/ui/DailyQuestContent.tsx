@@ -2,14 +2,16 @@
 
 import styles from "./DailyQuestContent.module.css";
 import type { DailyQuest } from "@/entities/daily-quest";
+import { AuthRequiredModal } from "@/features/auth";
 import {
   claimDailyQuestRewardsAction,
   type ClaimDailyQuestRewardsState,
 } from "@/features/daily-quest/api/dailyQuest.actions";
+import { trackEvent } from "@/shared/lib/analytics";
 import { playSuccessSound } from "@/shared/lib/sound/soundPlayer";
 import { useSoundStore } from "@/shared/model/sound/soundStore";
 import { BeanIcon, CheckCircleIcon, CircleIcon } from "lucide-react";
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 
 interface DailyQuestContentProps {
   isAuthenticated: boolean;
@@ -30,21 +32,19 @@ export default function DailyQuestContent({
     claimDailyQuestRewardsAction,
     INITIAL_CLAIM_STATE,
   );
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const previousClaimStateRef = useRef(claimState);
   const soundSettings = useSoundStore((state) => state.soundSettings);
   const claimableReward = quests.reduce(
     (sum, quest) => (quest.status === "completed" ? sum + quest.reward : sum),
     0,
   );
-  const isClaimDisabled =
-    !isAuthenticated || claimableReward === 0 || isClaimPending;
-  const buttonLabel = isAuthenticated
-    ? isClaimPending
-      ? "받는 중"
-      : claimableReward > 0
+  const isClaimDisabled = claimableReward === 0 || isClaimPending;
+  const buttonLabel = isClaimPending
+    ? "받는 중"
+    : claimableReward > 0
       ? "보상 받기"
-      : "데일리 퀘스트 완료!"
-    : "로그인 후 받기";
+      : "데일리 퀘스트 완료!";
 
   useEffect(() => {
     if (
@@ -92,7 +92,19 @@ export default function DailyQuestContent({
           );
         })}
       </div>
-      <form action={claimAction} className={styles.receiveForm}>
+      <form
+        action={isAuthenticated ? claimAction : undefined}
+        className={styles.receiveForm}
+        onSubmit={(event) => {
+          if (isAuthenticated) {
+            return;
+          }
+
+          event.preventDefault();
+          trackEvent("anonymous_reward_attempt", { source: "daily_quest" });
+          setIsAuthModalOpen(true);
+        }}
+      >
         <button className={styles.receiveButton} disabled={isClaimDisabled}>
           <span>{buttonLabel}</span>
         </button>
@@ -101,6 +113,15 @@ export default function DailyQuestContent({
         <p className={styles.claimMessage} data-success={claimState.success}>
           {claimState.message}
         </p>
+      )}
+      {isAuthModalOpen && (
+        <AuthRequiredModal
+          title="로그인해야 보상을 받을 수 있어요"
+          description="게스트로 시작하거나 로그인하면 데일리 퀘스트 보상과 콩 기록을 저장할 수 있어요."
+          reason="claim_reward"
+          source="daily_quest"
+          onClose={() => setIsAuthModalOpen(false)}
+        />
       )}
     </div>
   );

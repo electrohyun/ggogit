@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import {
   GUEST_ENTRY_COOKIE,
   GUEST_NAME_COOKIE,
@@ -19,10 +18,6 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   const isGuest = cookieStore.get(GUEST_ENTRY_COOKIE)?.value === "guest";
   const guestName = cookieStore.get(GUEST_NAME_COOKIE)?.value;
   const guestSessionId = cookieStore.get(GUEST_SESSION_ID_COOKIE)?.value;
-
-  if (!data?.claims && !isGuest) {
-    redirect("/");
-  }
 
   const initialCurrentUser = await getCurrentUser({
     claims: data?.claims ?? null,

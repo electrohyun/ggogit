@@ -4,8 +4,10 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
 import { ChevronLeft } from "lucide-react";
 
-import { getOrCreateGuestIdentity } from "@/entities/user";
+import { getOrCreateGuestIdentity, useCurrentUserStore } from "@/entities/user";
+import { AuthRequiredModal } from "@/features/auth";
 import { createQuestionPost } from "@/features/community/api/communityQuestions.action";
+import { trackEvent } from "@/shared/lib/analytics";
 import { SoundLink } from "@/shared/ui/sound-link";
 import styles from "./CommunityQuestionNewPage.module.css";
 
@@ -14,10 +16,20 @@ export default function NewQuestionPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const authRole = useCurrentUserStore((state) => state.currentUser.authRole);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (authRole === "anonymous") {
+      trackEvent("anonymous_community_write_attempt", {
+        source: "question",
+      });
+      setIsAuthModalOpen(true);
+      return;
+    }
 
     const identity = getOrCreateGuestIdentity();
 
@@ -91,6 +103,15 @@ export default function NewQuestionPage() {
           </button>
         </div>
       </form>
+      {isAuthModalOpen && (
+        <AuthRequiredModal
+          title="로그인해야 질문할 수 있어요"
+          description="게스트로 시작하거나 로그인하면 질문을 남기고 답변을 받을 수 있어요."
+          reason="write_community"
+          source="community"
+          onClose={() => setIsAuthModalOpen(false)}
+        />
+      )}
     </div>
   );
 }
