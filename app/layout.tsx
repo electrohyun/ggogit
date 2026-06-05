@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const pretendard = localFont({
@@ -66,7 +67,10 @@ export default function RootLayout({
       lang="ko"
       className={`${pretendard.variable} ${schoolSafeDiary.variable} ${cascadiaCode.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
