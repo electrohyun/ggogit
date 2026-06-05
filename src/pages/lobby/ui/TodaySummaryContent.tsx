@@ -1,32 +1,42 @@
 import { BookOpen, TimerIcon, TrophyIcon } from "lucide-react";
 import styles from "./TodaySummaryContent.module.css";
 
-const TODAY_SUMMARY_ITEMS = [
-  {
-    id: "learned-stages",
-    label: "학습한 스테이지",
-    value: "3",
-    icon: BookOpen,
-  },
-  {
-    id: "completed-missions",
-    label: "완료한 미션",
-    value: "12",
-    icon: TrophyIcon,
-  },
-  {
-    id: "study-time",
-    label: "학습 시간",
-    value: "1h 32m",
-    icon: TimerIcon,
-  },
-] as const;
+interface TodaySummaryContentProps {
+  challengeCompleted: boolean;
+  joinedDayCount: number;
+  learnedStageCount: number;
+}
 
-export default function TodaySummaryContent() {
+export default function TodaySummaryContent({
+  challengeCompleted,
+  joinedDayCount,
+  learnedStageCount,
+}: TodaySummaryContentProps) {
+  const summaryItems = [
+    {
+      id: "learned-stages",
+      label: "학습한 스테이지",
+      value: String(learnedStageCount),
+      icon: BookOpen,
+    },
+    {
+      id: "challenge-completed",
+      label: "오늘의 챌린지",
+      value: challengeCompleted ? "완료" : "미완료",
+      icon: TrophyIcon,
+    },
+    {
+      id: "joined-days",
+      label: "함께한 날",
+      value: `${joinedDayCount}일째`,
+      icon: TimerIcon,
+    },
+  ] as const;
+
   return (
     <div className={styles.todaySummaryCard}>
       <div className={styles.todaySummaryCardContent}>
-        {TODAY_SUMMARY_ITEMS.map((item) => {
+        {summaryItems.map((item) => {
           const Icon = item.icon;
 
           return (

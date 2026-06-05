@@ -1,4 +1,4 @@
-import { Calendar, History, Trophy } from "lucide-react";
+import { Calendar, History, MessagesSquare } from "lucide-react";
 import Link from "next/link";
 import styles from "./QuickActions.module.css";
 
@@ -18,16 +18,16 @@ const QUICK_ACTIONS = [
   {
     id: "daily-quiz",
     label: "오늘의 퀴즈",
-    href: "/study",
+    href: "/challenge",
     icon: Calendar,
     className: styles.quizButton,
     completed: false,
   },
   {
-    id: "random-quiz",
-    label: "랜덤 문제",
-    href: "/challenge",
-    icon: Trophy,
+    id: "questions",
+    label: "질문과 대답",
+    href: "/community/questions",
+    icon: MessagesSquare,
     className: styles.challengeButton,
     completed: false,
   },

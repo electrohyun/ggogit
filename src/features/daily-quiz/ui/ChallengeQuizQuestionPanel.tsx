@@ -19,11 +19,14 @@ import { useChallengeQuizContext } from "./ChallengeQuizProvider";
 export default function ChallengeQuizQuestionPanel() {
   const {
     commandAnswer,
+    correctAnswer,
     currentIndex,
     currentQuestion,
     elapsedMs,
+    errorMessage,
     isCorrect,
     isFeedback,
+    isPending,
     progressPercent,
     questionCount,
     selectedAnswer,
@@ -84,8 +87,8 @@ export default function ChallengeQuizQuestionPanel() {
         {currentQuestion.type === "mcq" && currentQuestion.options && (
           <div className={styles.optionGrid}>
             {currentQuestion.options.map((option) => {
-              const isSelected = selectedAnswer === option;
-              const isAnswer = currentQuestion.answer === option;
+              const isSelected = selectedAnswer === option.id;
+              const isAnswer = correctAnswer === option.id;
               const status =
                 submittedAnswer && isAnswer
                   ? "correct"
@@ -97,12 +100,12 @@ export default function ChallengeQuizQuestionPanel() {
 
               return (
                 <button
-                  key={option}
+                  key={option.id}
                   type="button"
                   className={styles.optionButton}
                   data-status={status}
-                  disabled={isFeedback}
-                  onClick={() => selectAnswer(option)}
+                  disabled={isFeedback || isPending}
+                  onClick={() => selectAnswer(option.id)}
                 >
                   <span className={styles.optionIcon}>
                     {submittedAnswer ? (
@@ -119,7 +122,7 @@ export default function ChallengeQuizQuestionPanel() {
                       <Circle size={20} aria-hidden="true" />
                     )}
                   </span>
-                  <span>{option}</span>
+                  <span>{option.text}</span>
                 </button>
               );
             })}
@@ -132,7 +135,7 @@ export default function ChallengeQuizQuestionPanel() {
             <input
               value={commandAnswer}
               placeholder={currentQuestion.placeholder}
-              disabled={isFeedback}
+              disabled={isFeedback || isPending}
               onChange={(event) => setCommandAnswer(event.target.value)}
             />
           </label>
@@ -145,23 +148,31 @@ export default function ChallengeQuizQuestionPanel() {
           </div>
         )}
 
+        {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
+
         <div className={styles.quizActions}>
           {isFeedback ? (
             <button
               type="button"
               className={styles.primaryButton}
+              disabled={isPending}
               onClick={goNext}
             >
-              {currentIndex === questionCount - 1 ? "결과 보기" : "다음 문제 풀기"}
+              {isPending
+                ? "저장 중..."
+                : currentIndex === questionCount - 1
+                  ? "결과 보기"
+                  : "다음 문제 풀기"}
             </button>
           ) : (
             <button
               type="button"
               className={styles.primaryButton}
               disabled={
-                currentQuestion.type === "command"
+                isPending ||
+                (currentQuestion.type === "command"
                   ? normalizeCommand(commandAnswer).length === 0
-                  : !selectedAnswer
+                  : !selectedAnswer)
               }
               onClick={() =>
                 submitAnswer(
@@ -172,7 +183,7 @@ export default function ChallengeQuizQuestionPanel() {
               }
             >
               <Send size={18} aria-hidden="true" />
-              제출하기
+              {isPending ? "채점 중..." : "제출하기"}
             </button>
           )}
         </div>
