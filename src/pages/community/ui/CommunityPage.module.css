@@ -47,6 +47,18 @@
   font-weight: bold;
 }
 
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.formError {
+  margin: 0;
+  color: var(--danger, #d33);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
 .divider {
   margin-top: 20px;
   margin-bottom: 15px;
@@ -75,13 +87,26 @@
   object-fit: cover;
 }
 
+.avatarLink {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.avatarLink:focus-visible {
+  outline: 3px solid var(--primary-strong);
+  outline-offset: 2px;
+}
+
 .commentBubble {
   display: flex;
   flex-direction: column;
   min-width: 0;
   padding: 10px 14px;
   border-radius: 10px;
-  background-color: var(--primary-base);
+  background-color: var(--primary-pale);
+  border: var(--primary-soft) 2px solid;
 }
 
 .nickname {
@@ -147,6 +172,11 @@
   }
 
   .avatar {
+    width: 44px;
+    height: 44px;
+  }
+
+  .avatarLink {
     width: 44px;
     height: 44px;
   }

@@ -13,17 +13,6 @@ export default async function CommunityPage() {
         <h1>방명록</h1>
         <p>({guestbookPosts.length})</p>
       </div>
-      <form className={styles.form}>
-        <textarea
-          rows={4}
-          placeholder="착한말 고운말!"
-          className={styles.textarea}
-        />
-        <button type="submit" className={styles.button}>
-          등록
-        </button>
-      </form>
-      <hr className={styles.divider} />
       <CommunityGuestbookList entries={guestbookPosts} />
     </div>
   );
