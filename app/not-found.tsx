@@ -16,7 +16,7 @@ export default function NotFound() {
         />
         <p className={styles.eyebrow}>404</p>
         <h1 id="not-found-title" className={styles.title}>
-          길을 잃었어요
+          헉!!! 길을 잃었어요
         </h1>
         <p className={styles.description}>
           찾는 페이지가 없거나, 주소가 꼬깃꼬깃 접혀버렸어요.

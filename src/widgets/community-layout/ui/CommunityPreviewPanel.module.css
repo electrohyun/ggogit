@@ -42,7 +42,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: min(68%, calc(100% - 128px));
+  width: min(64%, calc(100% - 118px));
   padding: 16px;
 }
 
@@ -62,12 +62,13 @@
 .tipImage {
   position: absolute;
   right: 8px;
-  bottom: 0;
-  width: clamp(104px, 28%, 132px);
-  max-height: calc(100% - 10px);
+  top: 50%;
+  width: clamp(124px, 32%, 154px);
+  max-height: calc(100% - 8px);
   height: auto;
   object-fit: contain;
-  object-position: right bottom;
+  object-position: right center;
+  transform: translateY(-50%);
 }
 
 .noticeList,
