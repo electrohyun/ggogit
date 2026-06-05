@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition, type FormEvent } from "react";
 
@@ -9,6 +8,7 @@ import { ggoggoSmile } from "@/assets/mascot";
 import type { CommunityComment } from "@/entities/community";
 import { getOrCreateGuestIdentity } from "@/entities/user";
 import { createCommunityComment } from "@/features/community/api/communityComments.action";
+import { SoundLink } from "@/shared/ui/sound-link";
 import styles from "./CommunityQuestionDetailPage.module.css";
 
 interface CommunityQuestionCommentsProps {
@@ -77,7 +77,7 @@ export default function CommunityQuestionComments({
           {visibleComments.map((comment) => (
             <article key={comment.id} className={styles.answerItem}>
               {comment.authorId ? (
-                <Link
+                <SoundLink
                   href={`/profile/${comment.authorId}`}
                   className={styles.avatarLink}
                   aria-label={`${comment.authorName} 프로필 보기`}
@@ -89,7 +89,7 @@ export default function CommunityQuestionComments({
                     height={44}
                     className={styles.avatar}
                   />
-                </Link>
+                </SoundLink>
               ) : (
                 <Image
                   src={comment.authorAvatarUrl ?? ggoggoSmile}

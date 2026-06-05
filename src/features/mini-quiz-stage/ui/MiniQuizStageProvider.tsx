@@ -11,6 +11,11 @@ import {
 import { useRouter } from "next/navigation";
 
 import { useCurrentUserStore } from "@/entities/user";
+import {
+  playCorrectSound,
+  playWrongSound,
+} from "@/shared/lib/sound/soundPlayer";
+import { useSoundStore } from "@/shared/model/sound/soundStore";
 import { submitMiniQuizAnswer } from "../api/miniQuizStage.actions";
 import { getQuestionLimitMs } from "../model/quizUtils";
 import type { QuizQuestion } from "../model/types";
@@ -89,6 +94,7 @@ export default function MiniQuizStageProvider({
   stageTitle,
 }: MiniQuizStageProviderProps) {
   const router = useRouter();
+  const soundSettings = useSoundStore((state) => state.soundSettings);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [commandAnswer, setCommandAnswer] = useState("");
@@ -158,6 +164,11 @@ export default function MiniQuizStageProvider({
         setIsFailed(result.isFailed);
         setStageRewardBeans(result.earnedBeans);
         setStreakIncremented(result.streakIncremented);
+        if (result.isCorrect) {
+          playCorrectSound(soundSettings);
+        } else {
+          playWrongSound(soundSettings);
+        }
 
         if (result.earnedBeans > 0 || result.streakIncremented) {
           const { currentUser, updateCurrentUser } =
@@ -180,6 +191,7 @@ export default function MiniQuizStageProvider({
       isFeedback,
       isSubmitting,
       questions,
+      soundSettings,
       timeLeftMs,
     ],
   );
@@ -229,6 +241,9 @@ export default function MiniQuizStageProvider({
   const goNext = () => {
     if (currentIndex === questions.length - 1) {
       setIsResult(true);
+      if (isCleared) {
+        playCorrectSound(soundSettings);
+      }
       setRewardModalKind(
         stageRewardBeans > 0
           ? "beans"

@@ -81,6 +81,11 @@
   height: auto;
   object-fit: contain;
   align-self: center;
+  transition: transform 180ms ease;
+}
+
+.continueCard:hover .continueImage {
+  transform: scale(1.04);
 }
 
 .continueButton {

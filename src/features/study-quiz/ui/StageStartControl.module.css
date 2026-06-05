@@ -14,6 +14,11 @@
   cursor: pointer;
   font: inherit;
   text-align: left;
+  transition: transform 120ms ease;
+}
+
+.stageNode:active {
+  transform: scale(0.98);
 }
 
 .stageNode[data-status="completed"] {
@@ -219,6 +224,12 @@
   font-size: 16px;
   font-weight: 700;
   white-space: nowrap;
+  transition: transform 120ms ease;
+}
+
+.stageModalGhostButton:active,
+.stageModalStartButton:active {
+  transform: scale(0.97);
 }
 
 .stageModalGhostButton {
@@ -242,6 +253,20 @@
   .stageModalGhostButton,
   .stageModalStartButton {
     width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stageNode,
+  .stageModalGhostButton,
+  .stageModalStartButton {
+    transition: none;
+  }
+
+  .stageNode:active,
+  .stageModalGhostButton:active,
+  .stageModalStartButton:active {
+    transform: none;
   }
 }
 

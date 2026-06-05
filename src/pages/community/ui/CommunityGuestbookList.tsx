@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition, type FormEvent } from "react";
 import { ChevronDown } from "lucide-react";
@@ -13,6 +12,7 @@ import {
 } from "@/entities/community";
 import { getOrCreateGuestIdentity } from "@/entities/user";
 import { createGuestbookPost } from "@/features/community/api/communityGuestbook.action";
+import { SoundLink } from "@/shared/ui/sound-link";
 import styles from "./CommunityPage.module.css";
 
 interface CommunityGuestbookListProps {
@@ -99,7 +99,7 @@ export default function CommunityGuestbookList({
         {visibleEntries.map((entry) => (
           <div key={entry.id} className={styles.commentBox}>
             {entry.authorId ? (
-              <Link
+              <SoundLink
                 href={`/profile/${entry.authorId}`}
                 className={styles.avatarLink}
                 aria-label={`${entry.authorName} 프로필 보기`}
@@ -111,7 +111,7 @@ export default function CommunityGuestbookList({
                   height={44}
                   className={styles.avatar}
                 />
-              </Link>
+              </SoundLink>
             ) : (
               <Image
                 src={entry.authorAvatarUrl ?? ggoggoSmile}

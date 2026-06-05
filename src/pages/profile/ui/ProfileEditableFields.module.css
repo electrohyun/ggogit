@@ -273,6 +273,12 @@
   bottom: 0;
   width: clamp(56px, 16vw, 68px);
   height: auto;
+  transform-origin: 50% 82%;
+  transition: transform 180ms ease;
+}
+
+.certificate:hover .sealImage {
+  transform: scale(1.06) rotate(-4deg);
 }
 
 @media (min-width: 768px) {

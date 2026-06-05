@@ -7,6 +7,8 @@ import type {
   MiniQuizStage,
   StageStatus,
 } from "@/entities/mini-quiz";
+import { playClickSound } from "@/shared/lib/sound/soundPlayer";
+import { useSoundStore } from "@/shared/model/sound/soundStore";
 import StageStartModal from "./StageStartModal";
 import styles from "./StageStartControl.module.css";
 
@@ -38,9 +40,14 @@ export default function StageStartControl({
   stageNumber,
 }: StageStartControlProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const soundSettings = useSoundStore((state) => state.soundSettings);
   const StageIcon = STATUS_ICONS[stage.status];
   const isLocked = stage.status === "locked";
   const startHref = `/study/${chapterId}/${stage.id}`;
+  const handleOpenStage = () => {
+    playClickSound(soundSettings);
+    setIsOpen(true);
+  };
 
   return (
     <>
@@ -49,7 +56,7 @@ export default function StageStartControl({
         className={styles.stageNode}
         data-status={stage.status}
         aria-label={`${chapterTitle} ${stage.title}: ${STATUS_LABELS[stage.status]}`}
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpenStage}
       >
         <span className={styles.stageBadge}>
           <StageIcon size={22} aria-hidden="true" />

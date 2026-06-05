@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
+
+import { SoundLink } from "@/shared/ui/sound-link";
 
 interface AppNavLinkProps {
   href: string;
@@ -19,12 +20,12 @@ export default function AppNavLink({
   const isActive = pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <Link
+    <SoundLink
       href={href}
       className={className}
       aria-current={isActive ? "page" : undefined}
     >
       {children}
-    </Link>
+    </SoundLink>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
+import { SoundLink } from "@/shared/ui/sound-link";
 import MiniQuizActions from "./MiniQuizActions";
 import MiniQuizAnswerForm from "./MiniQuizAnswerForm";
 import MiniQuizFailModal from "./MiniQuizFailModal";
@@ -37,10 +37,10 @@ export default function MiniQuizStageView() {
     <>
       <MiniQuizFailModal />
       <div className={styles.quizPage}>
-        <Link href="/study" className={styles.backLink}>
+        <SoundLink href="/study" className={styles.backLink}>
           <ArrowLeft size={18} aria-hidden="true" />
           스테이지 선택으로
-        </Link>
+        </SoundLink>
 
         <section className={styles.questionPanel} aria-labelledby="question-title">
           <MiniQuizHud />

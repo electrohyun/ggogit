@@ -17,6 +17,12 @@
   border-radius: 999px;
   font: inherit;
   font-size: 17px;
+  transition: transform 120ms ease;
+}
+
+.secondaryButton:active,
+.primaryLink:active {
+  transform: scale(0.97);
 }
 
 .primaryLink {
@@ -29,6 +35,18 @@
   background: var(--surface);
   border: 2px solid var(--border);
   cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .secondaryButton,
+  .primaryLink {
+    transition: none;
+  }
+
+  .secondaryButton:active,
+  .primaryLink:active {
+    transform: none;
+  }
 }
 
 @media (max-width: 767px) {

@@ -1,9 +1,10 @@
-import Link from "next/link";
+import type { CSSProperties } from "react";
 import type { DailyQuest, DailyQuestKey } from "@/entities/daily-quest";
 import type { MiniQuizStage } from "@/entities/mini-quiz";
 import { getLatestCommunityPostsByBoard } from "@/features/community/api/communityPosts";
 import { createClient } from "@/shared/lib/supabase/server";
 import { Card } from "@/shared/ui/card";
+import { SoundLink } from "@/shared/ui/sound-link";
 import styles from "./LobbyPage.module.css";
 import CommunityContent from "./CommunityContent";
 import ContinueCardContent from "./ContinueCardContent";
@@ -35,6 +36,35 @@ const DAILY_QUEST_DEFINITIONS = [
     title: "오늘의 챌린지 완료",
   },
 ] as const satisfies readonly Pick<DailyQuest, "id" | "reward" | "title">[];
+const FALLING_DECORATIONS = [
+  { delay: "-1s", duration: "22s", drift: "6s", kind: "bean", left: "7%" },
+  { delay: "-8s", duration: "28s", drift: "7s", kind: "leaf", left: "15%" },
+  { delay: "-15s", duration: "24s", drift: "5s", kind: "bean", left: "24%" },
+  { delay: "-4s", duration: "31s", drift: "8s", kind: "sprout", left: "33%" },
+  { delay: "-18s", duration: "27s", drift: "6s", kind: "leaf", left: "42%" },
+  { delay: "-10s", duration: "23s", drift: "7s", kind: "bean", left: "50%" },
+  { delay: "-2s", duration: "30s", drift: "8s", kind: "leaf", left: "59%" },
+  { delay: "-20s", duration: "26s", drift: "5s", kind: "sprout", left: "67%" },
+  { delay: "-12s", duration: "29s", drift: "6s", kind: "bean", left: "76%" },
+  { delay: "-6s", duration: "25s", drift: "7s", kind: "leaf", left: "84%" },
+  { delay: "-16s", duration: "32s", drift: "8s", kind: "bean", left: "91%" },
+  { delay: "-23s", duration: "27s", drift: "6s", kind: "leaf", left: "98%" },
+  { delay: "-5s", duration: "33s", drift: "7s", kind: "sprout", left: "3%" },
+  { delay: "-19s", duration: "26s", drift: "6s", kind: "bean", left: "19%" },
+  { delay: "-11s", duration: "34s", drift: "8s", kind: "leaf", left: "29%" },
+  { delay: "-25s", duration: "28s", drift: "7s", kind: "bean", left: "38%" },
+  { delay: "-7s", duration: "31s", drift: "6s", kind: "sprout", left: "55%" },
+  { delay: "-21s", duration: "24s", drift: "5s", kind: "leaf", left: "72%" },
+  { delay: "-14s", duration: "30s", drift: "7s", kind: "bean", left: "88%" },
+  { delay: "-28s", duration: "35s", drift: "8s", kind: "leaf", left: "94%" },
+] as const;
+
+type FallingDecorationStyle = CSSProperties & {
+  "--fall-delay": string;
+  "--fall-drift-duration": string;
+  "--fall-duration": string;
+  "--fall-left": string;
+};
 
 interface LobbyActivityStats {
   currentStreakDays: number;
@@ -462,7 +492,25 @@ export default async function LobbyPage() {
 
   return (
     <>
-      <div className={styles.lobbyGrid}>
+      <div className={styles.lobbyStage}>
+        <div className={styles.fallingLayer} aria-hidden="true">
+          {FALLING_DECORATIONS.map((decoration, index) => (
+            <span
+              key={`${decoration.kind}-${index}`}
+              className={styles.fallingDecoration}
+              data-kind={decoration.kind}
+              style={
+                {
+                  "--fall-delay": decoration.delay,
+                  "--fall-drift-duration": decoration.drift,
+                  "--fall-duration": decoration.duration,
+                  "--fall-left": decoration.left,
+                } as FallingDecorationStyle
+              }
+            />
+          ))}
+        </div>
+        <div className={styles.lobbyGrid}>
         <Card
           id="continue-card"
           title="이어하기"
@@ -528,7 +576,9 @@ export default async function LobbyPage() {
         <Card
           id="community-card"
           title="커뮤니티 인기 질문"
-          headerAction={<Link href="/community/questions">더 보기</Link>}
+          headerAction={
+            <SoundLink href="/community/questions">더 보기</SoundLink>
+          }
           className={`${styles.span4} ${styles.backgroundPrimaryPale} ${styles.desktopOnly}`}
         >
           <CommunityContent questions={popularQuestions} />
@@ -540,6 +590,7 @@ export default async function LobbyPage() {
         >
           <DailyTipContent tip={dailyTip} />
         </Card>
+        </div>
       </div>
     </>
   );

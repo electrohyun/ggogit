@@ -1,5 +1,5 @@
 import { Calendar, History, MessagesSquare } from "lucide-react";
-import Link from "next/link";
+import { SoundLink } from "@/shared/ui/sound-link";
 import styles from "./QuickActions.module.css";
 
 interface QuickActionsProps {
@@ -40,7 +40,7 @@ export default function QuickActions({ className }: QuickActionsProps) {
         const Icon = action.icon;
 
         return (
-          <Link
+          <SoundLink
             href={action.href}
             key={action.id}
             className={`${styles.quickActionButton} ${action.className}`}
@@ -50,7 +50,7 @@ export default function QuickActions({ className }: QuickActionsProps) {
             {action.completed && (
               <span className={styles.completedOverlay}>완료!</span>
             )}
-          </Link>
+          </SoundLink>
         );
       })}
     </div>

@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { MessageCircle, ThumbsUp } from "lucide-react";
 import type { CommunityPost } from "@/entities/community";
+import { SoundLink } from "@/shared/ui/sound-link";
 import styles from "./CommunityContent.module.css";
 
 interface CommunityContentProps {
@@ -20,12 +20,12 @@ export default function CommunityContent({ questions }: CommunityContentProps) {
             Q
           </span>
 
-          <Link
+          <SoundLink
             href={`/community/questions/${question.id}`}
             className={styles.questionTitle}
           >
             {question.title}
-          </Link>
+          </SoundLink>
 
           <div className={styles.meta}>
             <span aria-label={`추천 ${question.likeCount}개`}>

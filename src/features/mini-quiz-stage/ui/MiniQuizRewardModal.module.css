@@ -33,6 +33,13 @@
   position: relative;
   z-index: 1;
   object-fit: contain;
+  transform-origin: 50% 82%;
+  transition: transform 180ms ease;
+}
+
+.visualStage:hover .mascotImage,
+.visualStage:hover .streakImage {
+  transform: scale(1.05) rotate(3deg);
 }
 
 .mascotImage {

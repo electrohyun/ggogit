@@ -5,6 +5,8 @@ import { useState } from "react";
 import { ggoggoWalk } from "@/assets/mascot";
 import type { MiniQuizStage } from "@/entities/mini-quiz";
 import StageStartModal from "@/features/study-quiz/ui/StageStartModal";
+import { playClickSound } from "@/shared/lib/sound/soundPlayer";
+import { useSoundStore } from "@/shared/model/sound/soundStore";
 import styles from "./ContinueCardContent.module.css";
 
 interface ContinueCardContentProps {
@@ -27,7 +29,12 @@ export default function ContinueCardContent({
   totalProgressText,
 }: ContinueCardContentProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const soundSettings = useSoundStore((state) => state.soundSettings);
   const isLocked = stage.status === "locked";
+  const openStartModal = () => {
+    playClickSound(soundSettings);
+    setIsOpen(true);
+  };
 
   return (
     <>
@@ -36,7 +43,7 @@ export default function ContinueCardContent({
           type="button"
           className={styles.mobileCardLink}
           aria-label={`${stageNumber} ${stageTitle} 이어하기`}
-          onClick={() => setIsOpen(true)}
+          onClick={openStartModal}
         />
         <div className={styles.continueInfo}>
           <div className={styles.stageInfo}>
@@ -63,7 +70,7 @@ export default function ContinueCardContent({
             <button
               type="button"
               className={styles.continueButton}
-              onClick={() => setIsOpen(true)}
+              onClick={openStartModal}
             >
               이어하기
             </button>

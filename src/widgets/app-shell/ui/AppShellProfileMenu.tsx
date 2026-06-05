@@ -4,8 +4,8 @@ import { ggoggoSmile } from "@/assets/mascot";
 import type { CurrentUser } from "@/entities/user";
 import { playClickSound } from "@/shared/lib/sound/soundPlayer";
 import { useSoundStore } from "@/shared/model/sound/soundStore";
+import { SoundLink } from "@/shared/ui/sound-link";
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import styles from "./AppShellProfileMenu.module.css";
 
@@ -66,22 +66,22 @@ export default function AppShellProfileMenu({
       </button>
       {isOpen ? (
         <div className={styles.menu} role="menu">
-          <Link
+          <SoundLink
             className={styles.menuItem}
             href="/profile"
             role="menuitem"
             onClick={() => setIsOpen(false)}
           >
             내 정보
-          </Link>
-          <Link
+          </SoundLink>
+          <SoundLink
             className={styles.menuItem}
             href="/auth/logout"
             role="menuitem"
             onClick={() => setIsOpen(false)}
           >
             로그아웃
-          </Link>
+          </SoundLink>
           <div className={styles.soundPanel}>
             <label className={styles.soundRange}>
               <span>배경음 볼륨</span>

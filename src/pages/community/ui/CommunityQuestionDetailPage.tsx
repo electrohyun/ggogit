@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ggoggoSmile } from "@/assets/mascot";
@@ -7,6 +6,7 @@ import { getCommunityFirstParagraph } from "@/entities/community";
 import { getCommunityCommentsByPostId } from "@/features/community/api/communityComments";
 import { getCommunityPostById } from "@/features/community/api/communityPosts";
 import { createClient } from "@/shared/lib/supabase/server";
+import { SoundLink } from "@/shared/ui/sound-link";
 import CommunityPostViewCounter from "./CommunityPostViewCounter";
 import CommunityQuestionActions from "./CommunityQuestionActions";
 import CommunityQuestionComments from "./CommunityQuestionComments";
@@ -39,7 +39,7 @@ export default async function QuestionDetailPage({
             <h1>{question.title}</h1>
             <div className={styles.questionMeta}>
               {question.authorId ? (
-                <Link
+                <SoundLink
                   href={`/profile/${question.authorId}`}
                   className={styles.avatarLink}
                   aria-label={`${question.authorName} 프로필 보기`}
@@ -51,7 +51,7 @@ export default async function QuestionDetailPage({
                     height={44}
                     className={styles.avatar}
                   />
-                </Link>
+                </SoundLink>
               ) : (
                 <Image
                   src={question.authorAvatarUrl ?? ggoggoSmile}

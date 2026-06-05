@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import {
   ArrowLeft,
   CheckCircle2,
@@ -12,6 +11,7 @@ import {
 } from "lucide-react";
 
 import { ggoggoThumbsUp } from "@/assets/mascot";
+import { SoundLink } from "@/shared/ui/sound-link";
 import { formatElapsedTime, normalizeCommand } from "../model/quizUtils";
 import styles from "./ChallengeQuizQuestionPanel.module.css";
 import { useChallengeQuizContext } from "./ChallengeQuizProvider";
@@ -39,10 +39,10 @@ export default function ChallengeQuizQuestionPanel() {
 
   return (
     <div className={styles.challengeQuizPage}>
-      <Link href="/challenge" className={styles.backLink}>
+      <SoundLink href="/challenge" className={styles.backLink}>
         <ArrowLeft size={18} aria-hidden="true" />
         도전 화면으로
-      </Link>
+      </SoundLink>
 
       <section className={styles.questionPanel} aria-labelledby="question-title">
         <div className={styles.questionHeader}>

@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
 import { ChevronLeft } from "lucide-react";
 
 import { getOrCreateGuestIdentity } from "@/entities/user";
 import { createQuestionPost } from "@/features/community/api/communityQuestions.action";
+import { SoundLink } from "@/shared/ui/sound-link";
 import styles from "./CommunityQuestionNewPage.module.css";
 
 export default function NewQuestionPage() {
@@ -75,10 +75,13 @@ export default function NewQuestionPage() {
         {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
 
         <div className={styles.actions}>
-          <Link href="/community/questions" className={styles.cancelButton}>
+          <SoundLink
+            href="/community/questions"
+            className={styles.cancelButton}
+          >
             <ChevronLeft size={18} aria-hidden="true" />
             목록으로
-          </Link>
+          </SoundLink>
           <button
             type="submit"
             className={styles.submitButton}

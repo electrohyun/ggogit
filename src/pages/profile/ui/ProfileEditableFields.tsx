@@ -4,6 +4,8 @@ import { ggoggoSeal, ggoggoSmile } from "@/assets/mascot";
 import type { UserProfile } from "@/entities/profile";
 import { useCurrentUserStore } from "@/entities/user";
 import { updateUserProfile, updateUserProfileAvatar } from "@/features/profile";
+import { playSuccessSound } from "@/shared/lib/sound/soundPlayer";
+import { useSoundStore } from "@/shared/model/sound/soundStore";
 import { Camera } from "lucide-react";
 import Image from "next/image";
 import { ChangeEvent, FormEvent, useRef, useState, useTransition } from "react";
@@ -29,6 +31,7 @@ export default function ProfileEditableFields({
   const updateCurrentUser = useCurrentUserStore(
     (state) => state.updateCurrentUser,
   );
+  const soundSettings = useSoundStore((state) => state.soundSettings);
   const avatarImage = avatarUrl ?? ggoggoSmile;
 
   const handleAvatarButtonClick = () => {
@@ -59,6 +62,7 @@ export default function ProfileEditableFields({
 
       setAvatarUrl(result.data.avatarUrl);
       updateCurrentUser({ avatarUrl: result.data.avatarUrl });
+      playSuccessSound(soundSettings);
     });
   };
 
@@ -78,6 +82,7 @@ export default function ProfileEditableFields({
       setBio(result.data.bio);
       updateCurrentUser(result.data);
       setIsEditing(false);
+      playSuccessSound(soundSettings);
     });
   };
 

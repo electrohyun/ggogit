@@ -3,7 +3,6 @@
 import { logoEng, logoKor } from "@/assets/brand";
 import { ggoggoAsk, ggoggoSmile } from "@/assets/mascot";
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Bean,
@@ -31,7 +30,11 @@ import {
 import type { CommunityPost } from "@/entities/community";
 import { playClickSound } from "@/shared/lib/sound/soundPlayer";
 import { useSoundStore } from "@/shared/model/sound/soundStore";
+import { SoundLink } from "@/shared/ui/sound-link";
 import { getAppShellGreeting } from "../model/greeting";
+
+const isGameBgmPath = (pathname: string) =>
+  pathname === "/challenge/play" || /^\/study\/[^/]+\/[^/]+$/.test(pathname);
 
 interface AppShellProps {
   children: ReactNode;
@@ -50,6 +53,7 @@ export default function AppShell({
   const currentUser = useCurrentUserStore((state) => state.currentUser);
   const setCurrentUser = useCurrentUserStore((state) => state.setCurrentUser);
   const loadSoundSettings = useSoundStore((state) => state.loadSoundSettings);
+  const setBgmKind = useSoundStore((state) => state.setBgmKind);
   const soundSettings = useSoundStore((state) => state.soundSettings);
   const updateSoundSettings = useSoundStore(
     (state) => state.updateSoundSettings,
@@ -66,6 +70,10 @@ export default function AppShell({
   useEffect(() => {
     loadSoundSettings();
   }, [loadSoundSettings]);
+
+  useEffect(() => {
+    setBgmKind(isGameBgmPath(pathname ?? "") ? "game" : "site");
+  }, [pathname, setBgmKind]);
 
   useEffect(() => {
     if (!initialCurrentUser.isGuest) {
@@ -106,7 +114,7 @@ export default function AppShell({
     <>
       <header className={styles.header}>
         <div className={styles.logoContainer}>
-          <Link href="/lobby" className={styles.logoLink}>
+          <SoundLink href="/lobby" className={styles.logoLink}>
             <Image
               src={logoEng}
               alt="꼬깃 영어 로고"
@@ -119,13 +127,18 @@ export default function AppShell({
               width={60}
               className={styles.logoKor}
             />
-          </Link>
+          </SoundLink>
         </div>
         <div className={styles.nonLogoContainer}>
           <div className={styles.greetingContainer}>
             <AppLocation className={styles.location} />
             <div className={styles.ggoggo}>
-              <Image src={ggoggoSmile} alt="꼬꼬 웃는 얼굴" width={50} />
+              <Image
+                src={ggoggoSmile}
+                alt="꼬꼬 웃는 얼굴"
+                width={50}
+                className={styles.ggoggoSticker}
+              />
               <p className={styles.ggoggoGreeting}>{greeting}</p>
             </div>
           </div>
@@ -215,16 +228,19 @@ export default function AppShell({
               <span id="notice-title" className={styles.sectionTitle}>
                 공지사항
               </span>
-              <Link href="/community/notices" className={styles.noticeMore}>
+              <SoundLink
+                href="/community/notices"
+                className={styles.noticeMore}
+              >
                 더보기
                 <ChevronRight size={16} />
-              </Link>
+              </SoundLink>
             </div>
             <ul className={styles.noticeList}>
               {notices.length > 0 ? (
                 notices.map((notice) => (
                   <li key={notice.id} className={styles.noticeContent}>
-                    <Link
+                    <SoundLink
                       href={`/community/notices/${notice.id}`}
                       className={styles.noticeLink}
                     >
@@ -235,7 +251,7 @@ export default function AppShell({
                       >
                         {notice.createdAt.slice(5)}
                       </time>
-                    </Link>
+                    </SoundLink>
                   </li>
                 ))
               ) : (
@@ -251,12 +267,18 @@ export default function AppShell({
               문의하기
             </span>
             <div className={styles.askContent}>
-              <Image src={ggoggoAsk} alt="꼬꼬 문의하는 얼굴" width={140} />
+              <Image
+                src={ggoggoAsk}
+                alt="꼬꼬 문의하는 얼굴"
+                width={140}
+                className={styles.askImage}
+              />
               <p className={styles.askText}>궁금한 것이 있나요?</p>
               <p className={styles.askText}>언제든 문의해주세요!</p>
               <a
                 href="mailto:dev.electrohyun@gmail.com"
                 className={styles.askButton}
+                onClick={() => playClickSound(soundSettings)}
               >
                 문의하기
               </a>
