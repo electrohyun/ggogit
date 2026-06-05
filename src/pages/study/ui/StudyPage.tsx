@@ -4,20 +4,31 @@ import { Sparkles } from "lucide-react";
 import { ggoggoWalk } from "@/assets/mascot";
 import { stage1, stage2, stage3, stage4, stage5 } from "@/assets/chapters";
 import { stageCheck, stageStar, stageStreak } from "@/assets/stats";
-import { MINI_QUIZ_CHAPTERS } from "@/entities/mini-quiz";
 import {
   BadgeClaimControl,
+  getMiniQuizStudyData,
   StageStartControl,
 } from "@/features/study-quiz";
+import { createClient } from "@/shared/lib/supabase/server";
 import styles from "./StudyPage.module.css";
 
-const SUMMARY_ITEMS = [
+const getSummaryItems = ({
+  clearedStageCount,
+  currentStreakDays,
+  totalStageCount,
+  totalStarCount,
+}: {
+  clearedStageCount: number;
+  currentStreakDays: number;
+  totalStageCount: number;
+  totalStarCount: number;
+}) => [
   {
     id: "stars",
     label: "획득한 별",
     mobileLabel: "별",
-    value: "7",
-    total: "15",
+    value: String(totalStarCount),
+    total: String(totalStageCount * 3),
     unit: null,
     image: stageStar,
   },
@@ -25,8 +36,8 @@ const SUMMARY_ITEMS = [
     id: "cleared",
     label: "클리어한 스테이지",
     mobileLabel: "클리어",
-    value: "2",
-    total: "15",
+    value: String(clearedStageCount),
+    total: String(totalStageCount),
     unit: null,
     image: stageCheck,
   },
@@ -34,7 +45,7 @@ const SUMMARY_ITEMS = [
     id: "streak",
     label: "연속 학습 기록",
     mobileLabel: "연속 기록",
-    value: "5",
+    value: String(currentStreakDays),
     total: null,
     unit: "일째",
     image: stageStreak,
@@ -43,7 +54,11 @@ const SUMMARY_ITEMS = [
 
 const CHAPTER_IMAGES = [stage1, stage2, stage3, stage4, stage5] as const;
 
-export default function StudyPage() {
+export default async function StudyPage() {
+  const supabase = await createClient();
+  const { chapters, summary } = await getMiniQuizStudyData(supabase);
+  const summaryItems = getSummaryItems(summary);
+
   return (
     <div className={styles.studyPage}>
       <section className={styles.hero} aria-labelledby="study-title">
@@ -64,7 +79,7 @@ export default function StudyPage() {
       </section>
 
       <section className={styles.summaryGrid} aria-label="미니 퀴즈 진행 요약">
-        {SUMMARY_ITEMS.map((item) => (
+        {summaryItems.map((item) => (
           <div key={item.id} className={styles.summaryCard}>
             <Image
               src={item.image}
@@ -86,13 +101,15 @@ export default function StudyPage() {
       </section>
 
       <section className={styles.chapterList} aria-label="미니 퀴즈 챕터">
-        {MINI_QUIZ_CHAPTERS.map((chapter, chapterIndex) => {
+        {chapters.map((chapter, chapterIndex) => {
+          const chapterImage = CHAPTER_IMAGES[chapterIndex] ?? stage1;
+
           return (
             <article key={chapter.id} className={styles.chapterRow}>
               <div className={styles.chapterInfo}>
                 <div className={styles.chapterTitleRow}>
                   <Image
-                    src={CHAPTER_IMAGES[chapterIndex]}
+                    src={chapterImage}
                     alt=""
                     width={78}
                     height={78}
@@ -139,7 +156,8 @@ export default function StudyPage() {
                 chapterIndex={chapterIndex}
                 chapterTitle={chapter.title}
                 badgeName={chapter.badgeName}
-                isBadgeUnlocked={chapter.isBadgeUnlocked}
+                canClaimBadge={chapter.canClaimBadge ?? false}
+                isBadgeClaimed={chapter.isBadgeClaimed ?? false}
               />
             </article>
           );

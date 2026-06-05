@@ -1,14 +1,11 @@
 import { notFound } from "next/navigation";
 
 import {
-  findMiniQuizStage,
-  MINI_QUIZ_CHAPTERS,
-} from "@/entities/mini-quiz";
-import {
-  buildQuizQuestions,
+  getMiniQuizStagePlayData,
   MiniQuizStageProvider,
   MiniQuizStageView,
 } from "@/features/mini-quiz-stage";
+import { createClient } from "@/shared/lib/supabase/server";
 
 interface MiniQuizStagePageProps {
   params: Promise<{
@@ -21,25 +18,30 @@ export default async function MiniQuizStagePage({
   params,
 }: MiniQuizStagePageProps) {
   const { chapterId, stageId } = await params;
-  const match = findMiniQuizStage(chapterId, stageId);
+  const stageNumber = Number(stageId);
 
-  if (!match) {
+  if (!Number.isInteger(stageNumber) || stageNumber <= 0) {
     notFound();
   }
 
-  const stageNumber =
-    match.chapter.stages.findIndex((stage) => stage.id === match.stage.id) + 1;
-  const chapterNumber =
-    MINI_QUIZ_CHAPTERS.findIndex((chapter) => chapter.id === match.chapter.id) +
-    1;
-  const questions = buildQuizQuestions(match.chapter, match.stage);
+  const supabase = await createClient();
+  const stageData = await getMiniQuizStagePlayData(
+    supabase,
+    chapterId,
+    stageNumber,
+  );
+
+  if (!stageData) {
+    notFound();
+  }
 
   return (
     <MiniQuizStageProvider
-      chapterNumber={chapterNumber}
-      questions={questions}
-      stageNumber={stageNumber}
-      stageTitle={match.stage.title}
+      attemptId={stageData.attemptId}
+      chapterNumber={stageData.chapterNumber}
+      questions={stageData.questions}
+      stageNumber={stageData.stageNumber}
+      stageTitle={stageData.stageTitle}
     >
       <MiniQuizStageView />
     </MiniQuizStageProvider>
