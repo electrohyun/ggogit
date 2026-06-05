@@ -19,7 +19,9 @@ export default function Home() {
             <a href="#learning">학습 방식</a>
             <a href="#play-mode">플레이 모드</a>
           </nav>
-          <StartButton variant="header">시작하기</StartButton>
+          <StartButton allowGuestEntry variant="header">
+            시작하기
+          </StartButton>
         </div>
       </header>
       <main className={styles.main}>
@@ -50,7 +52,9 @@ export default function Home() {
               직접 명령어를 입력하고, 브랜치를 이어 보세요!
             </p>
 
-            <StartButton variant="hero">시작하기!</StartButton>
+            <StartButton allowGuestEntry variant="hero">
+              시작하기!
+            </StartButton>
           </div>
         </section>
       </main>

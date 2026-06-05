@@ -22,7 +22,7 @@ import AppNavLink from "./AppNavLink";
 import AppShellProfileMenu from "./AppShellProfileMenu";
 import styles from "./AppShell.module.css";
 import {
-  GUEST_CURRENT_USER,
+  ANONYMOUS_CURRENT_USER,
   getOrCreateGuestIdentity,
   type CurrentUser,
   useCurrentUserStore,
@@ -75,13 +75,13 @@ export default function AppShell({
   }, [pathname, setBgmKind]);
 
   useEffect(() => {
-    if (initialCurrentUser.authRole !== "guest") {
+    if (initialCurrentUser.authRole === "user") {
       setCurrentUser(initialCurrentUser);
       return;
     }
 
     const initialGuestName =
-      initialCurrentUser.name === GUEST_CURRENT_USER.name
+      initialCurrentUser.name === ANONYMOUS_CURRENT_USER.name
         ? undefined
         : initialCurrentUser.name;
     const { guestName } = getOrCreateGuestIdentity({
@@ -172,12 +172,10 @@ export default function AppShell({
             </div>
             <div className={styles.profileContainer}>
               <p className={styles.profileText}>
-                {isAnonymous
-                  ? "기록을 저장하려면 시작해요!"
-                  : `어서와요, ${displayCurrentUser.name}님!`}
+                어서와요, {displayCurrentUser.name}님!
               </p>
               {isAnonymous ? (
-                <StartButton variant="header">시작하기</StartButton>
+                <StartButton variant="header">로그인</StartButton>
               ) : (
                 <AppShellProfileMenu currentUser={displayCurrentUser} />
               )}

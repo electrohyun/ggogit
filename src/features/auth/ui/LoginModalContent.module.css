@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: 16px;
   margin: 6px 0;
+  width: min(100%, 320px);
 }
 
 .kakao {
@@ -87,22 +88,9 @@
   cursor: pointer;
 }
 
-.guest:disabled {
-  cursor: wait;
-  opacity: 0.65;
-}
-
 .guest:hover,
 .guest:focus-visible {
   text-decoration: underline;
-}
-
-.errorMessage {
-  margin: -2px 0;
-  color: #d12f2f;
-  font-size: 14px;
-  line-height: 1.45;
-  text-align: center;
 }
 
 @media (min-width: 768px) {
