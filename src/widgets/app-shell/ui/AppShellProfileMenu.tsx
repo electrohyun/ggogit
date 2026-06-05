@@ -54,7 +54,10 @@ export default function AppShellProfileMenu({
         aria-label="사용자 메뉴 열기"
         aria-expanded={isOpen}
         aria-haspopup="menu"
-        onClick={() => setIsOpen((current) => !current)}
+        onClick={() => {
+          playClickSound(soundSettings);
+          setIsOpen((current) => !current);
+        }}
       >
         <Image
           src={currentUser.avatarUrl ?? ggoggoSmile}
