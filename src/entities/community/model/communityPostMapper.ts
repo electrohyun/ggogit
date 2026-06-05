@@ -7,6 +7,7 @@ import type {
   CommunityPost,
   CommunityPostRow,
 } from "@/entities/community";
+import { normalizeAvatarUrl } from "@/features/auth/model/currentUser";
 import { formatDateWithDots } from "@/shared/lib/date";
 
 // DB에는 정적 이미지 import를 저장할 수 없어 src 문자열을 앱 에셋으로 바꿉니다.
@@ -45,7 +46,7 @@ const toCommunityContentBlock = (
 const getCommunityPostAuthorAvatarUrl = (row: CommunityPostRow) => {
   const profile = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles;
 
-  return profile?.avatar_url ?? undefined;
+  return normalizeAvatarUrl(profile?.avatar_url) ?? undefined;
 };
 
 export const toCommunityPost = (row: CommunityPostRow): CommunityPost => ({

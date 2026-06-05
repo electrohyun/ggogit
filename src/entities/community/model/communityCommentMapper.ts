@@ -1,10 +1,11 @@
 import type { CommunityComment, CommunityCommentRow } from "@/entities/community";
+import { normalizeAvatarUrl } from "@/features/auth/model/currentUser";
 import { formatDateWithDots } from "@/shared/lib/date";
 
 const getCommunityCommentAuthorAvatarUrl = (row: CommunityCommentRow) => {
   const profile = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles;
 
-  return profile?.avatar_url ?? undefined;
+  return normalizeAvatarUrl(profile?.avatar_url) ?? undefined;
 };
 
 export const toCommunityComment = (

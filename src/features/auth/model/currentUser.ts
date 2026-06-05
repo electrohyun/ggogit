@@ -41,6 +41,10 @@ export const getCurrentUserName = (claims: JwtPayload | null) => {
   return currentUserName ?? "Guest";
 };
 
+export const normalizeAvatarUrl = (avatarUrl: string | null | undefined) => {
+  return avatarUrl?.replace(/^http:\/\//, "https://") ?? null;
+};
+
 export const getCurrentUserAvatarUrl = (claims: JwtPayload | null) => {
   if (!claims) {
     return null;
@@ -59,5 +63,5 @@ export const getCurrentUserAvatarUrl = (claims: JwtPayload | null) => {
       (value): value is string => typeof value === "string" && value.length > 0,
     ) ?? null;
 
-  return avatarUrl?.replace(/^http:\/\//, "https://") ?? null;
+  return normalizeAvatarUrl(avatarUrl);
 };
