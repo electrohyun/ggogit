@@ -10,8 +10,13 @@ const formatJoinedAt = (dateValue: string) => {
   return `${year}년 ${month}월 ${day}일`;
 };
 
-const getGuestUserProfile = (): UserProfile => ({
-  name: "Guest",
+interface MiniQuizAttemptStatsRow {
+  correct_count: number;
+  wrong_count: number;
+}
+
+const getGuestUserProfile = (guestName?: string): UserProfile => ({
+  name: guestName ?? "Guest",
   bio: "",
   avatarUrl: null,
   joinedAt: "-",
@@ -31,6 +36,7 @@ const getGuestUserProfile = (): UserProfile => ({
 export const getUserProfile = async (
   supabase: SupabaseClient,
   userId?: string,
+  guestName?: string,
 ): Promise<UserProfile> => {
   const {
     data: { user },
@@ -40,7 +46,7 @@ export const getUserProfile = async (
   const targetUserId = userId ?? user?.id;
 
   if (!targetUserId) {
-    return getGuestUserProfile();
+    return getGuestUserProfile(guestName);
   }
 
   const profileQuery = supabase
@@ -52,28 +58,48 @@ export const getUserProfile = async (
   const walletQuery = supabase
     .from("user_wallets")
     .select("current_beans,total_earned_beans");
+  const miniQuizAttemptsQuery = supabase
+    .from("mini_quiz_stage_attempts")
+    .select("correct_count,wrong_count")
+    .in("status", ["completed", "failed"]);
 
   profileQuery.eq("id", targetUserId);
   activityStatsQuery.eq("user_id", targetUserId);
   walletQuery.eq("user_id", targetUserId);
+  miniQuizAttemptsQuery.eq("user_id", targetUserId);
 
-  const [{ data: profile }, { data: activityStats }, { data: wallet }] =
-    await Promise.all([
-      profileQuery.maybeSingle(),
-      activityStatsQuery.maybeSingle(),
-      walletQuery.maybeSingle(),
-    ]);
+  const [
+    { data: profile },
+    { data: activityStats },
+    { data: wallet },
+    { data: miniQuizAttempts },
+  ] = await Promise.all([
+    profileQuery.maybeSingle(),
+    activityStatsQuery.maybeSingle(),
+    walletQuery.maybeSingle(),
+    miniQuizAttemptsQuery,
+  ]);
+  const quizStats = ((miniQuizAttempts ?? []) as MiniQuizAttemptStatsRow[])
+    .reduce(
+      (stats, attempt) => ({
+        solvedCount:
+          stats.solvedCount + attempt.correct_count + attempt.wrong_count,
+        correctCount: stats.correctCount + attempt.correct_count,
+        wrongCount: stats.wrongCount + attempt.wrong_count,
+      }),
+      {
+        solvedCount: 0,
+        correctCount: 0,
+        wrongCount: 0,
+      },
+    );
 
   return {
     name: profile?.name ?? "Guest",
     bio: profile?.bio ?? "",
     avatarUrl: profile?.avatar_url ?? null,
     joinedAt: profile?.created_at ? formatJoinedAt(profile.created_at) : "-",
-    quizStats: {
-      solvedCount: 0,
-      correctCount: 0,
-      wrongCount: 0,
-    },
+    quizStats,
     activityStats: {
       currentStreakDays: activityStats?.current_streak_days ?? 0,
       bestStreakDays: activityStats?.best_streak_days ?? 0,
