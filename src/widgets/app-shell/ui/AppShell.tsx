@@ -28,6 +28,7 @@ import {
   useCurrentUserStore,
 } from "@/entities/user";
 import type { CommunityPost } from "@/entities/community";
+import { StartButton } from "@/features/auth";
 import { playClickSound } from "@/shared/lib/sound/soundPlayer";
 import { useSoundStore } from "@/shared/model/sound/soundStore";
 import { SoundLink } from "@/shared/ui/sound-link";
@@ -58,10 +59,8 @@ export default function AppShell({
   const updateSoundSettings = useSoundStore(
     (state) => state.updateSoundSettings,
   );
-  const displayCurrentUser =
-    currentUser.isGuest && !initialCurrentUser.isGuest
-      ? initialCurrentUser
-      : currentUser;
+  const displayCurrentUser = currentUser;
+  const isAnonymous = displayCurrentUser.authRole === "anonymous";
   const greeting = getAppShellGreeting({
     pathname: pathname ?? "",
     name: displayCurrentUser.name,
@@ -76,7 +75,7 @@ export default function AppShell({
   }, [pathname, setBgmKind]);
 
   useEffect(() => {
-    if (!initialCurrentUser.isGuest) {
+    if (initialCurrentUser.authRole !== "guest") {
       setCurrentUser(initialCurrentUser);
       return;
     }
@@ -173,9 +172,15 @@ export default function AppShell({
             </div>
             <div className={styles.profileContainer}>
               <p className={styles.profileText}>
-                어서와요, {displayCurrentUser.name}님!
+                {isAnonymous
+                  ? "기록을 저장하려면 시작해요!"
+                  : `어서와요, ${displayCurrentUser.name}님!`}
               </p>
-              <AppShellProfileMenu currentUser={displayCurrentUser} />
+              {isAnonymous ? (
+                <StartButton variant="header">시작하기</StartButton>
+              ) : (
+                <AppShellProfileMenu currentUser={displayCurrentUser} />
+              )}
             </div>
           </div>
         </div>

@@ -1,4 +1,8 @@
-export { GUEST_CURRENT_USER, useCurrentUserStore } from "./model/userStore";
+export {
+  ANONYMOUS_CURRENT_USER,
+  GUEST_CURRENT_USER,
+  useCurrentUserStore,
+} from "./model/userStore";
 export {
   createGuestName,
   createGuestSessionId,

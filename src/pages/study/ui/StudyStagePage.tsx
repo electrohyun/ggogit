@@ -25,10 +25,14 @@ export default async function MiniQuizStagePage({
   }
 
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   const stageData = await getMiniQuizStagePlayData(
     supabase,
     chapterId,
     stageNumber,
+    { shouldCreateAttempt: Boolean(user) },
   );
 
   if (!stageData) {

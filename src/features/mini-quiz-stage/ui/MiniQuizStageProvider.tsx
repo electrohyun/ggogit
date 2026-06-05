@@ -17,11 +17,15 @@ import {
 } from "@/shared/lib/sound/soundPlayer";
 import { useSoundStore } from "@/shared/model/sound/soundStore";
 import { submitMiniQuizAnswer } from "../api/miniQuizStage.actions";
-import { getQuestionLimitMs } from "../model/quizUtils";
+import {
+  getQuestionLimitMs,
+  getStarCount,
+  normalizeCommand,
+} from "../model/quizUtils";
 import type { QuizQuestion } from "../model/types";
 
 interface MiniQuizStageProviderProps {
-  attemptId: string;
+  attemptId: string | null;
   children: ReactNode;
   chapterNumber: number;
   questions: QuizQuestion[];
@@ -145,12 +149,45 @@ export default function MiniQuizStageProvider({
       setIsSubmitting(true);
 
       try {
-        const result = await submitMiniQuizAnswer({
-          attemptId,
-          questionId: questions[currentIndex].id,
-          submittedAnswer: nextSubmittedAnswer,
-          submitReason,
-        });
+        const question = questions[currentIndex];
+        const result = attemptId
+          ? await submitMiniQuizAnswer({
+              attemptId,
+              questionId: question.id,
+              submittedAnswer: nextSubmittedAnswer,
+              submitReason,
+            })
+          : (() => {
+              const isCommandQuestion = question.type === "command";
+              const isAnswerCorrect = isCommandQuestion
+                ? normalizeCommand(nextSubmittedAnswer) ===
+                  normalizeCommand(question.answer)
+                : nextSubmittedAnswer === question.answer;
+              const nextCorrectCount = correctCount + (isAnswerCorrect ? 1 : 0);
+              const nextEnergy = Math.max(0, energy - (isAnswerCorrect ? 0 : 1));
+              const nextStatus =
+                currentIndex === questions.length - 1
+                  ? nextCorrectCount >= 3
+                    ? "completed"
+                    : "failed"
+                  : nextEnergy <= 0
+                    ? "failed"
+                    : "in_progress";
+
+              return {
+                correctAnswer: question.answer,
+                correctCount: nextCorrectCount,
+                earnedBeans: 0,
+                energy: nextEnergy,
+                explanation: question.explanation,
+                isCorrect: isAnswerCorrect,
+                isFailed: nextStatus === "failed",
+                starCount:
+                  nextStatus === "completed" ? getStarCount(nextCorrectCount) : 0,
+                status: nextStatus,
+                streakIncremented: false,
+              };
+            })();
 
         setSubmittedAnswer(nextSubmittedAnswer);
         setCurrentFeedback({
@@ -187,7 +224,9 @@ export default function MiniQuizStageProvider({
     },
     [
       attemptId,
+      correctCount,
       currentIndex,
+      energy,
       isFeedback,
       isSubmitting,
       questions,

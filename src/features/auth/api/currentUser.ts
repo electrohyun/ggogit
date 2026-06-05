@@ -1,5 +1,9 @@
 import type { JwtPayload, SupabaseClient } from "@supabase/supabase-js";
-import { GUEST_CURRENT_USER, type CurrentUser } from "@/entities/user";
+import {
+  ANONYMOUS_CURRENT_USER,
+  GUEST_CURRENT_USER,
+  type CurrentUser,
+} from "@/entities/user";
 import { getCurrentUserAvatarUrl, getCurrentUserName } from "../model/currentUser";
 
 interface GetCurrentUserParams {
@@ -16,8 +20,13 @@ export const getCurrentUser = async ({
   supabase,
 }: GetCurrentUserParams): Promise<CurrentUser> => {
   if (!claims) {
+    if (!isGuest) {
+      return ANONYMOUS_CURRENT_USER;
+    }
+
     return {
       ...GUEST_CURRENT_USER,
+      authRole: "guest",
       isGuest,
       name: guestName ?? GUEST_CURRENT_USER.name,
     };
@@ -62,6 +71,7 @@ export const getCurrentUser = async ({
   }
 
   return {
+    authRole: "user",
     isGuest: false,
     name: profile?.name ?? getCurrentUserName(claims),
     bio: profile?.bio ?? "",

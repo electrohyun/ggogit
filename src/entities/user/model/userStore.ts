@@ -2,6 +2,7 @@ import { create } from "zustand";
 import type { CurrentUser, CurrentUserStoreState } from "./types";
 
 export const GUEST_CURRENT_USER: CurrentUser = {
+  authRole: "guest",
   isGuest: true,
   name: "Guest",
   bio: "",
@@ -10,8 +11,15 @@ export const GUEST_CURRENT_USER: CurrentUser = {
   currentBeans: 0,
 };
 
+export const ANONYMOUS_CURRENT_USER: CurrentUser = {
+  ...GUEST_CURRENT_USER,
+  authRole: "anonymous",
+  isGuest: false,
+  name: "익명 꼬깃러",
+};
+
 export const useCurrentUserStore = create<CurrentUserStoreState>((set) => ({
-  currentUser: GUEST_CURRENT_USER,
+  currentUser: ANONYMOUS_CURRENT_USER,
 
   setCurrentUser: (currentUser) => {
     set({ currentUser });
@@ -27,6 +35,6 @@ export const useCurrentUserStore = create<CurrentUserStoreState>((set) => ({
   },
 
   resetCurrentUser: () => {
-    set({ currentUser: GUEST_CURRENT_USER });
+    set({ currentUser: ANONYMOUS_CURRENT_USER });
   },
 }));

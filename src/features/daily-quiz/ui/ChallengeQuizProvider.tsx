@@ -192,16 +192,26 @@ export default function ChallengeQuizProvider({
       startTransition(async () => {
         try {
           const { currentUser } = useCurrentUserStore.getState();
-          const guestIdentity = currentUser.isGuest
+          const isAnonymous = currentUser.authRole === "anonymous";
+          const guestIdentity = currentUser.authRole === "guest"
             ? getOrCreateGuestIdentity()
             : null;
-          const nextResult = await submitDailyQuiz({
-            answers,
-            elapsedMs,
-            guestName: guestIdentity?.guestName,
-            guestSessionId: guestIdentity?.guestSessionId,
-            quizDate,
-          });
+          const nextResult = isAnonymous
+            ? {
+                alreadyCompleted: false,
+                correctCount,
+                earnedBeans: 0,
+                rankingEligible: false,
+                score: calculateScore(correctCount, elapsedMs),
+                streakIncremented: false,
+              }
+            : await submitDailyQuiz({
+                answers,
+                elapsedMs,
+                guestName: guestIdentity?.guestName,
+                guestSessionId: guestIdentity?.guestSessionId,
+                quizDate,
+              });
 
           setResult(nextResult);
           setCorrectCount(nextResult.correctCount);
