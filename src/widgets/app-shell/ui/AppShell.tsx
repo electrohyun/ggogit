@@ -20,16 +20,23 @@ import AppLocation from "./AppLocation";
 import AppNavLink from "./AppNavLink";
 import AppShellProfileMenu from "./AppShellProfileMenu";
 import styles from "./AppShell.module.css";
-import { type CurrentUser, useCurrentUserStore } from "@/entities/user";
+import {
+  getOrCreateGuestIdentity,
+  type CurrentUser,
+  useCurrentUserStore,
+} from "@/entities/user";
+import type { CommunityPost } from "@/entities/community";
 import { getAppShellGreeting } from "../model/greeting";
 
 interface AppShellProps {
   children: ReactNode;
   initialCurrentUser: CurrentUser;
+  notices: CommunityPost[];
 }
 
 export default function AppShell({
   initialCurrentUser,
+  notices,
   children,
 }: AppShellProps) {
   const pathname = usePathname();
@@ -45,7 +52,17 @@ export default function AppShell({
   });
 
   useEffect(() => {
-    setCurrentUser(initialCurrentUser);
+    if (!initialCurrentUser.isGuest) {
+      setCurrentUser(initialCurrentUser);
+      return;
+    }
+
+    const { guestName } = getOrCreateGuestIdentity();
+
+    setCurrentUser({
+      ...initialCurrentUser,
+      name: guestName,
+    });
   }, [initialCurrentUser, setCurrentUser]);
 
   return (
@@ -147,60 +164,34 @@ export default function AppShell({
               <span id="notice-title" className={styles.sectionTitle}>
                 공지사항
               </span>
-              <Link href="/notice" className={styles.noticeMore}>
+              <Link href="/community/notices" className={styles.noticeMore}>
                 더보기
                 <ChevronRight size={16} />
               </Link>
             </div>
             <ul className={styles.noticeList}>
-              <li className={styles.noticeContent}>
-                <Link href="/notice/1" className={styles.noticeLink}>
-                  <span className={styles.noticeText}>
-                    스테이지 2-5 다크모드 지원
-                  </span>
-                  <time className={styles.noticeDate} dateTime="2026-05-27">
-                    05.27
-                  </time>
-                </Link>
-              </li>
-              <li className={styles.noticeContent}>
-                <Link href="/notice/2" className={styles.noticeLink}>
-                  <span className={styles.noticeText}>
-                    5월 학습 챌린지 오픈
-                  </span>
-                  <time className={styles.noticeDate} dateTime="2026-05-24">
-                    05.24
-                  </time>
-                </Link>
-              </li>
-              <li className={styles.noticeContent}>
-                <Link href="/notice/3" className={styles.noticeLink}>
-                  <span className={styles.noticeText}>신규 배지 3종 추가</span>
-                  <time className={styles.noticeDate} dateTime="2026-05-20">
-                    05.20
-                  </time>
-                </Link>
-              </li>
-              <li className={styles.noticeContent}>
-                <Link href="/notice/3" className={styles.noticeLink}>
-                  <span className={styles.noticeText}>
-                    Git 명령어 힌트 업데이트
-                  </span>
-                  <time className={styles.noticeDate} dateTime="2026-05-16">
-                    05.16
-                  </time>
-                </Link>
-              </li>
-              <li className={styles.noticeContent}>
-                <Link href="/notice/3" className={styles.noticeLink}>
-                  <span className={styles.noticeText}>
-                    일일 도전 기록 오류 수정
-                  </span>
-                  <time className={styles.noticeDate} dateTime="2026-05-12">
-                    05.12
-                  </time>
-                </Link>
-              </li>
+              {notices.length > 0 ? (
+                notices.map((notice) => (
+                  <li key={notice.id} className={styles.noticeContent}>
+                    <Link
+                      href={`/community/notices/${notice.id}`}
+                      className={styles.noticeLink}
+                    >
+                      <span className={styles.noticeText}>{notice.title}</span>
+                      <time
+                        className={styles.noticeDate}
+                        dateTime={notice.createdAtDateTime}
+                      >
+                        {notice.createdAt.slice(5)}
+                      </time>
+                    </Link>
+                  </li>
+                ))
+              ) : (
+                <li className={styles.noticeContent}>
+                  <span className={styles.noticeText}>공지사항이 없어요.</span>
+                </li>
+              )}
             </ul>
           </section>
 
