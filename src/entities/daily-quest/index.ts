@@ -1,1 +1,5 @@
-export type { DailyQuest, DailyQuestStatus } from "./model/types";
+export type {
+  DailyQuest,
+  DailyQuestKey,
+  DailyQuestStatus,
+} from "./model/types";
