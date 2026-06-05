@@ -13,6 +13,10 @@ interface GetCurrentUserParams {
   supabase: SupabaseClient;
 }
 
+const isAnonymousAuthUser = (claims: JwtPayload) => {
+  return claims.is_anonymous === true;
+};
+
 export const getCurrentUser = async ({
   claims,
   guestName,
@@ -33,6 +37,7 @@ export const getCurrentUser = async ({
   }
 
   const userId = claims.sub;
+  const authRole = isAnonymousAuthUser(claims) ? "guest" : "user";
   const [
     { data: profile, error: profileError },
     { data: activityStats, error: activityStatsError },
@@ -71,8 +76,8 @@ export const getCurrentUser = async ({
   }
 
   return {
-    authRole: "user",
-    isGuest: false,
+    authRole,
+    isGuest: authRole === "guest",
     name: profile?.name ?? getCurrentUserName(claims),
     bio: profile?.bio ?? "",
     avatarUrl: profile?.avatar_url ?? getCurrentUserAvatarUrl(claims),

@@ -1,42 +1,45 @@
 import { NextResponse, type NextRequest } from "next/server";
 import {
   createGuestName,
-  createGuestSessionId,
   GUEST_ENTRY_COOKIE,
   GUEST_NAME_COOKIE,
   GUEST_SESSION_ID_COOKIE,
 } from "@/entities/user/model/guestIdentity";
+import { createClient } from "@/shared/lib/supabase/server";
 
-const GUEST_COOKIE_MAX_AGE = 60 * 60 * 24;
-
-export function GET(request: NextRequest) {
+export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
   const response = NextResponse.redirect(`${requestUrl.origin}/lobby`);
-  const guestSessionId =
-    request.cookies.get(GUEST_SESSION_ID_COOKIE)?.value ??
-    createGuestSessionId();
   const guestName =
     request.cookies.get(GUEST_NAME_COOKIE)?.value ?? createGuestName();
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInAnonymously({
+    options: {
+      data: {
+        name: guestName,
+      },
+    },
+  });
 
-  response.cookies.set(GUEST_ENTRY_COOKIE, "guest", {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-    maxAge: GUEST_COOKIE_MAX_AGE,
-  });
-  response.cookies.set(GUEST_SESSION_ID_COOKIE, guestSessionId, {
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-    maxAge: GUEST_COOKIE_MAX_AGE,
-  });
-  response.cookies.set(GUEST_NAME_COOKIE, guestName, {
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-    maxAge: GUEST_COOKIE_MAX_AGE,
-  });
+  if (error) {
+    console.error("Failed to start anonymous guest session", error);
+
+    return NextResponse.redirect(requestUrl.origin);
+  }
+
+  const { error: initializationError } = await supabase.rpc(
+    "ensure_user_app_data",
+  );
+
+  if (initializationError) {
+    console.error("Failed to initialize anonymous guest data", initializationError);
+
+    return NextResponse.redirect(requestUrl.origin);
+  }
+
+  response.cookies.delete(GUEST_ENTRY_COOKIE);
+  response.cookies.delete(GUEST_NAME_COOKIE);
+  response.cookies.delete(GUEST_SESSION_ID_COOKIE);
 
   return response;
 }
