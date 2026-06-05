@@ -12,11 +12,33 @@ interface StreakCardContentProps {
 
 const DAY_LABELS = ["일", "월", "화", "수", "목", "금", "토"] as const;
 const MS_PER_DAY = 1000 * 60 * 60 * 24;
+const KST_TIME_ZONE = "Asia/Seoul";
 
 const getDateKey = (date: Date) => {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
+
+const getDateFromKey = (dateKey: string) => {
+  const [year = "0", month = "1", day = "1"] = dateKey.split("-");
+
+  return new Date(Number(year), Number(month) - 1, Number(day));
+};
+
+const getKstDateKey = () => {
+  const formatter = new Intl.DateTimeFormat("en-CA", {
+    day: "2-digit",
+    month: "2-digit",
+    timeZone: KST_TIME_ZONE,
+    year: "numeric",
+  });
+  const dateParts = formatter.formatToParts(new Date());
+  const year = dateParts.find((part) => part.type === "year")?.value ?? "";
+  const month = dateParts.find((part) => part.type === "month")?.value ?? "";
+  const day = dateParts.find((part) => part.type === "day")?.value ?? "";
 
   return `${year}-${month}-${day}`;
 };
@@ -29,12 +51,12 @@ const getStreakDays = ({
   currentStreakDays,
   lastStudiedOn,
 }: StreakCardContentProps) => {
-  const today = getStartOfDay(new Date());
+  const today = getStartOfDay(getDateFromKey(getKstDateKey()));
   const dayOfWeek = today.getDay();
   const weekStart = new Date(today);
   weekStart.setDate(today.getDate() - dayOfWeek);
   const lastStudiedDate = lastStudiedOn
-    ? getStartOfDay(new Date(`${lastStudiedOn}T00:00:00`))
+    ? getStartOfDay(getDateFromKey(lastStudiedOn))
     : null;
   const lastStudiedDateKey = lastStudiedDate ? getDateKey(lastStudiedDate) : "";
   const daysSinceLastStudy = lastStudiedDate
