@@ -3,6 +3,8 @@ import Link from "next/link";
 import { MessageCircle, ThumbsUp } from "lucide-react";
 
 import { ggoggoCoding } from "@/assets/mascot";
+import { getLatestCommunityPostsByBoard } from "@/features/community/api/communityPosts";
+import { createClient } from "@/shared/lib/supabase/server";
 import styles from "./CommunityPreviewPanel.module.css";
 
 const DAILY_TIP = {
@@ -11,47 +13,28 @@ const DAILY_TIP = {
     "변경 단위를 작게 나누어 커밋하면, 기록을 읽기 쉽고 문제를 찾기도 쉬워요.",
 };
 
-const NOTICES = [
-  { id: 1, title: "스테이지 2-5 업데이트 안내", date: "05.27" },
-  { id: 2, title: "5월 학습 챌린지 결과 발표", date: "05.24" },
-  { id: 3, title: "신규 배지 3종 추가 안내", date: "05.20" },
-  { id: 4, title: "Git 명령어 퀴즈 이벤트", date: "05.16" },
-];
+const PREVIEW_POST_LIMIT = 5;
+const DAILY_TIP_LIMIT = 7;
 
-const RECENT_QUESTIONS = [
-  {
-    id: 1,
-    title: "merge와 rebase의 차이가 헷갈려요",
-    likes: 8,
-    comments: 5,
-  },
-  {
-    id: 2,
-    title: "충돌이 생기면 어디부터 봐야 하나요?",
-    likes: 6,
-    comments: 3,
-  },
-  {
-    id: 3,
-    title: ".gitignore 파일은 언제 만들어요?",
-    likes: 4,
-    comments: 2,
-  },
-  {
-    id: 4,
-    title: "브랜치 전략은 어떻게 정하면 좋나요?",
-    likes: 7,
-    comments: 6,
-  },
-  {
-    id: 5,
-    title: "worktree는 언제 사용하면 좋을까요?",
-    likes: 5,
-    comments: 4,
-  },
-];
+const getDailyTipIndex = (tipCount: number) => {
+  const dayOfWeek = new Date().getDay();
 
-export default function CommunityPreviewPanel() {
+  return tipCount > 0 ? dayOfWeek % tipCount : 0;
+};
+
+export default async function CommunityPreviewPanel() {
+  const supabase = await createClient();
+  const [tips, notices, questions] = await Promise.all([
+    getLatestCommunityPostsByBoard(supabase, "tip", DAILY_TIP_LIMIT),
+    getLatestCommunityPostsByBoard(supabase, "notice", PREVIEW_POST_LIMIT),
+    getLatestCommunityPostsByBoard(supabase, "question", PREVIEW_POST_LIMIT),
+  ]);
+  const dailyTip = tips[getDailyTipIndex(tips.length)];
+  const dailyTipTitle = dailyTip?.title ?? DAILY_TIP.title;
+  const dailyTipDescription =
+    dailyTip?.content.find((block) => block.kind === "paragraph")?.text ??
+    DAILY_TIP.description;
+
   return (
     <>
       <section className={styles.previewCard} aria-labelledby="daily-tip-title">
@@ -61,8 +44,8 @@ export default function CommunityPreviewPanel() {
         </div>
         <div className={styles.tipContent}>
           <div className={styles.tipText}>
-            <h3>{DAILY_TIP.title}</h3>
-            <p>{DAILY_TIP.description}</p>
+            <h3>{dailyTipTitle}</h3>
+            <p>{dailyTipDescription}</p>
           </div>
           <Image
             src={ggoggoCoding}
@@ -79,10 +62,17 @@ export default function CommunityPreviewPanel() {
           <Link href="/community/notices">더보기 &gt;</Link>
         </div>
         <ul className={styles.noticeList}>
-          {NOTICES.map((notice) => (
+          {notices.map((notice) => (
             <li key={notice.id} className={styles.noticeItem}>
-              <span className={styles.noticeTitle}>{notice.title}</span>
-              <span className={styles.noticeDate}>{notice.date}</span>
+              <Link
+                href={`/community/notices/${notice.id}`}
+                className={styles.noticeTitle}
+              >
+                {notice.title}
+              </Link>
+              <span className={styles.noticeDate}>
+                {notice.createdAt.slice(5)}
+              </span>
             </li>
           ))}
         </ul>
@@ -93,24 +83,24 @@ export default function CommunityPreviewPanel() {
         aria-labelledby="recent-questions-title"
       >
         <div className={styles.cardHeader}>
-          <h2 id="recent-questions-title">인기 질문</h2>
+          <h2 id="recent-questions-title">최근 질문</h2>
           <Link href="/community/questions">더보기 &gt;</Link>
         </div>
         <ul className={styles.questionList}>
-          {RECENT_QUESTIONS.map((question) => (
+          {questions.map((question) => (
             <li key={question.id} className={styles.questionItem}>
               <span className={styles.questionBadge} aria-hidden="true">
                 Q
               </span>
               <p className={styles.questionTitle}>{question.title}</p>
               <div className={styles.questionMeta}>
-                <span aria-label={`추천 ${question.likes}개`}>
+                <span aria-label={`추천 ${question.likeCount}개`}>
                   <ThumbsUp size={14} />
-                  {question.likes}
+                  {question.likeCount}
                 </span>
-                <span aria-label={`댓글 ${question.comments}개`}>
+                <span aria-label={`댓글 ${question.commentCount}개`}>
                   <MessageCircle size={14} />
-                  {question.comments}
+                  {question.commentCount}
                 </span>
               </div>
             </li>
