@@ -1,5 +1,7 @@
 import { getUserProfile } from "@/features/profile";
+import { GUEST_NAME_COOKIE } from "@/entities/user/model/guestIdentity";
 import { createClient } from "@/shared/lib/supabase/server";
+import { cookies } from "next/headers";
 import ProfileEditableFields from "./ProfileEditableFields";
 import styles from "./ProfilePage.module.css";
 
@@ -12,7 +14,9 @@ export default async function ProfilePage({ userId }: ProfilePageProps) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const userProfile = await getUserProfile(supabase, userId);
+  const cookieStore = await cookies();
+  const guestName = cookieStore.get(GUEST_NAME_COOKIE)?.value;
+  const userProfile = await getUserProfile(supabase, userId, guestName);
   const canEdit = Boolean(user?.id && (!userId || user.id === userId));
 
   return (

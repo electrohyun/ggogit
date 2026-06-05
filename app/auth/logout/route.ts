@@ -1,4 +1,8 @@
-import { GUEST_ENTRY_COOKIE } from "@/features/auth/model/currentUser";
+import {
+  GUEST_ENTRY_COOKIE,
+  GUEST_NAME_COOKIE,
+  GUEST_SESSION_ID_COOKIE,
+} from "@/entities/user/model/guestIdentity";
 import { createClient } from "@/shared/lib/supabase/server";
 import { NextResponse, type NextRequest } from "next/server";
 
@@ -11,6 +15,8 @@ export async function GET(request: NextRequest) {
   const response = NextResponse.redirect(requestUrl.origin);
 
   response.cookies.delete(GUEST_ENTRY_COOKIE);
+  response.cookies.delete(GUEST_NAME_COOKIE);
+  response.cookies.delete(GUEST_SESSION_ID_COOKIE);
 
   return response;
 }

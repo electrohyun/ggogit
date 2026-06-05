@@ -4,12 +4,14 @@ import { getCurrentUserAvatarUrl, getCurrentUserName } from "../model/currentUse
 
 interface GetCurrentUserParams {
   claims: JwtPayload | null;
+  guestName?: string;
   isGuest: boolean;
   supabase: SupabaseClient;
 }
 
 export const getCurrentUser = async ({
   claims,
+  guestName,
   isGuest,
   supabase,
 }: GetCurrentUserParams): Promise<CurrentUser> => {
@@ -17,6 +19,7 @@ export const getCurrentUser = async ({
     return {
       ...GUEST_CURRENT_USER,
       isGuest,
+      name: guestName ?? GUEST_CURRENT_USER.name,
     };
   }
 

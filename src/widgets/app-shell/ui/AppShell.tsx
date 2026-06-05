@@ -21,6 +21,7 @@ import AppNavLink from "./AppNavLink";
 import AppShellProfileMenu from "./AppShellProfileMenu";
 import styles from "./AppShell.module.css";
 import {
+  GUEST_CURRENT_USER,
   getOrCreateGuestIdentity,
   type CurrentUser,
   useCurrentUserStore,
@@ -30,12 +31,14 @@ import { getAppShellGreeting } from "../model/greeting";
 
 interface AppShellProps {
   children: ReactNode;
+  initialGuestSessionId?: string;
   initialCurrentUser: CurrentUser;
   notices: CommunityPost[];
 }
 
 export default function AppShell({
   initialCurrentUser,
+  initialGuestSessionId,
   notices,
   children,
 }: AppShellProps) {
@@ -57,13 +60,20 @@ export default function AppShell({
       return;
     }
 
-    const { guestName } = getOrCreateGuestIdentity();
+    const initialGuestName =
+      initialCurrentUser.name === GUEST_CURRENT_USER.name
+        ? undefined
+        : initialCurrentUser.name;
+    const { guestName } = getOrCreateGuestIdentity({
+      guestName: initialGuestName,
+      guestSessionId: initialGuestSessionId,
+    });
 
     setCurrentUser({
       ...initialCurrentUser,
       name: guestName,
     });
-  }, [initialCurrentUser, setCurrentUser]);
+  }, [initialCurrentUser, initialGuestSessionId, setCurrentUser]);
 
   return (
     <>

@@ -1,5 +1,9 @@
-const GUEST_SESSION_ID_STORAGE_KEY = "ggogit_guest_session_id";
-const GUEST_NAME_STORAGE_KEY = "ggogit_guest_name";
+export const GUEST_ENTRY_COOKIE = "ggogit_entry";
+export const GUEST_SESSION_ID_COOKIE = "ggogit_guest_session_id";
+export const GUEST_NAME_COOKIE = "ggogit_guest_name";
+
+const GUEST_SESSION_ID_STORAGE_KEY = GUEST_SESSION_ID_COOKIE;
+const GUEST_NAME_STORAGE_KEY = GUEST_NAME_COOKIE;
 
 const GUEST_NAME_MODIFIERS = [
   "불꽃코딩하는",
@@ -24,12 +28,17 @@ export interface GuestIdentity {
   guestName: string;
 }
 
+interface GetOrCreateGuestIdentityParams {
+  guestSessionId?: string;
+  guestName?: string;
+}
+
 const getRandomItem = (items: string[]) => {
   const index = Math.floor(Math.random() * items.length);
   return items[index];
 };
 
-const createGuestSessionId = () => {
+export const createGuestSessionId = () => {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
     return crypto.randomUUID();
   }
@@ -37,7 +46,7 @@ const createGuestSessionId = () => {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 };
 
-const createGuestName = () => {
+export const createGuestName = () => {
   const modifier = getRandomItem(GUEST_NAME_MODIFIERS);
   const character = getRandomItem(GUEST_NAME_CHARACTERS);
   const suffix = String(Math.floor(Math.random() * 10000)).padStart(4, "0");
@@ -45,19 +54,23 @@ const createGuestName = () => {
   return `${modifier} ${character} ${suffix}`;
 };
 
-export const getOrCreateGuestIdentity = (): GuestIdentity => {
+export const getOrCreateGuestIdentity = ({
+  guestSessionId: preferredGuestSessionId,
+  guestName: preferredGuestName,
+}: GetOrCreateGuestIdentityParams = {}): GuestIdentity => {
   const storedGuestSessionId = localStorage.getItem(
     GUEST_SESSION_ID_STORAGE_KEY,
   );
   const storedGuestName = localStorage.getItem(GUEST_NAME_STORAGE_KEY);
-  const guestSessionId = storedGuestSessionId ?? createGuestSessionId();
-  const guestName = storedGuestName ?? createGuestName();
+  const guestSessionId =
+    preferredGuestSessionId ?? storedGuestSessionId ?? createGuestSessionId();
+  const guestName = preferredGuestName ?? storedGuestName ?? createGuestName();
 
-  if (!storedGuestSessionId) {
+  if (storedGuestSessionId !== guestSessionId) {
     localStorage.setItem(GUEST_SESSION_ID_STORAGE_KEY, guestSessionId);
   }
 
-  if (!storedGuestName) {
+  if (storedGuestName !== guestName) {
     localStorage.setItem(GUEST_NAME_STORAGE_KEY, guestName);
   }
 

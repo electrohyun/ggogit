@@ -1,7 +1,5 @@
 import type { JwtPayload } from "@supabase/supabase-js";
 
-export const GUEST_ENTRY_COOKIE = "ggogit_entry";
-
 export const getUserMetadataName = (
   metadata: Record<string, unknown> | null | undefined,
 ) => {

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { MiniQuizStage } from "@/entities/mini-quiz";
 import { getLatestCommunityPostsByBoard } from "@/features/community/api/communityPosts";
 import { createClient } from "@/shared/lib/supabase/server";
 import { Card } from "@/shared/ui/card";
@@ -29,8 +30,10 @@ interface LobbyLearningSummary {
 }
 
 interface ContinueStage {
+  chapterNumber: number;
   href: string;
   progressPercent: number;
+  stage: MiniQuizStage;
   stageNumber: string;
   stageTitle: string;
   totalProgressText: string;
@@ -117,13 +120,15 @@ const getContinueStage = async (
       .order("display_order", { ascending: true }),
     supabase
       .from("mini_quiz_stages")
-      .select("chapter_id,stage_number,display_order,title,unlock_stage_number")
+      .select(
+        "chapter_id,stage_number,display_order,title,command,description,unlock_stage_number",
+      )
       .order("display_order", { ascending: true }),
   ]);
   const progressQuery = user
     ? await supabase
         .from("user_stage_progress")
-        .select("chapter_id,stage_number,first_cleared_at")
+        .select("chapter_id,stage_number,best_star_count,first_cleared_at")
         .eq("user_id", user.id)
     : { data: [] };
   const chapterRows = chapters ?? [];
@@ -161,17 +166,49 @@ const getContinueStage = async (
 
   if (!nextStage) {
     return {
+      chapterNumber: 1,
       href: "/study",
       progressPercent: 0,
+      stage: {
+        id: "1",
+        stageNumber: 1,
+        title: "첫 스테이지를 시작해요",
+        command: "git init",
+        description: "학습하기 페이지에서 첫 스테이지를 골라 시작해요.",
+        status: "available",
+        starCount: 0,
+      },
       stageNumber: "학습하기",
       stageTitle: "첫 스테이지를 시작해요",
       totalProgressText: "0 / 0",
     };
   }
 
+  const nextStageKey = `${nextStage.chapter_id}:${nextStage.stage_number}`;
+  const nextStageProgress = progressRows.find(
+    (progress) =>
+      progress.chapter_id === nextStage.chapter_id &&
+      progress.stage_number === nextStage.stage_number,
+  );
+  const nextStageStatus = progressKeys.has(nextStageKey)
+    ? "completed"
+    : "available";
+
   return {
+    chapterNumber: Number(nextStage.chapterDisplayOrder),
     href: `/study/${nextStage.chapter_id}/${nextStage.stage_number}`,
     progressPercent,
+    stage: {
+      id: String(nextStage.stage_number),
+      stageNumber: Number(nextStage.stage_number),
+      title: String(nextStage.title),
+      command: String(nextStage.command),
+      description: String(nextStage.description),
+      unlockStageNumber: nextStage.unlock_stage_number,
+      status: nextStageStatus,
+      starCount: (nextStageProgress?.best_star_count ??
+        0) as MiniQuizStage["starCount"],
+    },
     stageNumber: `${nextStage.chapterDisplayOrder}-${nextStage.stage_number}`,
     stageTitle:
       progressPercent === 100 ? "모든 스테이지를 완료했어요" : nextStage.title,
@@ -298,8 +335,10 @@ export default async function LobbyPage() {
           className={`${styles.span4} ${styles.backgroundPrimaryStrong}`}
         >
           <ContinueCardContent
+            chapterNumber={continueStage.chapterNumber}
             href={continueStage.href}
             progressPercent={continueStage.progressPercent}
+            stage={continueStage.stage}
             stageNumber={continueStage.stageNumber}
             stageTitle={continueStage.stageTitle}
             totalProgressText={continueStage.totalProgressText}
