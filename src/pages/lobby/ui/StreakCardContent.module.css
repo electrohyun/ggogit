@@ -66,17 +66,31 @@
   width: 30px;
   aspect-ratio: 1;
   border-radius: 50%;
-  font-size: 28px;
-  line-height: 1;
 }
 
-.missed {
+.flameImage {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  filter: grayscale(1) opacity(0.46);
+}
+
+.missed,
+.upcoming {
   background-color: #e8e8e8;
 }
 
 .completed,
 .today {
   background-color: #ffa2a2;
+}
+
+.completed .flameImage {
+  filter: drop-shadow(0 3px 4px rgb(0 0 0 / 14%));
+}
+
+.today .flameImage {
+  filter: grayscale(1) opacity(0.64);
 }
 
 .dayLabel {
@@ -115,7 +129,11 @@
 
   .dayCircle {
     width: clamp(14px, 1.5vw, 22px);
-    font-size: clamp(8px, 1vw, 18px);
+  }
+
+  .flameImage {
+    width: clamp(14px, 1.5vw, 22px);
+    height: clamp(14px, 1.5vw, 22px);
   }
 
   .dayLabel {
