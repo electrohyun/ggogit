@@ -18,6 +18,15 @@ interface LoginModalContentProps {
     | "study";
 }
 
+const getOAuthRedirectTo = () => {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const origin = window.location.origin;
+  const redirectOrigin =
+    siteUrl && !origin.includes("localhost") ? siteUrl : origin;
+
+  return `${redirectOrigin}/auth/callback`;
+};
+
 export default function LoginModalContent({
   allowGuestEntry = false,
   source = "header",
@@ -34,7 +43,7 @@ export default function LoginModalContent({
     await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: getOAuthRedirectTo(),
         scopes,
       },
     });
