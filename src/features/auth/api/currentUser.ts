@@ -1,7 +1,6 @@
 import type { JwtPayload, SupabaseClient } from "@supabase/supabase-js";
 import {
   ANONYMOUS_CURRENT_USER,
-  GUEST_CURRENT_USER,
   type CurrentUser,
 } from "@/entities/user";
 import { getCurrentUserAvatarUrl, getCurrentUserName } from "../model/currentUser";
@@ -9,35 +8,22 @@ import { getCurrentUserAvatarUrl, getCurrentUserName } from "../model/currentUse
 interface GetCurrentUserParams {
   claims: JwtPayload | null;
   guestName?: string;
-  isGuest: boolean;
   supabase: SupabaseClient;
 }
-
-const isAnonymousAuthUser = (claims: JwtPayload) => {
-  return claims.is_anonymous === true;
-};
 
 export const getCurrentUser = async ({
   claims,
   guestName,
-  isGuest,
   supabase,
 }: GetCurrentUserParams): Promise<CurrentUser> => {
   if (!claims) {
-    if (!isGuest) {
-      return ANONYMOUS_CURRENT_USER;
-    }
-
     return {
-      ...GUEST_CURRENT_USER,
-      authRole: "guest",
-      isGuest,
-      name: guestName ?? GUEST_CURRENT_USER.name,
+      ...ANONYMOUS_CURRENT_USER,
+      name: guestName ?? ANONYMOUS_CURRENT_USER.name,
     };
   }
 
   const userId = claims.sub;
-  const authRole = isAnonymousAuthUser(claims) ? "guest" : "user";
   const [
     { data: profile, error: profileError },
     { data: activityStats, error: activityStatsError },
@@ -76,8 +62,8 @@ export const getCurrentUser = async ({
   }
 
   return {
-    authRole,
-    isGuest: authRole === "guest",
+    authRole: "user",
+    isGuest: false,
     name: profile?.name ?? getCurrentUserName(claims),
     bio: profile?.bio ?? "",
     avatarUrl: profile?.avatar_url ?? getCurrentUserAvatarUrl(claims),

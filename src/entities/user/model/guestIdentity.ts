@@ -38,6 +38,14 @@ const getRandomItem = (items: string[]) => {
   return items[index];
 };
 
+const setBrowserCookie = (name: string, value: string) => {
+  if (typeof document === "undefined") {
+    return;
+  }
+
+  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; samesite=lax`;
+};
+
 export const createGuestSessionId = () => {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
     return crypto.randomUUID();
@@ -73,6 +81,10 @@ export const getOrCreateGuestIdentity = ({
   if (storedGuestName !== guestName) {
     localStorage.setItem(GUEST_NAME_STORAGE_KEY, guestName);
   }
+
+  setBrowserCookie(GUEST_ENTRY_COOKIE, "guest");
+  setBrowserCookie(GUEST_SESSION_ID_COOKIE, guestSessionId);
+  setBrowserCookie(GUEST_NAME_COOKIE, guestName);
 
   return {
     guestSessionId,

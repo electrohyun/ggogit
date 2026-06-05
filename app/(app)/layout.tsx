@@ -22,7 +22,6 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   const initialCurrentUser = await getCurrentUser({
     claims: data?.claims ?? null,
     guestName,
-    isGuest,
     supabase,
   });
   const notices = await getLatestCommunityPostsByBoard(supabase, "notice", 5);
@@ -30,7 +29,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   return (
     <AppShell
       initialCurrentUser={initialCurrentUser}
-      initialGuestSessionId={guestSessionId}
+      initialGuestSessionId={isGuest ? guestSessionId : undefined}
       notices={notices}
     >
       {children}
