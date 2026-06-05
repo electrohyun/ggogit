@@ -53,22 +53,19 @@
 
 .primaryAction,
 .secondaryAction {
-  min-width: 132px;
-  padding: 13px 22px;
-  border: 2px solid #111;
+  min-width: 120px;
+  padding: 10px 18px;
+  border: 1px solid #f1d94b;
   border-radius: 999px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   text-decoration: none;
-  transition:
-    transform 160ms ease,
-    box-shadow 160ms ease;
+  transition: transform 160ms ease;
 }
 
 .primaryAction {
   background: #ffe95b;
   color: #111;
-  box-shadow: 0 5px 0 #111;
 }
 
 .secondaryAction {
@@ -78,10 +75,10 @@
 
 .primaryAction:hover,
 .secondaryAction:hover {
-  transform: translateY(-2px);
+  transform: scale(1.04);
 }
 
 .primaryAction:active,
 .secondaryAction:active {
-  transform: translateY(1px);
+  transform: scale(0.98);
 }
