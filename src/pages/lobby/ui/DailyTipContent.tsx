@@ -28,6 +28,8 @@ export default function DailyTipContent({ tip }: DailyTipContentProps) {
         alt="ggoggo coding"
         width={190}
         className={styles.dailyTipImage}
+        priority
+        sizes="190px"
       />
     </div>
   );

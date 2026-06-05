@@ -81,6 +81,8 @@ export default function ContinueCardContent({
           alt="ggoggo walking"
           width={230}
           className={styles.continueImage}
+          priority
+          sizes="230px"
         />
       </div>
       {isOpen && (

@@ -11,7 +11,13 @@ export default function Home() {
     <>
       <header className={styles.header}>
         <a href="#">
-          <Image src={logoEng} alt="꼬깃 로고" width={100} />
+          <Image
+            src={logoEng}
+            alt="꼬깃 로고"
+            width={100}
+            priority
+            sizes="100px"
+          />
         </a>
         <div className={styles.navContainer}>
           {/* <nav className={styles.nav}>
@@ -37,6 +43,8 @@ export default function Home() {
               src={logoKor}
               alt="꼬깃 로고"
               width={200}
+              priority
+              sizes="(min-width: 768px) 25vw, 200px"
             />
 
             <p className={styles.heroLogoText}>

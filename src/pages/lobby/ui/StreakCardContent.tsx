@@ -138,7 +138,13 @@ export default function StreakCardContent({
           </div>
           <p className={styles.streakMessage}>{streakMessage}</p>
         </div>
-        <Image src={ggoggoGreet} alt="ggoggo greet" width={120} />
+        <Image
+          src={ggoggoGreet}
+          alt="ggoggo greet"
+          width={120}
+          priority
+          sizes="120px"
+        />
       </div>
       <div className={styles.streakFooter}>
         {days.map((day) => (

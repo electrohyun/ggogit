@@ -12,6 +12,8 @@ export default function LearningRouteContent() {
         alt="ggoggo working"
         width={120}
         className={styles.workingImage}
+        priority
+        sizes="120px"
       />
       <p>{LEARNING_ROUTE_NOTICE}</p>
     </div>

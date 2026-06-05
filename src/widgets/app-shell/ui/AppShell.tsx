@@ -119,12 +119,16 @@ export default function AppShell({
               alt="꼬깃 영어 로고"
               width={100}
               className={styles.logoEng}
+              priority
+              sizes="100px"
             />
             <Image
               src={logoKor}
               alt="꼬깃 한국어 로고"
               width={60}
               className={styles.logoKor}
+              priority
+              sizes="60px"
             />
           </SoundLink>
         </div>
@@ -137,6 +141,8 @@ export default function AppShell({
                 alt="꼬꼬 웃는 얼굴"
                 width={50}
                 className={styles.ggoggoSticker}
+                priority
+                sizes="50px"
               />
               <p className={styles.ggoggoGreeting}>{greeting}</p>
             </div>
