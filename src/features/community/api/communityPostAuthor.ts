@@ -1,7 +1,10 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 import type { CommunityPost, CommunityPostInsertRow } from "@/entities/community";
-import { getUserMetadataName } from "@/features/auth/model/currentUser";
+import {
+  getUserMetadataName,
+  normalizeAvatarUrl,
+} from "@/features/auth/model/currentUser";
 
 interface CommunityGuestAuthorInput {
   guestSessionId: string;
@@ -57,6 +60,6 @@ export const getCommunityPostAuthor = async (
         "User",
       author_role: "user",
     },
-    authorAvatarUrl: profile?.avatar_url ?? undefined,
+    authorAvatarUrl: normalizeAvatarUrl(profile?.avatar_url) ?? undefined,
   };
 };

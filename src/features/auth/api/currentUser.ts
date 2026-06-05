@@ -3,7 +3,11 @@ import {
   ANONYMOUS_CURRENT_USER,
   type CurrentUser,
 } from "@/entities/user";
-import { getCurrentUserAvatarUrl, getCurrentUserName } from "../model/currentUser";
+import {
+  getCurrentUserAvatarUrl,
+  getCurrentUserName,
+  normalizeAvatarUrl,
+} from "../model/currentUser";
 
 interface GetCurrentUserParams {
   claims: JwtPayload | null;
@@ -66,7 +70,8 @@ export const getCurrentUser = async ({
     isGuest: false,
     name: profile?.name ?? getCurrentUserName(claims),
     bio: profile?.bio ?? "",
-    avatarUrl: profile?.avatar_url ?? getCurrentUserAvatarUrl(claims),
+    avatarUrl:
+      normalizeAvatarUrl(profile?.avatar_url) ?? getCurrentUserAvatarUrl(claims),
     currentStreakDays: activityStats?.current_streak_days ?? 0,
     currentBeans: wallet?.current_beans ?? 0,
   };

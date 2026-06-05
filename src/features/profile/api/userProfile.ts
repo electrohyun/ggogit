@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { UserProfile } from "@/entities/profile";
+import { normalizeAvatarUrl } from "@/features/auth/model/currentUser";
 
 const formatJoinedAt = (dateValue: string) => {
   const date = new Date(dateValue);
@@ -97,7 +98,7 @@ export const getUserProfile = async (
   return {
     name: profile?.name ?? "Guest",
     bio: profile?.bio ?? "",
-    avatarUrl: profile?.avatar_url ?? null,
+    avatarUrl: normalizeAvatarUrl(profile?.avatar_url),
     joinedAt: profile?.created_at ? formatJoinedAt(profile.created_at) : "-",
     quizStats,
     activityStats: {
