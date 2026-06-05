@@ -10,6 +10,7 @@ import MiniQuizFeedback from "./MiniQuizFeedback";
 import MiniQuizHud from "./MiniQuizHud";
 import MiniQuizQuestionBody from "./MiniQuizQuestionBody";
 import MiniQuizQuestionHeader from "./MiniQuizQuestionHeader";
+import MiniQuizRewardModal from "./MiniQuizRewardModal";
 import MiniQuizResultActions from "./MiniQuizResultActions";
 import MiniQuizResultHero from "./MiniQuizResultHero";
 import MiniQuizResultScore from "./MiniQuizResultScore";
@@ -22,6 +23,7 @@ export default function MiniQuizStageView() {
   if (isResult) {
     return (
       <div className={styles.quizPage}>
+        <MiniQuizRewardModal />
         <section className={styles.resultPanel} aria-labelledby="result-title">
           <MiniQuizResultHero />
           <MiniQuizResultScore />

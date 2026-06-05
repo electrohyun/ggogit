@@ -87,6 +87,23 @@
   white-space: nowrap;
 }
 
+.claimButton:disabled {
+  cursor: wait;
+  opacity: 0.76;
+}
+
+.claimError {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  left: 10px;
+  z-index: 7;
+
+  color: var(--error-text, #b42318);
+  font-size: 12px;
+  text-align: center;
+}
+
 .badgeModalContent {
   display: flex;
   flex-direction: column;
@@ -106,6 +123,12 @@
   color: var(--text-secondary);
   font-size: 18px;
   line-height: 1.45;
+}
+
+.beanReward {
+  color: var(--primary-deep);
+  font-size: 24px;
+  line-height: 1.2;
 }
 
 @media (min-width: 768px) {

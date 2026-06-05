@@ -11,6 +11,7 @@ export default function MiniQuizActions() {
     currentQuestion,
     goNext,
     isFeedback,
+    isSubmitting,
     questionCount,
     selectedAnswer,
     submitAnswer,
@@ -38,11 +39,11 @@ export default function MiniQuizActions() {
       <button
         type="button"
         className={styles.primaryButton}
-        disabled={isSubmitDisabled}
+        disabled={isSubmitDisabled || isSubmitting}
         onClick={() => submitAnswer(nextAnswer)}
       >
         <Send size={18} aria-hidden="true" />
-        제출하기
+        {isSubmitting ? "채점 중" : "제출하기"}
       </button>
     </div>
   );
