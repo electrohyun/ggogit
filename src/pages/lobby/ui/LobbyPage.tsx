@@ -15,10 +15,17 @@ import TodaySummaryContent from "./TodaySummaryContent";
 
 const POPULAR_QUESTION_COUNT = 3;
 const DAILY_TIP_POOL_SIZE = 7;
+const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
 
 interface LobbyActivityStats {
   currentStreakDays: number;
   lastStudiedOn: string | null;
+}
+
+interface LobbyLearningSummary {
+  challengeCompleted: boolean;
+  joinedDayCount: number;
+  learnedStageCount: number;
 }
 
 interface ContinueStage {
@@ -28,6 +35,38 @@ interface ContinueStage {
   stageTitle: string;
   totalProgressText: string;
 }
+
+const getKstDateString = () => {
+  const formatter = new Intl.DateTimeFormat("en-CA", {
+    day: "2-digit",
+    month: "2-digit",
+    timeZone: "Asia/Seoul",
+    year: "numeric",
+  });
+  const dateParts = formatter.formatToParts(new Date());
+  const year = dateParts.find((part) => part.type === "year")?.value;
+  const month = dateParts.find((part) => part.type === "month")?.value;
+  const day = dateParts.find((part) => part.type === "day")?.value;
+
+  return `${year}-${month}-${day}`;
+};
+
+const getInclusiveDayCount = (dateText: string | null) => {
+  if (!dateText) {
+    return 1;
+  }
+
+  const createdAt = new Date(dateText);
+
+  if (Number.isNaN(createdAt.getTime())) {
+    return 1;
+  }
+
+  return Math.max(
+    1,
+    Math.floor((Date.now() - createdAt.getTime()) / MILLISECONDS_PER_DAY) + 1,
+  );
+};
 
 const getLatestBadge = async (
   supabase: Awaited<ReturnType<typeof createClient>>,
@@ -166,15 +205,70 @@ const getLobbyActivityStats = async (
   };
 };
 
+const getLobbyLearningSummary = async (
+  supabase: Awaited<ReturnType<typeof createClient>>,
+): Promise<LobbyLearningSummary> => {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      challengeCompleted: false,
+      joinedDayCount: 1,
+      learnedStageCount: 0,
+    };
+  }
+
+  const todayDate = getKstDateString();
+  const [
+    { count: learnedStageCount },
+    { data: challengeAttempt },
+    { data: profile },
+  ] = await Promise.all([
+    supabase
+      .from("user_stage_progress")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .not("first_cleared_at", "is", null),
+    supabase
+      .from("daily_git_quiz_attempts")
+      .select("id")
+      .eq("user_id", user.id)
+      .eq("author_role", "user")
+      .eq("quiz_date", todayDate)
+      .eq("status", "completed")
+      .maybeSingle(),
+    supabase
+      .from("profiles")
+      .select("created_at")
+      .eq("id", user.id)
+      .maybeSingle(),
+  ]);
+
+  return {
+    challengeCompleted: Boolean(challengeAttempt),
+    joinedDayCount: getInclusiveDayCount(profile?.created_at ?? null),
+    learnedStageCount: learnedStageCount ?? 0,
+  };
+};
+
 export default async function LobbyPage() {
   const supabase = await createClient();
-  const [questionPosts, latestTips, latestBadge, activityStats, continueStage] =
-    await Promise.all([
+  const [
+    questionPosts,
+    latestTips,
+    latestBadge,
+    activityStats,
+    continueStage,
+    learningSummary,
+  ] = await Promise.all([
     getLatestCommunityPostsByBoard(supabase, "question", 20),
     getLatestCommunityPostsByBoard(supabase, "tip", DAILY_TIP_POOL_SIZE),
     getLatestBadge(supabase),
     getLobbyActivityStats(supabase),
     getContinueStage(supabase),
+    getLobbyLearningSummary(supabase),
   ]);
   const popularQuestions = [...questionPosts]
     .sort((firstQuestion, secondQuestion) => {
@@ -224,10 +318,14 @@ export default async function LobbyPage() {
         <QuickActions className={styles.mobileOnly} />
         <Card
           id="today-summary-card"
-          title="오늘의 학습 요약"
+          title="학습 요약"
           className={`${styles.span2} ${styles.backgroundSecondaryPale} ${styles.desktopOnly}`}
         >
-          <TodaySummaryContent />
+          <TodaySummaryContent
+            challengeCompleted={learningSummary.challengeCompleted}
+            joinedDayCount={learningSummary.joinedDayCount}
+            learnedStageCount={learningSummary.learnedStageCount}
+          />
         </Card>
         <Card
           id="daily-quest-card"

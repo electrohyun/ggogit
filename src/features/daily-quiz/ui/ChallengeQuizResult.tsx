@@ -7,8 +7,15 @@ import styles from "./ChallengeQuizResult.module.css";
 import { useChallengeQuizContext } from "./ChallengeQuizProvider";
 
 export default function ChallengeQuizResult() {
-  const { correctCount, elapsedMs, questionCount, score } =
+  const { correctCount, elapsedMs, questionCount, result, score } =
     useChallengeQuizContext();
+  const resultMessage = result?.rankingEligible
+    ? result.earnedBeans > 0 || result.streakIncremented
+      ? "오늘의 랭킹에 기록되고 보상이 지급됐어요."
+      : "오늘의 랭킹에 기록됐어요."
+    : result?.alreadyCompleted
+      ? "오늘은 이미 기록을 남겼어요. 이번 도전은 결과만 확인해요."
+      : "게스트 결과는 저장하지 않아요. 로그인하면 랭킹에 도전할 수 있어요.";
 
   return (
     <div className={styles.challengeQuizPage}>
@@ -17,7 +24,7 @@ export default function ChallengeQuizResult() {
           <div className={styles.resultText}>
             <p className={styles.eyebrow}>Challenge · 오늘의 미니 퀴즈</p>
             <h1 id="result-title">오늘의 도전을 마쳤어요!</h1>
-            <p>오늘의 랭킹에 기록됐어요.</p>
+            <p>{resultMessage}</p>
           </div>
           <Image
             src={ggoggoCheck}

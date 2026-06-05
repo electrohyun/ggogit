@@ -3,6 +3,9 @@ import Link from "next/link";
 import { Clock3, Flame, Info, Medal, TimerOff, Trophy } from "lucide-react";
 
 import { ggoggoPodium } from "@/assets/mascot";
+import { getDailyQuizSummaryData } from "@/features/daily-quiz";
+import { formatElapsedTime } from "@/features/daily-quiz/model/quizUtils";
+import { createClient } from "@/shared/lib/supabase/server";
 import styles from "./ChallengePage.module.css";
 
 const RULES = [
@@ -26,45 +29,26 @@ const RULES = [
   },
 ] as const;
 
-const RANKINGS = [
-  {
-    rank: 1,
-    name: "꼬닥이",
-    correct: 5,
-    time: "42초",
-    score: 980,
-  },
-  {
-    rank: 2,
-    name: "머지마스터",
-    correct: 5,
-    time: "49초",
-    score: 940,
-  },
-  {
-    rank: 3,
-    name: "브랜치장인",
-    correct: 4,
-    time: "38초",
-    score: 760,
-  },
-  {
-    rank: 4,
-    name: null,
-    correct: null,
-    time: null,
-    score: null,
-  },
-  {
-    rank: 5,
-    name: null,
-    correct: null,
-    time: null,
-    score: null,
-  },
-] as const;
+const formatRecord = (
+  correctCount: number,
+  elapsedMs: number,
+  score: number,
+) => {
+  return `${correctCount}문제 · ${formatElapsedTime(elapsedMs)} · ${score}점`;
+};
 
-export default function ChallengePage() {
+export default async function ChallengePage() {
+  const supabase = await createClient();
+  const summaryData = await getDailyQuizSummaryData(supabase);
+  const rankings = summaryData?.rankings ?? [];
+  const myRecordLabel = summaryData?.myRecord
+    ? formatRecord(
+        summaryData.myRecord.correctCount,
+        summaryData.myRecord.elapsedMs,
+        summaryData.myRecord.score,
+      )
+    : "아직 오늘의 기록이 없어요.";
+
   return (
     <div className={styles.challengePage}>
       <section className={styles.challengeIntro} aria-labelledby="challenge-title">
@@ -79,7 +63,11 @@ export default function ChallengePage() {
 
         <div className={styles.todayTopic}>
           <span>오늘의 도전 세트</span>
-          <strong>학습 문제 중 5개</strong>
+          <strong>
+            {summaryData
+              ? `${summaryData.quizDate} · ${summaryData.questionCount}문제`
+              : "학습 문제 중 5개"}
+          </strong>
           <p>모든 사용자가 같은 문제를 풀고 랭킹을 겨뤄요.</p>
         </div>
 
@@ -132,7 +120,7 @@ export default function ChallengePage() {
         />
 
         <ol className={styles.rankingList}>
-          {RANKINGS.map((item) => (
+          {rankings.map((item) => (
             <li
               key={item.rank}
               className={styles.rankingItem}
@@ -140,9 +128,13 @@ export default function ChallengePage() {
             >
               <span className={styles.rankNumber}>{item.rank}</span>
               <strong>{item.name ?? "-"}</strong>
-              <span>{item.correct ? `${item.correct}문제` : "-"}</span>
-              <span>{item.time ?? "-"}</span>
-              <em>{item.score ? `${item.score}점` : "-"}</em>
+              <span>
+                {item.correctCount !== null ? `${item.correctCount}문제` : "-"}
+              </span>
+              <span>
+                {item.elapsedMs !== null ? formatElapsedTime(item.elapsedMs) : "-"}
+              </span>
+              <em>{item.score !== null ? `${item.score}점` : "-"}</em>
             </li>
           ))}
         </ol>
@@ -151,10 +143,11 @@ export default function ChallengePage() {
           <Flame size={22} aria-hidden="true" />
           <div>
             <span>내 기록</span>
-            <strong>아직 오늘의 기록이 없어요.</strong>
+            <strong>{myRecordLabel}</strong>
           </div>
         </div>
       </section>
     </div>
   );
 }
+
