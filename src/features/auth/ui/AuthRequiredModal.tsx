@@ -53,8 +53,8 @@ export default function AuthRequiredModal({
           src={image}
           alt=""
           width={120}
-          height={120}
           className={styles.image}
+          sizes="120px"
         />
         <p>{description}</p>
         <LoginModalContent source={source} />

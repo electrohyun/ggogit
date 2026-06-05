@@ -7,12 +7,14 @@ import { SoundLink } from "@/shared/ui/sound-link";
 
 interface AppNavLinkProps {
   href: string;
+  ariaLabel?: string;
   className?: string;
   children: ReactNode;
 }
 
 export default function AppNavLink({
   href,
+  ariaLabel,
   className,
   children,
 }: AppNavLinkProps) {
@@ -23,6 +25,7 @@ export default function AppNavLink({
     <SoundLink
       href={href}
       className={className}
+      aria-label={ariaLabel}
       aria-current={isActive ? "page" : undefined}
     >
       {children}

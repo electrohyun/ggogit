@@ -194,35 +194,55 @@ export default function AppShell({
           <nav aria-label="주요 메뉴">
             <ul className={styles.navList}>
               <li>
-                <AppNavLink href="/lobby" className={styles.navItem}>
+                <AppNavLink
+                  href="/lobby"
+                  ariaLabel="홈"
+                  className={styles.navItem}
+                >
                   <HomeIcon size={28} />
                   <span className={styles.navText}>홈</span>
                 </AppNavLink>
               </li>
 
               <li>
-                <AppNavLink href="/study" className={styles.navItem}>
+                <AppNavLink
+                  href="/study"
+                  ariaLabel="학습하기"
+                  className={styles.navItem}
+                >
                   <BookIcon size={28} />
                   <span className={styles.navText}>학습하기</span>
                 </AppNavLink>
               </li>
 
               <li>
-                <AppNavLink href="/challenge" className={styles.navItem}>
+                <AppNavLink
+                  href="/challenge"
+                  ariaLabel="도전하기"
+                  className={styles.navItem}
+                >
                   <TrophyIcon size={28} />
                   <span className={styles.navText}>도전하기</span>
                 </AppNavLink>
               </li>
 
               <li>
-                <AppNavLink href="/community" className={styles.navItem}>
+                <AppNavLink
+                  href="/community"
+                  ariaLabel="커뮤니티"
+                  className={styles.navItem}
+                >
                   <MessageCircleHeartIcon size={28} />
                   <span className={styles.navText}>커뮤니티</span>
                 </AppNavLink>
               </li>
 
               <li>
-                <AppNavLink href="/profile" className={styles.navItem}>
+                <AppNavLink
+                  href="/profile"
+                  ariaLabel="내 정보"
+                  className={styles.navItem}
+                >
                   <UserIcon size={28} />
                   <span className={styles.navText}>내 정보</span>
                 </AppNavLink>
@@ -297,23 +317,43 @@ export default function AppShell({
         <main className={styles.main}>{children}</main>
       </div>
       <nav className={styles.mobileNav} aria-label="모바일 주요 메뉴">
-        <AppNavLink href="/lobby" className={styles.mobileNavItem}>
+        <AppNavLink
+          href="/lobby"
+          ariaLabel="홈"
+          className={styles.mobileNavItem}
+        >
           <HomeIcon size={28} />
           <span className={styles.mobileNavText}>홈</span>
         </AppNavLink>
-        <AppNavLink href="/study" className={styles.mobileNavItem}>
+        <AppNavLink
+          href="/study"
+          ariaLabel="학습"
+          className={styles.mobileNavItem}
+        >
           <BookIcon size={28} />
           <span className={styles.mobileNavText}>학습</span>
         </AppNavLink>
-        <AppNavLink href="/challenge" className={styles.mobileNavItem}>
+        <AppNavLink
+          href="/challenge"
+          ariaLabel="도전"
+          className={styles.mobileNavItem}
+        >
           <TrophyIcon size={28} />
           <span className={styles.mobileNavText}>도전</span>
         </AppNavLink>
-        <AppNavLink href="/community" className={styles.mobileNavItem}>
+        <AppNavLink
+          href="/community"
+          ariaLabel="커뮤니티"
+          className={styles.mobileNavItem}
+        >
           <MessageCircleHeartIcon size={28} />
           <span className={styles.mobileNavText}>커뮤니티</span>
         </AppNavLink>
-        <AppNavLink href="/profile" className={styles.mobileNavItem}>
+        <AppNavLink
+          href="/profile"
+          ariaLabel="내 정보"
+          className={styles.mobileNavItem}
+        >
           <UserIcon size={28} />
           <span className={styles.mobileNavText}>내 정보</span>
         </AppNavLink>

@@ -82,6 +82,7 @@ export default function ContinueCardContent({
           width={230}
           className={styles.continueImage}
           priority
+          fetchPriority="high"
           sizes="230px"
         />
       </div>

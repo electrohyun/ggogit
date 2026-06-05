@@ -40,8 +40,8 @@ export default function StartButton({
               src={ggoggoGreet}
               alt=""
               width={128}
-              height={128}
               className={styles.modalMascot}
+              sizes="128px"
             />
             <p className={styles.modalDescription}>{description}</p>
             <LoginModalContent allowGuestEntry={allowGuestEntry} />
