@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
+import {
+  getSiteUrl,
+  OG_IMAGE,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+} from "@/shared/lib/seo/metadata";
 import "./globals.css";
 
 const pretendard = localFont({
@@ -22,37 +28,27 @@ const cascadiaCode = localFont({
   display: "swap",
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL
-  ? process.env.NEXT_PUBLIC_SITE_URL
-  : process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000";
-const OG_IMAGE = {
-  url: "/images/og/og.png",
-  width: 1672,
-  height: 941,
-  alt: "꼬깃 로고와 꼬꼬 마스코트",
-};
-
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
+  metadataBase: new URL(getSiteUrl()),
+  applicationName: SITE_NAME,
   title: {
-    default: "꼬깃",
-    template: "%s | 꼬깃",
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
   },
-  description: "Git 그래프 중심 퍼즐 학습 게임",
+  description: SITE_DESCRIPTION,
+  keywords: ["Git", "깃", "Git 학습", "Git 퀴즈", "꼬깃"],
   openGraph: {
-    title: "꼬깃",
-    description: "Git 그래프 중심 퍼즐 학습 게임",
-    siteName: "꼬깃",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    siteName: SITE_NAME,
     locale: "ko_KR",
     type: "website",
     images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: "꼬깃",
-    description: "Git 그래프 중심 퍼즐 학습 게임",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
     images: [OG_IMAGE],
   },
 };
