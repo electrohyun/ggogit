@@ -24,6 +24,7 @@ const POSTS_PER_PAGE = 10;
 interface NoticesPageProps {
   searchParams?: Promise<{
     q?: string;
+    page?: string;
   }>;
 }
 
@@ -35,15 +36,40 @@ const matchesNoticeSearch = (post: CommunityPost, query: string) =>
   ].some((value) => value?.toLowerCase().includes(query));
 
 export default async function NoticesPage({ searchParams }: NoticesPageProps) {
-  const rawQuery = (await searchParams)?.q ?? "";
+  const params = await searchParams;
+  const rawQuery = params?.q ?? "";
+  const rawPage = Number(params?.page ?? "1");
   const query = rawQuery.trim().toLowerCase();
+  const requestedPage = Number.isInteger(rawPage) && rawPage > 0 ? rawPage : 1;
   const supabase = await createClient();
   const noticePosts = await getCommunityPostsByBoard(supabase, "notice");
   const filteredPosts = query
     ? noticePosts.filter((post) => matchesNoticeSearch(post, query))
     : noticePosts;
-  const visiblePosts = filteredPosts.slice(0, POSTS_PER_PAGE);
-  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredPosts.length / POSTS_PER_PAGE),
+  );
+  const currentPage = Math.min(requestedPage, totalPages);
+  const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+  const visiblePosts = filteredPosts.slice(
+    startIndex,
+    startIndex + POSTS_PER_PAGE,
+  );
+  const previousPage = Math.max(currentPage - 1, 1);
+  const nextPage = Math.min(currentPage + 1, totalPages);
+
+  const getPageHref = (page: number) => {
+    const params = new URLSearchParams();
+
+    if (rawQuery.trim()) {
+      params.set("q", rawQuery.trim());
+    }
+
+    params.set("page", String(page));
+
+    return `/community/notices?${params.toString()}`;
+  };
 
   return (
     <div className={styles.container}>
@@ -107,43 +133,52 @@ export default async function NoticesPage({ searchParams }: NoticesPageProps) {
         })}
       </div>
       <nav className={styles.pagination} aria-label="공지사항 페이지">
-        <button
-          type="button"
+        <Link
+          href={getPageHref(1)}
           className={styles.pageIconButton}
           aria-label="첫 페이지"
         >
           <ChevronsLeft size={18} aria-hidden="true" />
-        </button>
-        <button
-          type="button"
+        </Link>
+        <Link
+          href={getPageHref(previousPage)}
           className={styles.pageIconButton}
           aria-label="이전 페이지"
         >
           <ChevronLeft size={18} aria-hidden="true" />
-        </button>
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index + 1}
-            type="button"
-            className={index === 0 ? styles.activePageButton : styles.pageButton}
-          >
-            {index + 1}
-          </button>
-        ))}
-        <button
-          type="button"
+        </Link>
+        {Array.from({ length: totalPages }, (_, index) => {
+          const page = index + 1;
+
+          return (
+            <Link
+              key={page}
+              href={getPageHref(page)}
+              className={
+                page === currentPage
+                  ? styles.activePageButton
+                  : styles.pageButton
+              }
+              aria-current={page === currentPage ? "page" : undefined}
+            >
+              {page}
+            </Link>
+          );
+        })}
+        <Link
+          href={getPageHref(nextPage)}
           className={styles.pageIconButton}
           aria-label="다음 페이지"
         >
           <ChevronRight size={18} aria-hidden="true" />
-        </button>
-        <button
-          type="button"
+        </Link>
+        <Link
+          href={getPageHref(totalPages)}
           className={styles.pageIconButton}
           aria-label="마지막 페이지"
         >
           <ChevronsRight size={18} aria-hidden="true" />
-        </button>
+        </Link>
       </nav>
     </div>
   );
