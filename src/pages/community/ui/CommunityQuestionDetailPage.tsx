@@ -1,8 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 
 import { ggoggoSmile } from "@/assets/mascot";
+import { getCommunityFirstParagraph } from "@/entities/community";
+import { getCommunityCommentsByPostId } from "@/features/community/api/communityComments";
+import { getCommunityPostById } from "@/features/community/api/communityPosts";
+import { createClient } from "@/shared/lib/supabase/server";
 import styles from "./CommunityQuestionDetailPage.module.css";
 
 interface QuestionDetailPageProps {
@@ -11,96 +16,77 @@ interface QuestionDetailPageProps {
   }>;
 }
 
-const QUESTION_DETAIL = {
-  title: "첫 질문입니다...",
-  author: "꼬꼬",
-  createdAt: "2026.06.01 14:20",
-  likes: 7,
-  views: 42,
-  avatar: ggoggoSmile,
-  content:
-    "Git 공부를 막 시작했는데 merge랑 rebase는 언제 쓰면 좋은지 아직 헷갈려요. 둘 다 브랜치를 합치는 느낌인데, 실제 협업에서는 어떤 기준으로 고르면 좋을까요?",
-};
-
-const ANSWERS = [
-  {
-    id: 1,
-    author: "꼬꼬선생",
-    createdAt: "14:32",
-    content:
-      "merge는 기록을 남기면서 합치고, rebase는 커밋 흐름을 깔끔하게 정리할 때 좋아요. 협업 중인 공유 브랜치에서는 rebase를 조심해서 쓰는 편이 안전합니다.",
-  },
-  {
-    id: 2,
-    author: "브랜치장인",
-    createdAt: "14:45",
-    content:
-      "처음에는 merge부터 익히는 걸 추천해요. 기록이 그대로 보여서 나중에 어떤 흐름으로 작업했는지 따라가기 쉽습니다.",
-  },
-  {
-    id: 3,
-    author: "깃린이",
-    createdAt: "15:02",
-    content: "오 저도 이거 궁금했는데 답변 보고 이해됐어요!",
-  },
-];
-
 export default async function QuestionDetailPage({
   params,
 }: QuestionDetailPageProps) {
   const { id } = await params;
+  const supabase = await createClient();
+  const question = await getCommunityPostById(supabase, "question", id);
+
+  if (!question) {
+    notFound();
+  }
+
+  const comments = await getCommunityCommentsByPostId(supabase, question.id);
 
   return (
     <div className={styles.container}>
       <article className={styles.questionCard}>
         <div className={styles.questionHeader}>
           <div>
-            <h1>{QUESTION_DETAIL.title}</h1>
+            <h1>{question.title}</h1>
             <div className={styles.questionMeta}>
               <Image
-                src={QUESTION_DETAIL.avatar}
-                alt={`${QUESTION_DETAIL.author} 프로필`}
+                src={ggoggoSmile}
+                alt={`${question.authorName} 프로필`}
                 width={44}
                 height={44}
                 className={styles.avatar}
               />
               <p>
-                #{id} · {QUESTION_DETAIL.author} · {QUESTION_DETAIL.createdAt} ·
-                조회 {QUESTION_DETAIL.views}
+                #{question.id} · {question.authorName} ·{" "}
+                <time dateTime={question.createdAtDateTime}>
+                  {question.createdAt}
+                </time>{" "}
+                · 조회 {question.viewCount}
               </p>
             </div>
           </div>
         </div>
-        <p className={styles.questionContent}>{QUESTION_DETAIL.content}</p>
+        <p className={styles.questionContent}>
+          {getCommunityFirstParagraph(question)}
+        </p>
         <div className={styles.questionActions}>
           <Link href="/community/questions" className={styles.backLink}>
             <ChevronLeft size={18} aria-hidden="true" />
             목록으로
           </Link>
           <button type="button" className={styles.likeButton}>
-            따봉 {QUESTION_DETAIL.likes}
+            따봉 {question.likeCount}
           </button>
         </div>
       </article>
 
       <section className={styles.answerSection} aria-labelledby="answers-title">
-        <h2 id="answers-title">답변 {ANSWERS.length}</h2>
+        <h2 id="answers-title">답변 {comments.length}</h2>
         <div className={styles.answerList}>
-          {ANSWERS.map((answer) => (
-            <article key={answer.id} className={styles.answerItem}>
+          {comments.map((comment) => (
+            <article key={comment.id} className={styles.answerItem}>
               <Image
                 src={ggoggoSmile}
-                alt={`${answer.author} 프로필`}
+                alt={`${comment.authorName} 프로필`}
                 width={44}
                 height={44}
                 className={styles.avatar}
               />
               <div className={styles.answerBubble}>
                 <div className={styles.answerMeta}>
-                  <strong>{answer.author}</strong>
-                  <time>{answer.createdAt}</time>
+                  <strong>{comment.authorName}</strong>
+                  <time dateTime={comment.createdAtDateTime}>
+                    {comment.createdAt}
+                  </time>
                 </div>
-                <p>{answer.content}</p>
+                <p>{comment.content}</p>
               </div>
             </article>
           ))}

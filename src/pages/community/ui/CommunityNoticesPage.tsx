@@ -7,45 +7,16 @@ import {
   Search,
 } from "lucide-react";
 
+import { getCommunityPostsByBoard } from "@/features/community/api/communityPosts";
+import { createClient } from "@/shared/lib/supabase/server";
 import styles from "./CommunityNoticesPage.module.css";
 
 const POSTS_PER_PAGE = 10;
 
-const NOTICE_POSTS = [
-  {
-    id: 1,
-    title: "꼬깃 커뮤니티 오픈 준비 안내",
-    createdAt: "2026.06.01",
-    views: 128,
-  },
-  {
-    id: 2,
-    title: "v0.5 미니 퀴즈 MVP 업데이트 예정 안내",
-    createdAt: "2026.05.28",
-    views: 96,
-  },
-  {
-    id: 3,
-    title: "게스트 이용 중 기록 저장 범위 안내",
-    createdAt: "2026.05.24",
-    views: 74,
-  },
-  {
-    id: 4,
-    title: "질문과 대답 게시판 이용 가이드",
-    createdAt: "2026.05.20",
-    views: 63,
-  },
-  {
-    id: 5,
-    title: "초기 테스트 기간 중 변경될 수 있는 기능 안내",
-    createdAt: "2026.05.16",
-    views: 58,
-  },
-];
-
-export default function NoticesPage() {
-  const totalPages = Math.ceil(NOTICE_POSTS.length / POSTS_PER_PAGE);
+export default async function NoticesPage() {
+  const supabase = await createClient();
+  const noticePosts = await getCommunityPostsByBoard(supabase, "notice");
+  const totalPages = Math.ceil(noticePosts.length / POSTS_PER_PAGE);
 
   return (
     <div className={styles.container}>
@@ -73,7 +44,7 @@ export default function NoticesPage() {
           <span>작성일</span>
           <span>조회</span>
         </div>
-        {NOTICE_POSTS.map((post) => (
+        {noticePosts.map((post) => (
           <Link
             key={post.id}
             href={`/community/notices/${post.id}`}
@@ -81,10 +52,15 @@ export default function NoticesPage() {
           >
             <span className={styles.postId}>{post.id}</span>
             <h2 className={styles.postTitle}>{post.title}</h2>
-            <time className={styles.createdAt}>{post.createdAt}</time>
-            <span className={styles.views}>{post.views}</span>
+            <time
+              className={styles.createdAt}
+              dateTime={post.createdAtDateTime}
+            >
+              {post.createdAt}
+            </time>
+            <span className={styles.views}>{post.viewCount}</span>
             <p className={styles.mobileMeta}>
-              #{post.id} · {post.createdAt} · 조회 {post.views}
+              #{post.id} · {post.createdAt} · 조회 {post.viewCount}
             </p>
           </Link>
         ))}
