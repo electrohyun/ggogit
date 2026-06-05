@@ -10,10 +10,8 @@ import {
   getCommunityFirstParagraph,
   type CommunityPost,
 } from "@/entities/community";
-import { getOrCreateGuestIdentity, useCurrentUserStore } from "@/entities/user";
-import { AuthRequiredModal } from "@/features/auth";
+import { getOrCreateGuestIdentity } from "@/entities/user";
 import { createGuestbookPost } from "@/features/community/api/communityGuestbook.action";
-import { trackEvent } from "@/shared/lib/analytics";
 import { SoundLink } from "@/shared/ui/sound-link";
 import styles from "./CommunityPage.module.css";
 
@@ -31,9 +29,7 @@ export default function CommunityGuestbookList({
   const [errorMessage, setErrorMessage] = useState("");
   const [addedEntries, setAddedEntries] = useState<CommunityPost[]>([]);
   const [visibleCount, setVisibleCount] = useState(INITIAL_GUESTBOOK_COUNT);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const authRole = useCurrentUserStore((state) => state.currentUser.authRole);
   const guestbookEntries = useMemo(() => {
     const entryIds = new Set(entries.map((entry) => entry.id));
     const visibleAddedEntries = addedEntries.filter(
@@ -55,14 +51,6 @@ export default function CommunityGuestbookList({
 
     if (!newContent) {
       setErrorMessage("방명록 내용을 입력해주세요.");
-      return;
-    }
-
-    if (authRole === "anonymous") {
-      trackEvent("anonymous_community_write_attempt", {
-        source: "guestbook",
-      });
-      setIsAuthModalOpen(true);
       return;
     }
 
@@ -157,15 +145,6 @@ export default function CommunityGuestbookList({
           더보기
           <ChevronDown size={18} aria-hidden="true" />
         </button>
-      )}
-      {isAuthModalOpen && (
-        <AuthRequiredModal
-          title="로그인해야 글을 남길 수 있어요"
-          description="게스트로 시작하거나 로그인하면 방명록과 질문을 남길 수 있어요."
-          reason="write_community"
-          source="community"
-          onClose={() => setIsAuthModalOpen(false)}
-        />
       )}
     </>
   );

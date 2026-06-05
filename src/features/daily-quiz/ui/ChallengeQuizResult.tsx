@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ggoggoCheck } from "@/assets/mascot";
 import { useCurrentUserStore } from "@/entities/user";
@@ -14,8 +14,9 @@ export default function ChallengeQuizResult() {
   const { correctCount, elapsedMs, questionCount, result, score } =
     useChallengeQuizContext();
   const authRole = useCurrentUserStore((state) => state.currentUser.authRole);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isAuthModalDismissed, setIsAuthModalDismissed] = useState(false);
   const isAnonymous = authRole === "anonymous";
+  const isAuthModalOpen = isAnonymous && !isAuthModalDismissed;
   const resultMessage = isAnonymous
     ? "지금 결과는 저장되지 않았어요. 로그인하면 랭킹에 도전할 수 있어요."
     : result?.rankingEligible
@@ -24,14 +25,17 @@ export default function ChallengeQuizResult() {
       : "오늘의 랭킹에 기록됐어요."
     : result?.alreadyCompleted
       ? "오늘은 이미 기록을 남겼어요. 이번 도전은 결과만 확인해요."
-      : "게스트 결과는 저장하지 않아요. 로그인하면 랭킹에 도전할 수 있어요.";
+      : "지금 결과는 저장되지 않았어요. 로그인하면 랭킹에 도전할 수 있어요.";
 
-  const handleSavePrompt = () => {
-    trackEvent("anonymous_save_attempt", {
+  useEffect(() => {
+    if (!isAuthModalOpen) {
+      return;
+    }
+
+    trackEvent("anonymous_save_prompt_auto_shown", {
       source: "challenge",
     });
-    setIsAuthModalOpen(true);
-  };
+  }, [isAuthModalOpen]);
 
   return (
     <div className={styles.challengeQuizPage}>
@@ -70,15 +74,6 @@ export default function ChallengeQuizResult() {
         </div>
 
         <div className={styles.resultActions}>
-          {isAnonymous && (
-            <button
-              type="button"
-              className={styles.primaryButton}
-              onClick={handleSavePrompt}
-            >
-              기록 저장하기
-            </button>
-          )}
           <SoundLink href="/challenge#ranking" className={styles.primaryLink}>
             오늘의 랭킹 확인하기
           </SoundLink>
@@ -86,11 +81,11 @@ export default function ChallengeQuizResult() {
       </section>
       {isAuthModalOpen && (
         <AuthRequiredModal
-          title="로그인해야 기록을 저장할 수 있어요"
-          description="게스트로 시작하거나 로그인하면 오늘의 챌린지 결과와 랭킹 기록을 저장할 수 있어요."
+          title="로그인하면 기록을 저장할 수 있어요"
+          description="지금 결과는 저장되지 않아요. 로그인하면 오늘의 챌린지 결과와 랭킹 기록을 저장할 수 있어요."
           reason="save_progress"
           source="challenge"
-          onClose={() => setIsAuthModalOpen(false)}
+          onClose={() => setIsAuthModalDismissed(true)}
         />
       )}
     </div>

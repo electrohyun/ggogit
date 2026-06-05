@@ -39,12 +39,15 @@ export default function DailyQuestContent({
     (sum, quest) => (quest.status === "completed" ? sum + quest.reward : sum),
     0,
   );
+  const isAllClaimed = quests.every((quest) => quest.status === "claimed");
   const isClaimDisabled = claimableReward === 0 || isClaimPending;
   const buttonLabel = isClaimPending
     ? "받는 중"
     : claimableReward > 0
       ? "보상 받기"
-      : "데일리 퀘스트 완료!";
+      : isAllClaimed
+        ? "데일리 퀘스트 완료!"
+        : "진행 중";
 
   useEffect(() => {
     if (
@@ -117,7 +120,7 @@ export default function DailyQuestContent({
       {isAuthModalOpen && (
         <AuthRequiredModal
           title="로그인해야 보상을 받을 수 있어요"
-          description="게스트로 시작하거나 로그인하면 데일리 퀘스트 보상과 콩 기록을 저장할 수 있어요."
+          description="로그인하면 데일리 퀘스트 보상과 콩 기록을 저장할 수 있어요."
           reason="claim_reward"
           source="daily_quest"
           onClose={() => setIsAuthModalOpen(false)}
