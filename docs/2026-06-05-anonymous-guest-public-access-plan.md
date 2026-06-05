@@ -122,7 +122,7 @@ app/
 ### 페이지별 초안
 
 - `/`: SSG
-- `/credits`: SSG 후보. 공개 레이아웃으로 옮기면 정적 가능.
+- `/credits`: SSG. 공개 레이아웃으로 분리하고 `force-static`을 명시한다.
 - `/study`: 정적 학습 데이터 기반이면 SSG.
 - `/study/[chapterId]/[stageId]`: 정적 문제 세트 기반이면 SSG + `generateStaticParams`.
 - `/community/tips`: ISR 후보.
@@ -216,3 +216,5 @@ app/
 - 2026-06-05: SSG/ISR 레이아웃 분리는 후속 이슈가 아니라 같은 이슈 안의 후속 커밋으로 처리한다. 먼저 접근 정책과 익명 UX를 구현하고, 이후 공개 레이아웃과 앱 레이아웃 분리 및 캐싱 전략을 별도 커밋으로 적용한다.
 - 2026-06-05: 커스텀 Analytics 이벤트는 최소 포함한다. 핵심 전환 지점만 추적하고, userId, email, nickname 같은 개인정보는 이벤트 속성에 넣지 않는다. 상세 이벤트 설계는 `docs/2026-06-05-analytics-events.md`에 문서화한다.
 - 2026-06-05: 미니 퀴즈 스테이지는 현재 문제별 로그인 사용자 RPC 구조라 익명 완료 결과의 사후 저장을 즉시 구현하지 않는다. 1차 구현은 익명 플레이와 결과 확인, 저장 시도 모달까지로 제한한다.
+- 2026-06-05: `/credits`는 `(public)` route group으로 이동하고, 쿠키를 읽지 않는 공개 AppShell 레이아웃을 사용해 SSG 대상으로 전환한다.
+- 2026-06-05: `/study`, `/community/*` 정적화는 Supabase 서버 클라이언트가 쿠키를 읽는 현재 구조와 데이터 최신성 정책 때문에 보류한다. 후속으로 쿠키 없는 public Supabase client 또는 별도 fetch 레이어를 만든 뒤 SSG/ISR을 적용한다.

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 
 export { CreditsPage as default } from "@/pages/credits";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   title: "크레딧",
   description: "꼬깃을 만든 이유와 도움을 준 사람들, 에셋 출처를 소개합니다.",
