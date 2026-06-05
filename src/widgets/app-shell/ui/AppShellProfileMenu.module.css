@@ -82,6 +82,11 @@
   background-color: var(--primary-soft);
 }
 
+.logoutItem {
+  margin-top: 4px;
+  color: var(--text-secondary);
+}
+
 .soundPanel {
   display: flex;
   flex-direction: column;
@@ -93,7 +98,6 @@
 
 .soundRange {
   display: flex;
-  align-items: center;
   color: var(--text-secondary);
   font-size: 13px;
   flex-direction: column;

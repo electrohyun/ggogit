@@ -76,11 +76,11 @@ export default function AppShellProfileMenu({
           </SoundLink>
           <SoundLink
             className={styles.menuItem}
-            href="/auth/logout"
+            href="/credits"
             role="menuitem"
             onClick={() => setIsOpen(false)}
           >
-            로그아웃
+            크레딧
           </SoundLink>
           <div className={styles.soundPanel}>
             <label className={styles.soundRange}>
@@ -114,6 +114,14 @@ export default function AppShellProfileMenu({
               />
             </label>
           </div>
+          <SoundLink
+            className={`${styles.menuItem} ${styles.logoutItem}`}
+            href="/auth/logout"
+            role="menuitem"
+            onClick={() => setIsOpen(false)}
+          >
+            로그아웃
+          </SoundLink>
         </div>
       ) : null}
     </div>
