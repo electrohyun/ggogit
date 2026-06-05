@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ProfilePage } from "@/pages/profile";
+import { createPageMetadata } from "@/shared/lib/seo/metadata";
 
 interface ProfileDetailPageProps {
   params: Promise<{
@@ -12,10 +13,12 @@ export const generateMetadata = async ({
 }: ProfileDetailPageProps): Promise<Metadata> => {
   const { id } = await params;
 
-  return {
+  return createPageMetadata({
     title: "프로필",
     description: `${id} 사용자의 꼬깃 프로필과 학습 기록을 확인합니다.`,
-  };
+    noIndex: true,
+    path: `/profile/${id}`,
+  });
 };
 
 export default async function ProfileDetailPage({
