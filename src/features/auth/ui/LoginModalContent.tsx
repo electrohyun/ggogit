@@ -23,13 +23,26 @@ export default function LoginModalContent({
 
     const supabase = createClient();
     const scopes = provider === "github" ? "read:user user:email" : undefined;
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    const authOptions = {
+      redirectTo: `${window.location.origin}/auth/callback`,
+      scopes,
+    };
+
+    if (session?.user.is_anonymous) {
+      await supabase.auth.linkIdentity({
+        provider,
+        options: authOptions,
+      });
+
+      return;
+    }
 
     await supabase.auth.signInWithOAuth({
       provider,
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-        scopes,
-      },
+      options: authOptions,
     });
   };
 

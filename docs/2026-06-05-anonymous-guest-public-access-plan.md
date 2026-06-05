@@ -9,7 +9,7 @@
 ## 사용자 상태 용어
 
 - 익명: 세션 없음. 읽기와 플레이 체험은 가능하지만 서버 기록 저장은 불가능하다.
-- 게스트: 게스트 세션 있음. 랜덤 이름을 가지며 기록, 콩, 스트릭 등을 임시 저장할 수 있다.
+- 게스트: Supabase anonymous auth 세션 있음. 랜덤 이름을 가지며 기록, 콩, 스트릭 등을 임시 저장할 수 있다.
 - 로그인 사용자: 소셜 로그인 계정이 있으며 기록을 계정에 저장한다.
 
 ## 현재 합의된 방향
@@ -19,11 +19,12 @@
 - 익명에게도 음소거 버튼과 사운드 설정을 제공한다.
 - 익명 헤더의 프로필 자리에는 `시작하기` 버튼을 둔다.
 - 게스트 세션은 자동 생성하지 않고, 사용자가 버튼을 누를 때 생성한다.
-- 첫 방문에도 안내 모달을 띄운다.
+- 첫 방문 안내 모달은 띄우지 않는다.
 - 저장, 보상 수령, 커뮤니티 작성 같은 행동 시에도 로그인/게스트 유도 모달을 띄운다.
 - 익명 플레이 결과는 화면에 보여준다.
 - 익명으로 달성한 현재 플레이 결과는 게스트 전환 또는 소셜 로그인 후 반영하는 방향으로 간다.
 - 데일리 퀘스트는 익명에게도 보여주되, 수령하기를 누르면 로그인/게스트 유도 모달을 띄운다.
+- 게스트 세션은 쿠키 기반 임시 세션이 아니라 Supabase anonymous auth로 만든다.
 
 ## 공개/저장 권한 기준
 
@@ -79,6 +80,45 @@
 - 따라서 익명으로 이미 끝낸 미니 퀴즈 결과를 사후에 그대로 저장하려면 별도 trusted server action/RPC가 필요하다.
 - 이번 1차 구현은 익명에게 플레이와 결과 확인을 열고, 저장 버튼을 눌렀을 때 로그인/게스트 유도 모달을 띄우는 데서 멈춘다.
 - 미니 퀴즈 결과 사후 저장은 DB/RPC 설계가 필요하므로 같은 이슈의 후속 커밋 또는 별도 범위에서 처리한다.
+
+### 미니 퀴즈 사후 저장 RPC 초안
+
+- SQL 파일: `supabase/sql/019_claim_mini_quiz_stage_result_from_answers.sql`
+- `grade_mini_quiz_question_preview(question_id, submitted_answer)`
+  - 익명 플레이 중 문제별 피드백을 받을 때 사용한다.
+  - 정답 테이블은 직접 공개하지 않고, security definer 함수가 서버에서 채점한다.
+- `claim_mini_quiz_stage_result_from_answers(chapter_id, stage_number, answers)`
+  - 게스트/소셜 전환 후 sessionStorage에 있던 답안을 넘겨 서버에서 다시 채점하고 저장한다.
+  - 클라이언트가 넘긴 `correct_count`, `star_count`, `earned_beans`는 신뢰하지 않는다.
+  - 중복 보상은 `user_stage_progress.first_cleared_at`, `best_star_count` 기준으로 막는다.
+
+`answers` 형식:
+
+```json
+[
+  {
+    "question_id": "git-start-init-mcq-01",
+    "submitted_answer": "a",
+    "submit_reason": "manual"
+  }
+]
+```
+
+주의:
+
+- 기존 쿠키 기반 게스트는 `auth.uid()`가 없기 때문에 `auth.users`에 연결되는 stage progress를 저장할 수 없다.
+- Supabase anonymous auth 게스트는 `auth.uid()`가 있으므로 기존 user progress, wallet, activity stats 테이블을 그대로 사용할 수 있다.
+- 위 RPC는 Supabase authenticated 사용자 기준이다. Supabase anonymous auth 게스트도 authenticated role이므로 호출할 수 있다.
+
+### Supabase anonymous auth 전환
+
+- 게스트 시작은 `/auth/guest`에서 `supabase.auth.signInAnonymously()`를 호출한다.
+- 랜덤 게스트 닉네임은 anonymous user metadata의 `name`으로 넣는다.
+- `ensure_user_app_data()`가 anonymous user의 profile, wallet, activity row를 초기화한다.
+- JWT의 `is_anonymous` claim 또는 `user.is_anonymous` 값으로 앱 안에서는 `authRole: "guest"`로 분류한다.
+- anonymous guest는 Supabase Auth 기준으로는 `authenticated` role을 쓰므로 기존 RLS와 RPC의 `auth.uid()` 경로를 그대로 사용할 수 있다.
+- 소셜 로그인 전환은 anonymous session이 있으면 일반 `signInWithOAuth()`가 아니라 `linkIdentity()`를 사용한다.
+- Supabase 프로젝트 설정에서 Anonymous Sign-Ins와 Manual Identity Linking을 활성화해야 한다.
 
 ## 렌더링 전략
 
@@ -218,3 +258,5 @@ app/
 - 2026-06-05: 미니 퀴즈 스테이지는 현재 문제별 로그인 사용자 RPC 구조라 익명 완료 결과의 사후 저장을 즉시 구현하지 않는다. 1차 구현은 익명 플레이와 결과 확인, 저장 시도 모달까지로 제한한다.
 - 2026-06-05: `/credits`는 `(public)` route group으로 이동하고, 쿠키를 읽지 않는 공개 AppShell 레이아웃을 사용해 SSG 대상으로 전환한다.
 - 2026-06-05: `/study`, `/community/*` 정적화는 Supabase 서버 클라이언트가 쿠키를 읽는 현재 구조와 데이터 최신성 정책 때문에 보류한다. 후속으로 쿠키 없는 public Supabase client 또는 별도 fetch 레이어를 만든 뒤 SSG/ISR을 적용한다.
+- 2026-06-05: 미니 퀴즈 사후 저장 SQL 초안을 추가한다. 단순 결과값 저장이 아니라 문제별 제출 답안을 서버에서 다시 채점하는 방식으로 설계한다.
+- 2026-06-05: 게스트 모델은 쿠키 기반 게스트에서 Supabase anonymous auth 기반 게스트로 전환한다. 게스트도 `auth.uid()`가 있으므로 미니 퀴즈, 데일리 챌린지, 콩, 스트릭 저장 경로를 기존 user 테이블/RPC로 통합한다.

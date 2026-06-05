@@ -15,7 +15,7 @@ export default async function ProfilePage({ userId }: ProfilePageProps) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
+  if (!user || user.is_anonymous) {
     redirect("/lobby");
   }
 
