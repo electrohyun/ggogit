@@ -22,35 +22,36 @@ const getSummaryItems = ({
   currentStreakDays: number;
   totalStageCount: number;
   totalStarCount: number;
-}) => [
-  {
-    id: "stars",
-    label: "획득한 별",
-    mobileLabel: "별",
-    value: String(totalStarCount),
-    total: String(totalStageCount * 3),
-    unit: null,
-    image: stageStar,
-  },
-  {
-    id: "cleared",
-    label: "클리어한 스테이지",
-    mobileLabel: "클리어",
-    value: String(clearedStageCount),
-    total: String(totalStageCount),
-    unit: null,
-    image: stageCheck,
-  },
-  {
-    id: "streak",
-    label: "연속 학습 기록",
-    mobileLabel: "연속 기록",
-    value: String(currentStreakDays),
-    total: null,
-    unit: "일째",
-    image: stageStreak,
-  },
-] as const;
+}) =>
+  [
+    {
+      id: "stars",
+      label: "획득한 별",
+      mobileLabel: "별",
+      value: String(totalStarCount),
+      total: String(totalStageCount * 3),
+      unit: null,
+      image: stageStar,
+    },
+    {
+      id: "cleared",
+      label: "클리어한 스테이지",
+      mobileLabel: "클리어",
+      value: String(clearedStageCount),
+      total: String(totalStageCount),
+      unit: null,
+      image: stageCheck,
+    },
+    {
+      id: "streak",
+      label: "연속 학습 기록",
+      mobileLabel: "연속 기록",
+      value: String(currentStreakDays),
+      total: null,
+      unit: "일째",
+      image: stageStreak,
+    },
+  ] as const;
 
 const CHAPTER_IMAGES = [stage1, stage2, stage3, stage4, stage5] as const;
 
@@ -63,7 +64,7 @@ export default async function StudyPage() {
     <div className={styles.studyPage}>
       <section className={styles.hero} aria-labelledby="study-title">
         <div className={styles.heroText}>
-          <p className={styles.eyebrow}>학습하기</p>
+          <p className={styles.eyebrow}>Study</p>
           <h1 id="study-title">미니 퀴즈</h1>
           <p className={styles.heroDescription}>
             Git 명령어 길을 따라 한 단계씩 익혀요.

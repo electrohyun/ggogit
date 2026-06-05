@@ -1,12 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { playClickSound } from "@/shared/lib/sound/soundPlayer";
 import { createClient } from "@/shared/lib/supabase/client";
+import { useSoundStore } from "@/shared/model/sound/soundStore";
+import { SoundLink } from "@/shared/ui/sound-link";
 import styles from "./LoginModalContent.module.css";
 
 export default function LoginModalContent() {
+  const soundSettings = useSoundStore((state) => state.soundSettings);
+
   const handleOAuthLogin = async (provider: "github" | "kakao") => {
+    playClickSound(soundSettings);
+
     const supabase = createClient();
     const scopes = provider === "github" ? "read:user user:email" : undefined;
 
@@ -54,9 +60,9 @@ export default function LoginModalContent() {
         <span>또는</span>
         <hr />
       </div>
-      <Link className={styles.guest} href="/auth/guest">
+      <SoundLink className={styles.guest} href="/auth/guest">
         게스트 로그인
-      </Link>
+      </SoundLink>
     </div>
   );
 }

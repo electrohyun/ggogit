@@ -57,6 +57,12 @@
   width: min(42%, 280px);
   height: auto;
   object-fit: contain;
+  transform-origin: 50% 82%;
+  transition: transform 180ms ease;
+}
+
+.hero:hover .heroImage {
+  transform: scale(1.04) rotate(3deg);
 }
 
 .summaryGrid {
@@ -162,6 +168,11 @@
   width: 76px;
   height: 76px;
   object-fit: contain;
+  transition: transform 180ms ease;
+}
+
+.chapterRow:hover .chapterImage {
+  transform: scale(1.05);
 }
 
 .chapterTitleRow h2 {

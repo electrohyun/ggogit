@@ -1,5 +1,5 @@
 export const SOUND_SETTINGS_STORAGE_KEY = "ggogit:sound-settings";
-export const DEFAULT_SOUND_VOLUME = 0.15;
+export const DEFAULT_SOUND_VOLUME = 0.12;
 
 export interface SoundSettings {
   bgmVolume: number;

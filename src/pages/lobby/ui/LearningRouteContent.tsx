@@ -7,7 +7,12 @@ const LEARNING_ROUTE_NOTICE = "곧 공개됩니다. ^^";
 export default function LearningRouteContent() {
   return (
     <div className={styles.learningRouteCard}>
-      <Image src={ggoggoWorking} alt="ggoggo working" width={120} />
+      <Image
+        src={ggoggoWorking}
+        alt="ggoggo working"
+        width={120}
+        className={styles.workingImage}
+      />
       <p>{LEARNING_ROUTE_NOTICE}</p>
     </div>
   );

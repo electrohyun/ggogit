@@ -11,6 +11,12 @@
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 10px 16px rgb(0 0 0 / 14%));
+  transform-origin: 50% 82%;
+  transition: transform 180ms ease;
+}
+
+.failModalContent:hover .failModalImage {
+  transform: scale(1.04) rotate(-3deg);
 }
 
 .failModalContent p {

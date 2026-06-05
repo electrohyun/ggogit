@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { RotateCcw } from "lucide-react";
 
+import { SoundLink } from "@/shared/ui/sound-link";
 import { useMiniQuizStageContext } from "./MiniQuizStageProvider";
 import styles from "./MiniQuizResultActions.module.css";
 
@@ -17,9 +17,9 @@ export default function MiniQuizResultActions() {
         <RotateCcw size={18} aria-hidden="true" />
         다시 풀기
       </button>
-      <Link href="/study" className={styles.primaryLink}>
+      <SoundLink href="/study" className={styles.primaryLink}>
         스테이지 선택으로
-      </Link>
+      </SoundLink>
     </div>
   );
 }

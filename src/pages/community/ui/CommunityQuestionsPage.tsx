@@ -1,4 +1,3 @@
-import Link from "next/link";
 import {
   ChevronLeft,
   ChevronRight,
@@ -13,6 +12,7 @@ import {
 } from "@/entities/community";
 import { getCommunityPostsByBoard } from "@/features/community/api/communityPosts";
 import { createClient } from "@/shared/lib/supabase/server";
+import { SoundLink } from "@/shared/ui/sound-link";
 import {
   formatCommunityPostListDate,
   isCommunityPostCreatedToday,
@@ -93,9 +93,12 @@ export default async function QuestionsPage({
               <Search size={18} aria-hidden="true" />
             </button>
           </form>
-          <Link href="/community/questions/new" className={styles.writeButton}>
+          <SoundLink
+            href="/community/questions/new"
+            className={styles.writeButton}
+          >
             질문하기
-          </Link>
+          </SoundLink>
         </div>
       </div>
       <div className={styles.boardList} aria-label="질문과 대답 게시글 목록">
@@ -114,7 +117,7 @@ export default async function QuestionsPage({
           );
 
           return (
-            <Link
+            <SoundLink
               key={post.id}
               href={`/community/questions/${post.id}`}
               className={styles.boardRow}
@@ -143,30 +146,30 @@ export default async function QuestionsPage({
                 따봉 {post.likeCount} · 조회 {post.viewCount}
                 {isNewPost && <span className={styles.newBadge}>NEW</span>}
               </p>
-            </Link>
+            </SoundLink>
           );
         })}
       </div>
       <nav className={styles.pagination} aria-label="질문과 대답 페이지">
-        <Link
+        <SoundLink
           href={getPageHref(1)}
           className={styles.pageIconButton}
           aria-label="첫 페이지"
         >
           <ChevronsLeft size={18} aria-hidden="true" />
-        </Link>
-        <Link
+        </SoundLink>
+        <SoundLink
           href={getPageHref(previousPage)}
           className={styles.pageIconButton}
           aria-label="이전 페이지"
         >
           <ChevronLeft size={18} aria-hidden="true" />
-        </Link>
+        </SoundLink>
         {Array.from({ length: totalPages }, (_, index) => {
           const page = index + 1;
 
           return (
-            <Link
+            <SoundLink
               key={page}
               href={getPageHref(page)}
               className={
@@ -177,23 +180,23 @@ export default async function QuestionsPage({
               aria-current={page === currentPage ? "page" : undefined}
             >
               {page}
-            </Link>
+            </SoundLink>
           );
         })}
-        <Link
+        <SoundLink
           href={getPageHref(nextPage)}
           className={styles.pageIconButton}
           aria-label="다음 페이지"
         >
           <ChevronRight size={18} aria-hidden="true" />
-        </Link>
-        <Link
+        </SoundLink>
+        <SoundLink
           href={getPageHref(totalPages)}
           className={styles.pageIconButton}
           aria-label="마지막 페이지"
         >
           <ChevronsRight size={18} aria-hidden="true" />
-        </Link>
+        </SoundLink>
       </nav>
     </div>
   );

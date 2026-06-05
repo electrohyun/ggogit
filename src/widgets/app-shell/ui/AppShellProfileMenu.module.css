@@ -12,6 +12,17 @@
   background: transparent;
   cursor: pointer;
   overflow: hidden;
+  transform-origin: center;
+  transition: transform 160ms ease;
+}
+
+.button:hover,
+.button:focus-visible {
+  transform: scale(1.04);
+}
+
+.button:active {
+  transform: scale(0.94);
 }
 
 .button:focus-visible {
@@ -19,8 +30,27 @@
   outline-offset: 3px;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+
+  .button:hover,
+  .button:focus-visible,
+  .button:active {
+    transform: none;
+  }
+}
+
 .image {
   object-fit: cover;
+}
+
+@media (max-width: 767px) {
+  .button {
+    width: 44px;
+    height: 44px;
+  }
 }
 
 .menu {

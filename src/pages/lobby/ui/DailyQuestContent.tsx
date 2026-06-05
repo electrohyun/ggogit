@@ -6,8 +6,10 @@ import {
   claimDailyQuestRewardsAction,
   type ClaimDailyQuestRewardsState,
 } from "@/features/daily-quest/api/dailyQuest.actions";
+import { playSuccessSound } from "@/shared/lib/sound/soundPlayer";
+import { useSoundStore } from "@/shared/model/sound/soundStore";
 import { BeanIcon, CheckCircleIcon, CircleIcon } from "lucide-react";
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 
 interface DailyQuestContentProps {
   isAuthenticated: boolean;
@@ -28,6 +30,8 @@ export default function DailyQuestContent({
     claimDailyQuestRewardsAction,
     INITIAL_CLAIM_STATE,
   );
+  const previousClaimStateRef = useRef(claimState);
+  const soundSettings = useSoundStore((state) => state.soundSettings);
   const claimableReward = quests.reduce(
     (sum, quest) => (quest.status === "completed" ? sum + quest.reward : sum),
     0,
@@ -41,6 +45,18 @@ export default function DailyQuestContent({
       ? "보상 받기"
       : "데일리 퀘스트 완료!"
     : "로그인 후 받기";
+
+  useEffect(() => {
+    if (
+      previousClaimStateRef.current !== claimState &&
+      claimState.success &&
+      claimState.earnedBeans > 0
+    ) {
+      playSuccessSound(soundSettings);
+    }
+
+    previousClaimStateRef.current = claimState;
+  }, [claimState, soundSettings]);
 
   return (
     <div className={styles.dailyQuestCard}>

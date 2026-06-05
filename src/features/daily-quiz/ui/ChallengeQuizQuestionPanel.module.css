@@ -132,6 +132,11 @@
   font: inherit;
   font-size: 17px;
   text-align: left;
+  transition: transform 120ms ease;
+}
+
+.optionButton:not(:disabled):active {
+  transform: scale(0.98);
 }
 
 .optionIcon {
@@ -250,6 +255,11 @@
   cursor: pointer;
   font: inherit;
   font-size: 17px;
+  transition: transform 120ms ease;
+}
+
+.primaryButton:not(:disabled):active {
+  transform: scale(0.97);
 }
 
 .primaryButton:disabled {
@@ -257,6 +267,18 @@
   background: #eeeeee;
   border-color: var(--border);
   cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .optionButton,
+  .primaryButton {
+    transition: none;
+  }
+
+  .optionButton:not(:disabled):active,
+  .primaryButton:not(:disabled):active {
+    transform: none;
+  }
 }
 
 @media (max-width: 767px) {

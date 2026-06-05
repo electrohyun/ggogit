@@ -1,11 +1,11 @@
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 
 import { type CommunityContentBlock } from "@/entities/community";
 import { getCommunityPostById } from "@/features/community/api/communityPosts";
 import { createClient } from "@/shared/lib/supabase/server";
+import { SoundLink } from "@/shared/ui/sound-link";
 import CommunityPostViewCounter from "./CommunityPostViewCounter";
 import styles from "./CommunityNoticeDetailPage.module.css";
 
@@ -70,10 +70,10 @@ export default async function NoticeDetailPage({
           {notice.content.map(renderNoticeContentBlock)}
         </div>
       </article>
-      <Link href="/community/notices" className={styles.backLink}>
+      <SoundLink href="/community/notices" className={styles.backLink}>
         <ChevronLeft size={18} aria-hidden="true" />
         목록으로
-      </Link>
+      </SoundLink>
     </div>
   );
 }

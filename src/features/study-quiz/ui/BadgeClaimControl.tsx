@@ -12,6 +12,8 @@ import {
   stage4Badge,
   stage5Badge,
 } from "@/assets/badges";
+import { playSuccessSound } from "@/shared/lib/sound/soundPlayer";
+import { useSoundStore } from "@/shared/model/sound/soundStore";
 import { claimMiniQuizChapterBadge } from "../api/studyQuizBadge.actions";
 import styles from "./BadgeClaimControl.module.css";
 
@@ -45,6 +47,7 @@ export default function BadgeClaimControl({
   const [earnedBeans, setEarnedBeans] = useState(0);
   const [claimedChapterIds, setClaimedChapterIds] = useState<string[]>([]);
   const [isPending, startTransition] = useTransition();
+  const soundSettings = useSoundStore((state) => state.soundSettings);
   const isLocallyClaimed = claimedChapterIds.includes(chapterId);
   const isClaimed = isBadgeClaimed || isLocallyClaimed;
   const isClaimable = canClaimBadge && !isClaimed;
@@ -66,6 +69,7 @@ export default function BadgeClaimControl({
       }
 
       setEarnedBeans(result.earnedBeans);
+      playSuccessSound(soundSettings);
       if (result.earnedBeans > 0) {
         const { currentUser, updateCurrentUser } =
           useCurrentUserStore.getState();

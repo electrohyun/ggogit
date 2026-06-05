@@ -1,5 +1,8 @@
 import { create } from "zustand";
-import { syncSoundSettings } from "@/shared/lib/sound/soundPlayer";
+import {
+  syncSoundSettings,
+  type BgmKind,
+} from "@/shared/lib/sound/soundPlayer";
 import {
   DEFAULT_SOUND_SETTINGS,
   getSavedSoundSettings,
@@ -8,13 +11,16 @@ import {
 } from "@/shared/lib/sound/soundSettings";
 
 interface SoundStoreState {
+  bgmKind: BgmKind;
   hasLoadedSoundSettings: boolean;
   soundSettings: SoundSettings;
   loadSoundSettings: () => void;
+  setBgmKind: (bgmKind: BgmKind) => void;
   updateSoundSettings: (settings: Partial<SoundSettings>) => SoundSettings;
 }
 
 export const useSoundStore = create<SoundStoreState>((set, get) => ({
+  bgmKind: "site",
   hasLoadedSoundSettings: false,
   soundSettings: DEFAULT_SOUND_SETTINGS,
 
@@ -29,7 +35,16 @@ export const useSoundStore = create<SoundStoreState>((set, get) => ({
       hasLoadedSoundSettings: true,
       soundSettings,
     });
-    syncSoundSettings(soundSettings);
+    syncSoundSettings(soundSettings, get().bgmKind);
+  },
+
+  setBgmKind: (bgmKind) => {
+    if (get().bgmKind === bgmKind) {
+      return;
+    }
+
+    set({ bgmKind });
+    syncSoundSettings(get().soundSettings, bgmKind);
   },
 
   updateSoundSettings: (settings) => {
@@ -40,7 +55,7 @@ export const useSoundStore = create<SoundStoreState>((set, get) => ({
 
     set({ soundSettings });
     saveSoundSettings(soundSettings);
-    syncSoundSettings(soundSettings);
+    syncSoundSettings(soundSettings, get().bgmKind);
 
     return soundSettings;
   },

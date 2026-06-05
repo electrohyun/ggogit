@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
 
 import { ggoggoCheck } from "@/assets/mascot";
+import { SoundLink } from "@/shared/ui/sound-link";
 import { formatElapsedTime } from "../model/quizUtils";
 import styles from "./ChallengeQuizResult.module.css";
 import { useChallengeQuizContext } from "./ChallengeQuizProvider";
@@ -53,9 +53,9 @@ export default function ChallengeQuizResult() {
           </div>
         </div>
 
-        <Link href="/challenge#ranking" className={styles.primaryLink}>
+        <SoundLink href="/challenge#ranking" className={styles.primaryLink}>
           오늘의 랭킹 확인하기
-        </Link>
+        </SoundLink>
       </section>
     </div>
   );

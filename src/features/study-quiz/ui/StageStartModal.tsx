@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 
 import { ggoggoAdventure } from "@/assets/mascot";
 import { Modal } from "@/shared/ui/modal";
+import { SoundLink } from "@/shared/ui/sound-link";
 import type { MiniQuizStage } from "@/entities/mini-quiz";
 import styles from "./StageStartControl.module.css";
 
@@ -81,9 +81,12 @@ export default function StageStartModal({
             닫기
           </button>
           {!isLocked && (
-            <Link className={styles.stageModalStartButton} href={startHref}>
+            <SoundLink
+              className={styles.stageModalStartButton}
+              href={startHref}
+            >
               {startButtonLabel}
-            </Link>
+            </SoundLink>
           )}
         </div>
       </div>

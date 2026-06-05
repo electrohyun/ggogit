@@ -21,11 +21,16 @@
   font-family: var(--font-character);
   font-size: 16px;
   text-decoration: none;
+  transition: transform 120ms ease;
 }
 
 .quickActionButton:hover,
 .quickActionButton:focus {
   text-decoration: none;
+}
+
+.quickActionButton:active {
+  transform: scale(0.97);
 }
 
 .quickActionIcon {
@@ -60,4 +65,14 @@
   color: var(--surface);
   font-size: 20px;
   font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quickActionButton {
+    transition: none;
+  }
+
+  .quickActionButton:active {
+    transform: none;
+  }
 }

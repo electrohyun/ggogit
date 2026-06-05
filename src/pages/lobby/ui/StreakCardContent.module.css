@@ -41,6 +41,12 @@
 .streakCardContent img {
   flex: 0 0 auto;
   height: auto;
+  transform-origin: 50% 82%;
+  transition: transform 180ms ease;
+}
+
+.streakCard:hover .streakCardContent img {
+  transform: scale(1.05) rotate(-3deg);
 }
 
 .streakFooter {

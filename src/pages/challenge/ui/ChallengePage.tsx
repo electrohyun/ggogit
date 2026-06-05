@@ -1,11 +1,11 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Clock3, Flame, Info, Medal, TimerOff, Trophy } from "lucide-react";
 
 import { ggoggoPodium } from "@/assets/mascot";
 import { getDailyQuizSummaryData } from "@/features/daily-quiz";
 import { formatElapsedTime } from "@/features/daily-quiz/model/quizUtils";
 import { createClient } from "@/shared/lib/supabase/server";
+import ChallengeStartControl from "./ChallengeStartControl";
 import styles from "./ChallengePage.module.css";
 
 const RULES = [
@@ -93,9 +93,7 @@ export default async function ChallengePage() {
           </p>
         </div>
 
-        <Link href="/challenge/play" className={styles.startButton}>
-          도전 시작하기
-        </Link>
+        <ChallengeStartControl />
       </section>
 
       <section
@@ -150,4 +148,3 @@ export default async function ChallengePage() {
     </div>
   );
 }
-

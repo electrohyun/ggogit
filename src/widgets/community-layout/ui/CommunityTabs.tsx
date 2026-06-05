@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { SoundLink } from "@/shared/ui/sound-link";
 import styles from "./CommunityLayout.module.css";
 
 const COMMUNITY_TABS = [
@@ -24,13 +24,13 @@ export default function CommunityTabs() {
             : pathname === tab.href || pathname.startsWith(`${tab.href}/`);
 
         return (
-          <Link
+          <SoundLink
             key={tab.href}
             href={tab.href}
             className={`${styles.tab} ${isActive ? styles.activeTab : ""}`}
           >
             {tab.label}
-          </Link>
+          </SoundLink>
         );
       })}
     </nav>

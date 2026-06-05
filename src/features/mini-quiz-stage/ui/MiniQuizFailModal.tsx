@@ -1,8 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 
 import { ggoggoHuk } from "@/assets/mascot";
 import { Modal } from "@/shared/ui/modal";
+import { SoundLink } from "@/shared/ui/sound-link";
 import { useMiniQuizStageContext } from "./MiniQuizStageProvider";
 import styles from "./MiniQuizFailModal.module.css";
 
@@ -24,9 +24,9 @@ export default function MiniQuizFailModal() {
           className={styles.failModalImage}
         />
         <p>스테이지 선택 화면에서 다시 도전해요.</p>
-        <Link href="/study" className={styles.primaryLink}>
+        <SoundLink href="/study" className={styles.primaryLink}>
           스테이지 선택으로
-        </Link>
+        </SoundLink>
       </div>
     </Modal>
   );

@@ -1,10 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
 import { MessageCircle, ThumbsUp } from "lucide-react";
 
 import { ggoggoCoding } from "@/assets/mascot";
 import { getLatestCommunityPostsByBoard } from "@/features/community/api/communityPosts";
 import { createClient } from "@/shared/lib/supabase/server";
+import { SoundLink } from "@/shared/ui/sound-link";
 import styles from "./CommunityPreviewPanel.module.css";
 
 const DAILY_TIP = {
@@ -40,7 +40,7 @@ export default async function CommunityPreviewPanel() {
       <section className={styles.previewCard} aria-labelledby="daily-tip-title">
         <div className={styles.cardHeader}>
           <h2 id="daily-tip-title">오늘의 팁</h2>
-          <Link href="/community/tips">더보기 &gt;</Link>
+          <SoundLink href="/community/tips">더보기 &gt;</SoundLink>
         </div>
         <div className={styles.tipContent}>
           <div className={styles.tipText}>
@@ -59,17 +59,17 @@ export default async function CommunityPreviewPanel() {
       <section className={styles.previewCard} aria-labelledby="notices-title">
         <div className={styles.cardHeader}>
           <h2 id="notices-title">공지사항</h2>
-          <Link href="/community/notices">더보기 &gt;</Link>
+          <SoundLink href="/community/notices">더보기 &gt;</SoundLink>
         </div>
         <ul className={styles.noticeList}>
           {notices.map((notice) => (
             <li key={notice.id} className={styles.noticeItem}>
-              <Link
+              <SoundLink
                 href={`/community/notices/${notice.id}`}
                 className={styles.noticeTitle}
               >
                 {notice.title}
-              </Link>
+              </SoundLink>
               <span className={styles.noticeDate}>
                 {notice.createdAt.slice(5)}
               </span>
@@ -84,7 +84,7 @@ export default async function CommunityPreviewPanel() {
       >
         <div className={styles.cardHeader}>
           <h2 id="recent-questions-title">최근 질문</h2>
-          <Link href="/community/questions">더보기 &gt;</Link>
+          <SoundLink href="/community/questions">더보기 &gt;</SoundLink>
         </div>
         <ul className={styles.questionList}>
           {questions.map((question) => (
@@ -92,7 +92,12 @@ export default async function CommunityPreviewPanel() {
               <span className={styles.questionBadge} aria-hidden="true">
                 Q
               </span>
-              <p className={styles.questionTitle}>{question.title}</p>
+              <SoundLink
+                href={`/community/questions/${question.id}`}
+                className={styles.questionTitle}
+              >
+                {question.title}
+              </SoundLink>
               <div className={styles.questionMeta}>
                 <span aria-label={`추천 ${question.likeCount}개`}>
                   <ThumbsUp size={14} />

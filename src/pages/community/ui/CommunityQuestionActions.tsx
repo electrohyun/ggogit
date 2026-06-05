@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { useState, useTransition } from "react";
 import { ChevronLeft } from "lucide-react";
 
 import { getOrCreateGuestIdentity } from "@/entities/user";
 import { likeCommunityPost } from "@/features/community/api/communityReactions.action";
+import { SoundLink } from "@/shared/ui/sound-link";
 import styles from "./CommunityQuestionDetailPage.module.css";
 
 interface CommunityQuestionActionsProps {
@@ -48,10 +48,10 @@ export default function CommunityQuestionActions({
   return (
     <>
       <div className={styles.questionActions}>
-        <Link href="/community/questions" className={styles.backLink}>
+        <SoundLink href="/community/questions" className={styles.backLink}>
           <ChevronLeft size={18} aria-hidden="true" />
           목록으로
-        </Link>
+        </SoundLink>
         <button
           type="button"
           className={styles.likeButton}

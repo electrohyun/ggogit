@@ -85,11 +85,26 @@
   font: inherit;
   font-size: 16px;
   white-space: nowrap;
+  transition: transform 120ms ease;
+}
+
+.claimButton:not(:disabled):active {
+  transform: translate(-50%, -50%) scale(0.97);
 }
 
 .claimButton:disabled {
   cursor: wait;
   opacity: 0.76;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .claimButton {
+    transition: none;
+  }
+
+  .claimButton:not(:disabled):active {
+    transform: translate(-50%, -50%);
+  }
 }
 
 .claimError {

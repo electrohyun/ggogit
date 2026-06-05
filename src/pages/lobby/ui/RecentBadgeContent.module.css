@@ -16,6 +16,11 @@
   width: 92px;
   height: 92px;
   object-fit: contain;
+  transition: transform 180ms ease;
+}
+
+.recentBadgeContent:hover .badgeImage {
+  transform: scale(1.06) rotate(-3deg);
 }
 
 .badgeText {
@@ -50,5 +55,15 @@
 
   .badgeText strong {
     font-size: clamp(15px, 1.4vw, 19px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badgeImage {
+    transition: none;
+  }
+
+  .recentBadgeContent:hover .badgeImage {
+    transform: none;
   }
 }

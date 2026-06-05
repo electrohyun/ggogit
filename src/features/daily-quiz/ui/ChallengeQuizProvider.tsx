@@ -15,6 +15,12 @@ import {
   useCurrentUserStore,
 } from "@/entities/user";
 import {
+  playCorrectSound,
+  playSuccessSound,
+  playWrongSound,
+} from "@/shared/lib/sound/soundPlayer";
+import { useSoundStore } from "@/shared/model/sound/soundStore";
+import {
   gradeDailyQuizAnswer,
   submitDailyQuiz,
 } from "../api/dailyQuiz.actions";
@@ -80,6 +86,7 @@ export default function ChallengeQuizProvider({
   questions,
   quizDate,
 }: ChallengeQuizProviderProps) {
+  const soundSettings = useSoundStore((state) => state.soundSettings);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [commandAnswer, setCommandAnswer] = useState("");
@@ -154,6 +161,11 @@ export default function ChallengeQuizProvider({
         setCorrectAnswer(gradedAnswer.correctAnswer);
         setFeedbackExplanation(gradedAnswer.explanation);
         setAnswers((previousAnswers) => [...previousAnswers, nextAnswer]);
+        if (gradedAnswer.isCorrect) {
+          playCorrectSound(soundSettings);
+        } else {
+          playWrongSound(soundSettings);
+        }
 
         if (gradedAnswer.isCorrect) {
           setCorrectCount((count) => count + 1);
@@ -194,6 +206,7 @@ export default function ChallengeQuizProvider({
           setResult(nextResult);
           setCorrectCount(nextResult.correctCount);
           setIsResult(true);
+          playSuccessSound(soundSettings);
 
           if (nextResult.earnedBeans > 0 || nextResult.streakIncremented) {
             const { currentUser: latestCurrentUser, updateCurrentUser } =
