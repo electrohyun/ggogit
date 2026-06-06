@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   width: 100%;
   height: 70px;
   background-color: var(--surface);
@@ -49,7 +50,7 @@
   flex: 1;
   min-width: 0;
   gap: 10px;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .logoEng {
@@ -64,14 +65,13 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   min-width: 0;
 }
 
 .status {
   display: flex;
   align-items: center;
-
   gap: 10px;
   padding: 0 clamp(8px, 1.4vw, 20px);
 }
@@ -139,6 +139,7 @@
 .profileContainer {
   display: flex;
   align-items: center;
+  flex: 0 0 auto;
   gap: 8px;
   min-width: 0;
 }
@@ -242,7 +243,8 @@
 @media (max-width: 767px) {
   .header {
     height: 64px;
-    padding: 0 8px 0 12px;
+    gap: 8px;
+    padding: 0 10px 0 14px;
   }
 
   .logoContainer {
@@ -251,17 +253,20 @@
 
   .nonLogoContainer {
     min-width: 0;
+    justify-content: flex-end;
   }
 
   .statusContainer {
-    min-width: 0;
+    flex: 1 1 auto;
     gap: 4px;
+    min-width: 0;
   }
 
   .status {
+    flex: 0 1 auto;
     min-width: 0;
     gap: 4px;
-    padding: 0 6px;
+    padding: 0 4px;
   }
 
   .streakStatus,

@@ -1,4 +1,4 @@
-import { Calendar, History, MessagesSquare } from "lucide-react";
+import { CalendarCheck, Map, MessageCircleQuestionMark } from "lucide-react";
 import { SoundLink } from "@/shared/ui/sound-link";
 import styles from "./QuickActions.module.css";
 
@@ -8,28 +8,25 @@ interface QuickActionsProps {
 
 const QUICK_ACTIONS = [
   {
-    id: "review",
-    label: "1분 복습",
+    id: "stage-select",
+    label: "스테이지 선택",
     href: "/study",
-    icon: History,
-    className: styles.reviewButton,
-    completed: true,
+    icon: Map,
+    className: styles.stageButton,
   },
   {
     id: "daily-quiz",
     label: "오늘의 퀴즈",
     href: "/challenge",
-    icon: Calendar,
+    icon: CalendarCheck,
     className: styles.quizButton,
-    completed: false,
   },
   {
     id: "questions",
     label: "질문과 대답",
     href: "/community/questions",
-    icon: MessagesSquare,
+    icon: MessageCircleQuestionMark,
     className: styles.challengeButton,
-    completed: false,
   },
 ];
 
@@ -47,9 +44,6 @@ export default function QuickActions({ className }: QuickActionsProps) {
           >
             <Icon size={36} className={styles.quickActionIcon} />
             <p>{action.label}</p>
-            {action.completed && (
-              <span className={styles.completedOverlay}>완료!</span>
-            )}
           </SoundLink>
         );
       })}
