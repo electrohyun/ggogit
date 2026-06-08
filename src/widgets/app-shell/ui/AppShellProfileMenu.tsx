@@ -120,6 +120,7 @@ export default function AppShellProfileMenu({
           <SoundLink
             className={`${styles.menuItem} ${styles.logoutItem}`}
             href="/auth/logout"
+            prefetch={false}
             role="menuitem"
             onClick={() => setIsOpen(false)}
           >
