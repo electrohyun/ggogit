@@ -1,30 +1,36 @@
 import type { ReactNode } from "react";
-import { createClient } from "@supabase/supabase-js";
+import { cookies } from "next/headers";
 
-import { ANONYMOUS_CURRENT_USER } from "@/entities/user";
+import {
+  GUEST_ENTRY_COOKIE,
+  GUEST_NAME_COOKIE,
+  GUEST_SESSION_ID_COOKIE,
+} from "@/entities/user/model/guestIdentity";
+import { getCurrentUser } from "@/features/auth";
 import { getLatestCommunityPostsByBoard } from "@/features/community/api/communityPosts";
+import { createClient } from "@/shared/lib/supabase/server";
 import { AppShell } from "@/widgets/app-shell";
 
 const PUBLIC_NOTICE_LIMIT = 5;
-
-const createPublicSupabaseClient = () =>
-  createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-      },
-    },
-  );
 
 export default async function PublicLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-  const supabase = createPublicSupabaseClient();
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getClaims();
+
+  const cookieStore = await cookies();
+  const isGuest = cookieStore.get(GUEST_ENTRY_COOKIE)?.value === "guest";
+  const guestName = cookieStore.get(GUEST_NAME_COOKIE)?.value;
+  const guestSessionId = cookieStore.get(GUEST_SESSION_ID_COOKIE)?.value;
+
+  const initialCurrentUser = await getCurrentUser({
+    claims: data?.claims ?? null,
+    guestName,
+    supabase,
+  });
   const notices = await getLatestCommunityPostsByBoard(
     supabase,
     "notice",
@@ -33,8 +39,8 @@ export default async function PublicLayout({
 
   return (
     <AppShell
-      initialCurrentUser={ANONYMOUS_CURRENT_USER}
-      initialGuestSessionId={undefined}
+      initialCurrentUser={initialCurrentUser}
+      initialGuestSessionId={isGuest ? guestSessionId : undefined}
       notices={notices}
     >
       {children}
