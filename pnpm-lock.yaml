@@ -57,6 +57,9 @@ importers:
       eslint-config-next:
         specifier: 16.2.6
         version: 16.2.6(@typescript-eslint/parser@8.59.3(eslint@9.39.4)(typescript@5.9.3))(eslint@9.39.4)(typescript@5.9.3)
+      eslint-plugin-layered-imports:
+        specifier: ^0.1.0
+        version: 0.1.0(eslint@9.39.4)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -1011,6 +1014,11 @@ packages:
     engines: {node: '>=4.0'}
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9
+
+  eslint-plugin-layered-imports@0.1.0:
+    resolution: {integrity: sha512-C1GRFmXAyHTZJ1QESbKJ6Wf0z2KSikgHQb1e7MjknwuKY80mR1pTUcob0+pWvuDqVjQleJU4JU7sGm6EBwt8OQ==}
+    peerDependencies:
+      eslint: '>=9'
 
   eslint-plugin-react-hooks@7.1.1:
     resolution: {integrity: sha512-f2I7Gw6JbvCexzIInuSbZpfdQ44D7iqdWX01FKLvrPgqxoE7oMj8clOfto8U6vYiz4yd5oKu39rRSVOe1zRu0g==}
@@ -2888,6 +2896,10 @@ snapshots:
       object.fromentries: 2.0.8
       safe-regex-test: 1.1.0
       string.prototype.includes: 2.0.1
+
+  eslint-plugin-layered-imports@0.1.0(eslint@9.39.4):
+    dependencies:
+      eslint: 9.39.4
 
   eslint-plugin-react-hooks@7.1.1(eslint@9.39.4):
     dependencies:

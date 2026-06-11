@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { Bean } from "lucide-react";
 
+import { Modal } from "@/shared/ui/modal";
 import { ggoggoThumbsUp } from "@/assets/mascot";
 import { stageStreak } from "@/assets/stats";
-import { Modal } from "@/shared/ui/modal";
+
 import { useChallengeQuizContext } from "./ChallengeQuizProvider";
 import styles from "./ChallengeQuizRewardModal.module.css";
 

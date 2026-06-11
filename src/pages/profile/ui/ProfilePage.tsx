@@ -1,7 +1,9 @@
-import { GUEST_NAME_COOKIE } from "@/entities/user/model/guestIdentity";
-import { getUserProfile } from "@/features/profile";
-import { createClient } from "@/shared/lib/supabase/server";
 import { cookies } from "next/headers";
+
+import { getUserProfile } from "@/features/profile";
+import { GUEST_NAME_COOKIE } from "@/entities/user/model/guestIdentity";
+import { createClient } from "@/shared/lib/supabase/server";
+
 import ProfileEditableFields from "./ProfileEditableFields";
 import ProfileLoginPrompt from "./ProfileLoginPrompt";
 import styles from "./ProfilePage.module.css";

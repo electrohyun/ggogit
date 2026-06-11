@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+
 import { ggoggoHuk } from "@/assets/mascot";
+
 import styles from "./not-found.module.css";
 
 export default function NotFound() {

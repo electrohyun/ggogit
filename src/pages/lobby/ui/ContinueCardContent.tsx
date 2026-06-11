@@ -2,11 +2,13 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { ggoggoWalk } from "@/assets/mascot";
-import type { MiniQuizStage } from "@/entities/mini-quiz";
+
 import StageStartModal from "@/features/study-quiz/ui/StageStartModal";
+import type { MiniQuizStage } from "@/entities/mini-quiz";
 import { playClickSound } from "@/shared/lib/sound/soundPlayer";
 import { useSoundStore } from "@/shared/model/sound/soundStore";
+import { ggoggoWalk } from "@/assets/mascot";
+
 import styles from "./ContinueCardContent.module.css";
 
 interface ContinueCardContentProps {

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-import { getOrCreateGuestIdentity } from "@/entities/user";
 import { viewCommunityPost } from "@/features/community/api/communityReactions.action";
+import { getOrCreateGuestIdentity } from "@/entities/user";
 
 interface CommunityPostViewCounterProps {
   postId: number;

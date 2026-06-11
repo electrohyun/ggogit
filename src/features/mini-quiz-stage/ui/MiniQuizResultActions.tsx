@@ -1,10 +1,11 @@
 import { RotateCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { useCurrentUserStore } from "@/entities/user";
 import { AuthRequiredModal } from "@/features/auth";
+import { useCurrentUserStore } from "@/entities/user";
 import { trackEvent } from "@/shared/lib/analytics";
 import { SoundLink } from "@/shared/ui/sound-link";
+
 import { useMiniQuizStageContext } from "./MiniQuizStageProvider";
 import styles from "./MiniQuizResultActions.module.css";
 

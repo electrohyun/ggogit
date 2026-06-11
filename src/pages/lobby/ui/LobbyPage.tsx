@@ -1,10 +1,12 @@
 import type { CSSProperties } from "react";
+
+import { getLatestCommunityPostsByBoard } from "@/features/community/api/communityPosts";
 import type { DailyQuest, DailyQuestKey } from "@/entities/daily-quest";
 import type { MiniQuizStage } from "@/entities/mini-quiz";
-import { getLatestCommunityPostsByBoard } from "@/features/community/api/communityPosts";
 import { createClient } from "@/shared/lib/supabase/server";
 import { Card } from "@/shared/ui/card";
 import { SoundLink } from "@/shared/ui/sound-link";
+
 import styles from "./LobbyPage.module.css";
 import CommunityContent from "./CommunityContent";
 import ContinueCardContent from "./ContinueCardContent";

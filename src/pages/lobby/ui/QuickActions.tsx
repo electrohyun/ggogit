@@ -1,5 +1,7 @@
 import { CalendarCheck, Map, MessageCircleQuestionMark } from "lucide-react";
+
 import { SoundLink } from "@/shared/ui/sound-link";
+
 import styles from "./QuickActions.module.css";
 
 interface QuickActionsProps {

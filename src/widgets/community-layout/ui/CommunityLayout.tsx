@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+
 import CommunityPreviewPanel from "./CommunityPreviewPanel";
 import CommunityTabs from "./CommunityTabs";
 import styles from "./CommunityLayout.module.css";

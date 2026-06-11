@@ -1,3 +1,5 @@
+import { Howl, Howler } from "howler";
+
 import {
   bgmGame,
   bgmSite,
@@ -6,7 +8,7 @@ import {
   sfxModalClosed,
   sfxWrong,
 } from "@/assets";
-import { Howl, Howler } from "howler";
+
 import type { SoundSettings } from "./soundSettings";
 
 export type BgmKind = "game" | "site";

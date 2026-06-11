@@ -1,10 +1,11 @@
+import { NextResponse, type NextRequest } from "next/server";
+
 import {
   GUEST_ENTRY_COOKIE,
   GUEST_NAME_COOKIE,
   GUEST_SESSION_ID_COOKIE,
 } from "@/entities/user/model/guestIdentity";
 import { createClient } from "@/shared/lib/supabase/server";
-import { NextResponse, type NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);

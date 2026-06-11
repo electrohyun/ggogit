@@ -1,5 +1,6 @@
 import { getCommunityPostsByBoard } from "@/features/community/api/communityPosts";
 import { createClient } from "@/shared/lib/supabase/server";
+
 import CommunityGuestbookList from "./CommunityGuestbookList";
 import styles from "./CommunityPage.module.css";
 

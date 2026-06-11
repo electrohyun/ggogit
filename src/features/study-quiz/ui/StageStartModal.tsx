@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 
-import { ggoggoAdventure } from "@/assets/mascot";
+import type { MiniQuizStage } from "@/entities/mini-quiz";
 import { Modal } from "@/shared/ui/modal";
 import { SoundLink } from "@/shared/ui/sound-link";
-import type { MiniQuizStage } from "@/entities/mini-quiz";
+import { ggoggoAdventure } from "@/assets/mascot";
+
 import styles from "./StageStartControl.module.css";
 
 interface StageStartModalProps {

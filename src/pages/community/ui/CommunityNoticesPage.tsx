@@ -6,13 +6,14 @@ import {
   Search,
 } from "lucide-react";
 
+import { getCommunityPostsByBoard } from "@/features/community/api/communityPosts";
 import {
   getCommunityFirstParagraph,
   type CommunityPost,
 } from "@/entities/community";
-import { getCommunityPostsByBoard } from "@/features/community/api/communityPosts";
 import { createClient } from "@/shared/lib/supabase/server";
 import { SoundLink } from "@/shared/ui/sound-link";
+
 import {
   formatCommunityPostListDate,
   isCommunityPostCreatedToday,

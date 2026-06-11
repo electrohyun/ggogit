@@ -9,6 +9,7 @@ import type {
 } from "@/entities/mini-quiz";
 import { playClickSound } from "@/shared/lib/sound/soundPlayer";
 import { useSoundStore } from "@/shared/model/sound/soundStore";
+
 import StageStartModal from "./StageStartModal";
 import styles from "./StageStartControl.module.css";
 

@@ -3,11 +3,12 @@
 import Image from "next/image";
 import { useState } from "react";
 
-import { ggoggoPodium } from "@/assets/mascot";
 import { playClickSound } from "@/shared/lib/sound/soundPlayer";
 import { useSoundStore } from "@/shared/model/sound/soundStore";
 import { Modal } from "@/shared/ui/modal";
 import { SoundLink } from "@/shared/ui/sound-link";
+import { ggoggoPodium } from "@/assets/mascot";
+
 import styles from "./ChallengePage.module.css";
 
 export default function ChallengeStartControl() {

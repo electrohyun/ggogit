@@ -1,7 +1,9 @@
 import Image from "next/image";
+
+import { StartButton } from "@/features/auth";
 import { logoEng, logoKor } from "@/assets/brand";
 import { ggoggoThumbsUp } from "@/assets/mascot";
-import { StartButton } from "@/features/auth";
+
 import styles from "./HomePage.module.css";
 
 export const dynamic = "force-static";

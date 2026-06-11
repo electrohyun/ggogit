@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+
 import {
   getSiteUrl,
   OG_IMAGE,
   SITE_DESCRIPTION,
   SITE_NAME,
 } from "@/shared/lib/seo/metadata";
+
 import "./globals.css";
 
 const pretendard = localFont({

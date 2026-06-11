@@ -1,17 +1,19 @@
 "use client";
 
-import styles from "./DailyQuestContent.module.css";
-import type { DailyQuest } from "@/entities/daily-quest";
+import { BeanIcon, CheckCircleIcon, CircleIcon } from "lucide-react";
+import { useActionState, useEffect, useRef, useState } from "react";
+
 import { AuthRequiredModal } from "@/features/auth";
 import {
   claimDailyQuestRewardsAction,
   type ClaimDailyQuestRewardsState,
 } from "@/features/daily-quest/api/dailyQuest.actions";
+import type { DailyQuest } from "@/entities/daily-quest";
 import { trackEvent } from "@/shared/lib/analytics";
 import { playSuccessSound } from "@/shared/lib/sound/soundPlayer";
 import { useSoundStore } from "@/shared/model/sound/soundStore";
-import { BeanIcon, CheckCircleIcon, CircleIcon } from "lucide-react";
-import { useActionState, useEffect, useRef, useState } from "react";
+
+import styles from "./DailyQuestContent.module.css";
 
 interface DailyQuestContentProps {
   isAuthenticated: boolean;

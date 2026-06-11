@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import { createPageMetadata } from "@/shared/lib/seo/metadata";
 
 export { StudyStagePage as default } from "@/pages/study";

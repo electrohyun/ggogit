@@ -1,10 +1,10 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-import type { CommunityPost, CommunityPostInsertRow } from "@/entities/community";
 import {
   getUserMetadataName,
   normalizeAvatarUrl,
 } from "@/features/auth/model/currentUser";
+import type { CommunityPost, CommunityPostInsertRow } from "@/entities/community";
 
 interface CommunityGuestAuthorInput {
   guestSessionId: string;

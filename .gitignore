@@ -27,6 +27,7 @@ out
 
 .env
 next-env.d.ts
+tsconfig.tsbuildinfo
 
 docs/
 supabase/*

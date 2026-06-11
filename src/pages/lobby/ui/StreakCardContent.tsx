@@ -1,6 +1,8 @@
 import Image from "next/image";
+
 import { ggoggoGreet } from "@/assets/mascot";
 import { stageStreak } from "@/assets/stats";
+
 import styles from "./StreakCardContent.module.css";
 
 type StreakDayStatus = "completed" | "today" | "missed" | "upcoming";

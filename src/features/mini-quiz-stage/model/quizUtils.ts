@@ -1,4 +1,5 @@
 import type { MiniQuizChapter, MiniQuizStage } from "@/entities/mini-quiz";
+
 import type { QuizQuestion } from "./types";
 
 export const buildQuizQuestions = (

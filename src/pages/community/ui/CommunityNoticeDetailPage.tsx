@@ -2,10 +2,11 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 
-import { type CommunityContentBlock } from "@/entities/community";
 import { getCommunityPostById } from "@/features/community/api/communityPosts";
+import { type CommunityContentBlock } from "@/entities/community";
 import { createClient } from "@/shared/lib/supabase/server";
 import { SoundLink } from "@/shared/ui/sound-link";
+
 import CommunityPostViewCounter from "./CommunityPostViewCounter";
 import styles from "./CommunityNoticeDetailPage.module.css";
 

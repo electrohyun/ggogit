@@ -1,8 +1,10 @@
 import type { JwtPayload, SupabaseClient } from "@supabase/supabase-js";
+
 import {
   ANONYMOUS_CURRENT_USER,
   type CurrentUser,
 } from "@/entities/user";
+
 import {
   getCurrentUserAvatarUrl,
   getCurrentUserName,

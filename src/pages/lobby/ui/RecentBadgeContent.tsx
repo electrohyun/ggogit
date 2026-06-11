@@ -7,6 +7,7 @@ import {
   stage4Badge,
   stage5Badge,
 } from "@/assets/badges";
+
 import styles from "./RecentBadgeContent.module.css";
 
 const EMPTY_BADGE_MESSAGE = "획득한 배지가 없습니다.";

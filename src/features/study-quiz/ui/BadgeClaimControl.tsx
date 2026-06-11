@@ -3,8 +3,10 @@
 import { useState, useTransition } from "react";
 import Image from "next/image";
 
-import { Modal } from "@/shared/ui/modal";
 import { useCurrentUserStore } from "@/entities/user";
+import { playSuccessSound } from "@/shared/lib/sound/soundPlayer";
+import { useSoundStore } from "@/shared/model/sound/soundStore";
+import { Modal } from "@/shared/ui/modal";
 import {
   stage1Badge,
   stage2Badge,
@@ -12,8 +14,7 @@ import {
   stage4Badge,
   stage5Badge,
 } from "@/assets/badges";
-import { playSuccessSound } from "@/shared/lib/sound/soundPlayer";
-import { useSoundStore } from "@/shared/model/sound/soundStore";
+
 import { claimMiniQuizChapterBadge } from "../api/studyQuizBadge.actions";
 import styles from "./BadgeClaimControl.module.css";
 

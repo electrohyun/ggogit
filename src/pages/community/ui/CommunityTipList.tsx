@@ -7,6 +7,7 @@ import {
   getCommunityFirstParagraph,
   type CommunityPost,
 } from "@/entities/community";
+
 import styles from "./CommunityTipsPage.module.css";
 
 interface CommunityTipListProps {

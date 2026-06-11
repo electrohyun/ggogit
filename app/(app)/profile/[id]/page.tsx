@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import { ProfilePage } from "@/pages/profile";
 import { createPageMetadata } from "@/shared/lib/seo/metadata";
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import { createPageMetadata } from "@/shared/lib/seo/metadata";
 
 export { CommunityNoticeDetailPage as default } from "@/pages/community";

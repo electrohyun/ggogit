@@ -3,9 +3,10 @@
 import Image, { type StaticImageData } from "next/image";
 import { useEffect } from "react";
 
-import { ggoggoAsk } from "@/assets/mascot";
 import { trackEvent } from "@/shared/lib/analytics";
 import { Modal } from "@/shared/ui/modal";
+import { ggoggoAsk } from "@/assets/mascot";
+
 import LoginModalContent from "./LoginModalContent";
 import styles from "./AuthRequiredModal.module.css";
 

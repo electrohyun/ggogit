@@ -1,12 +1,14 @@
 "use client";
 
-import { ggoggoSmile } from "@/assets/mascot";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+
 import type { CurrentUser } from "@/entities/user";
 import { playClickSound } from "@/shared/lib/sound/soundPlayer";
 import { useSoundStore } from "@/shared/model/sound/soundStore";
 import { SoundLink } from "@/shared/ui/sound-link";
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { ggoggoSmile } from "@/assets/mascot";
+
 import styles from "./AppShellProfileMenu.module.css";
 
 interface AppShellProfileMenuProps {
