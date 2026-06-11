@@ -1,5 +1,7 @@
 import Image from "next/image";
+
 import { ggoggoWorking } from "@/assets/mascot";
+
 import styles from "./LearningRouteContent.module.css";
 
 const LEARNING_ROUTE_NOTICE = "곧 공개됩니다. ^^";

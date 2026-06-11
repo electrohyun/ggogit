@@ -1,14 +1,14 @@
 import type { StaticImageData } from "next/image";
 
-import { notice } from "@/assets/community";
+import { normalizeAvatarUrl } from "@/features/auth/model/currentUser";
 import type {
   CommunityContentBlock,
   CommunityContentBlockRow,
   CommunityPost,
   CommunityPostRow,
 } from "@/entities/community";
-import { normalizeAvatarUrl } from "@/features/auth/model/currentUser";
 import { formatDateWithDots } from "@/shared/lib/date";
+import { notice } from "@/assets/community";
 
 // DB에는 정적 이미지 import를 저장할 수 없어 src 문자열을 앱 에셋으로 바꿉니다.
 // 차후 백오피스 기능에 활용

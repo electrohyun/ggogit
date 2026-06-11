@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-import { ggoggoCheck } from "@/assets/mascot";
-import { useCurrentUserStore } from "@/entities/user";
 import { AuthRequiredModal } from "@/features/auth";
+import { useCurrentUserStore } from "@/entities/user";
 import { trackEvent } from "@/shared/lib/analytics";
 import { SoundLink } from "@/shared/ui/sound-link";
+import { ggoggoCheck } from "@/assets/mascot";
+
 import { formatElapsedTime } from "../model/quizUtils";
 import styles from "./ChallengeQuizResult.module.css";
 import { useChallengeQuizContext } from "./ChallengeQuizProvider";

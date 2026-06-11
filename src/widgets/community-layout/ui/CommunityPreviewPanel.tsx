@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { MessageCircle, ThumbsUp } from "lucide-react";
 
-import { ggoggoCoding } from "@/assets/mascot";
 import { getLatestCommunityPostsByBoard } from "@/features/community/api/communityPosts";
 import { createClient } from "@/shared/lib/supabase/server";
 import { SoundLink } from "@/shared/ui/sound-link";
+import { ggoggoCoding } from "@/assets/mascot";
+
 import styles from "./CommunityPreviewPanel.module.css";
 
 const DAILY_TIP = {

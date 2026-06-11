@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Sparkles } from "lucide-react";
 
 import { ggoggoThumbsUp } from "@/assets/mascot";
+
 import { useMiniQuizStageContext } from "./MiniQuizStageProvider";
 import styles from "./MiniQuizQuestionBody.module.css";
 

@@ -10,8 +10,9 @@ import {
   XCircle,
 } from "lucide-react";
 
-import { ggoggoThumbsUp } from "@/assets/mascot";
 import { SoundLink } from "@/shared/ui/sound-link";
+import { ggoggoThumbsUp } from "@/assets/mascot";
+
 import { formatElapsedTime, normalizeCommand } from "../model/quizUtils";
 import styles from "./ChallengeQuizQuestionPanel.module.css";
 import { useChallengeQuizContext } from "./ChallengeQuizProvider";

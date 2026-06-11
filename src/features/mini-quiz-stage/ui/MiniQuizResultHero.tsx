@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { ggoggoCheck } from "@/assets/mascot";
+
 import { useMiniQuizStageContext } from "./MiniQuizStageProvider";
 import styles from "./MiniQuizResultHero.module.css";
 

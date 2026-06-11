@@ -1,14 +1,16 @@
 "use client";
 
-import { ggoggoSeal, ggoggoSmile } from "@/assets/mascot";
-import type { UserProfile } from "@/entities/profile";
-import { useCurrentUserStore } from "@/entities/user";
-import { updateUserProfile, updateUserProfileAvatar } from "@/features/profile";
-import { playSuccessSound } from "@/shared/lib/sound/soundPlayer";
-import { useSoundStore } from "@/shared/model/sound/soundStore";
 import { Camera } from "lucide-react";
 import Image from "next/image";
 import { ChangeEvent, FormEvent, useRef, useState, useTransition } from "react";
+
+import { updateUserProfile, updateUserProfileAvatar } from "@/features/profile";
+import type { UserProfile } from "@/entities/profile";
+import { useCurrentUserStore } from "@/entities/user";
+import { playSuccessSound } from "@/shared/lib/sound/soundPlayer";
+import { useSoundStore } from "@/shared/model/sound/soundStore";
+import { ggoggoSeal, ggoggoSmile } from "@/assets/mascot";
+
 import styles from "./ProfileEditableFields.module.css";
 
 interface ProfileEditableFieldsProps {

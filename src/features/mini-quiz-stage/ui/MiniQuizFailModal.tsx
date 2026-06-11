@@ -1,8 +1,9 @@
 import Image from "next/image";
 
-import { ggoggoHuk } from "@/assets/mascot";
 import { Modal } from "@/shared/ui/modal";
 import { SoundLink } from "@/shared/ui/sound-link";
+import { ggoggoHuk } from "@/assets/mascot";
+
 import { useMiniQuizStageContext } from "./MiniQuizStageProvider";
 import styles from "./MiniQuizFailModal.module.css";
 

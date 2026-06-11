@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+
 import { getSiteUrl } from "@/shared/lib/seo/metadata";
 
 const SITEMAP_ROUTES = [

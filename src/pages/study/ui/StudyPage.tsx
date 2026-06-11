@@ -1,15 +1,16 @@
 import Image from "next/image";
 import { Sparkles } from "lucide-react";
 
-import { ggoggoWalk } from "@/assets/mascot";
-import { stage1, stage2, stage3, stage4, stage5 } from "@/assets/chapters";
-import { stageCheck, stageStar, stageStreak } from "@/assets/stats";
 import {
   BadgeClaimControl,
   getMiniQuizStudyData,
   StageStartControl,
 } from "@/features/study-quiz";
 import { createClient } from "@/shared/lib/supabase/server";
+import { ggoggoWalk } from "@/assets/mascot";
+import { stage1, stage2, stage3, stage4, stage5 } from "@/assets/chapters";
+import { stageCheck, stageStar, stageStreak } from "@/assets/stats";
+
 import styles from "./StudyPage.module.css";
 
 const getSummaryItems = ({

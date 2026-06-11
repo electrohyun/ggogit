@@ -1,6 +1,8 @@
 import { MessageCircle, ThumbsUp } from "lucide-react";
+
 import type { CommunityPost } from "@/entities/community";
 import { SoundLink } from "@/shared/ui/sound-link";
+
 import styles from "./CommunityContent.module.css";
 
 interface CommunityContentProps {

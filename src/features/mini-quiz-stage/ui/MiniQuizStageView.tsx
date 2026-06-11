@@ -3,6 +3,7 @@
 import { ArrowLeft } from "lucide-react";
 
 import { SoundLink } from "@/shared/ui/sound-link";
+
 import MiniQuizActions from "./MiniQuizActions";
 import MiniQuizAnswerForm from "./MiniQuizAnswerForm";
 import MiniQuizFailModal from "./MiniQuizFailModal";

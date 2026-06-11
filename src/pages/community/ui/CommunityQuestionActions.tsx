@@ -3,9 +3,10 @@
 import { useState, useTransition } from "react";
 import { ChevronLeft } from "lucide-react";
 
-import { getOrCreateGuestIdentity } from "@/entities/user";
 import { likeCommunityPost } from "@/features/community/api/communityReactions.action";
+import { getOrCreateGuestIdentity } from "@/entities/user";
 import { SoundLink } from "@/shared/ui/sound-link";
+
 import styles from "./CommunityQuestionDetailPage.module.css";
 
 interface CommunityQuestionActionsProps {

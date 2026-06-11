@@ -1,7 +1,5 @@
 "use client";
 
-import { logoEng, logoKor } from "@/assets/brand";
-import { ggoggoAsk, ggoggoSmile } from "@/assets/mascot";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
@@ -17,21 +15,25 @@ import {
   VolumeXIcon,
 } from "lucide-react";
 import { useEffect, type ReactNode } from "react";
-import AppLocation from "./AppLocation";
-import AppNavLink from "./AppNavLink";
-import AppShellProfileMenu from "./AppShellProfileMenu";
-import styles from "./AppShell.module.css";
+
+import { StartButton } from "@/features/auth";
+import type { CommunityPost } from "@/entities/community";
 import {
   ANONYMOUS_CURRENT_USER,
   getOrCreateGuestIdentity,
   type CurrentUser,
   useCurrentUserStore,
 } from "@/entities/user";
-import type { CommunityPost } from "@/entities/community";
-import { StartButton } from "@/features/auth";
 import { playClickSound } from "@/shared/lib/sound/soundPlayer";
 import { useSoundStore } from "@/shared/model/sound/soundStore";
 import { SoundLink } from "@/shared/ui/sound-link";
+import { logoEng, logoKor } from "@/assets/brand";
+import { ggoggoAsk, ggoggoSmile } from "@/assets/mascot";
+
+import AppLocation from "./AppLocation";
+import AppNavLink from "./AppNavLink";
+import AppShellProfileMenu from "./AppShellProfileMenu";
+import styles from "./AppShell.module.css";
 import { getAppShellGreeting } from "../model/greeting";
 
 const isGameBgmPath = (pathname: string) =>

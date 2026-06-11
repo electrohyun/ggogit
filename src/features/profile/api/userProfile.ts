@@ -1,6 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { UserProfile } from "@/entities/profile";
+
 import { normalizeAvatarUrl } from "@/features/auth/model/currentUser";
+import type { UserProfile } from "@/entities/profile";
 
 const formatJoinedAt = (dateValue: string) => {
   const date = new Date(dateValue);

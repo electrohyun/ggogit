@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-import { ggoggoSmile } from "@/assets/mascot";
-import { getCommunityFirstParagraph } from "@/entities/community";
 import { getCommunityCommentsByPostId } from "@/features/community/api/communityComments";
 import { getCommunityPostById } from "@/features/community/api/communityPosts";
+import { getCommunityFirstParagraph } from "@/entities/community";
 import { createClient } from "@/shared/lib/supabase/server";
 import { SoundLink } from "@/shared/ui/sound-link";
+import { ggoggoSmile } from "@/assets/mascot";
+
 import CommunityPostViewCounter from "./CommunityPostViewCounter";
 import CommunityQuestionActions from "./CommunityQuestionActions";
 import CommunityQuestionComments from "./CommunityQuestionComments";

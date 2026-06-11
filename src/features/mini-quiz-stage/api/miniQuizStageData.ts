@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+
 import { buildQuizQuestions } from "../model/quizUtils";
 
 import type { QuizOption, QuizQuestion } from "../model/types";

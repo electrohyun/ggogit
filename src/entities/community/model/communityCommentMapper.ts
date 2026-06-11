@@ -1,5 +1,5 @@
-import type { CommunityComment, CommunityCommentRow } from "@/entities/community";
 import { normalizeAvatarUrl } from "@/features/auth/model/currentUser";
+import type { CommunityComment, CommunityCommentRow } from "@/entities/community";
 import { formatDateWithDots } from "@/shared/lib/date";
 
 const getCommunityCommentAuthorAvatarUrl = (row: CommunityCommentRow) => {

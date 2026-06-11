@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 
-import { ggoggoGreet } from "@/assets/mascot";
 import { AuthRequiredModal } from "@/features/auth";
+import { ggoggoGreet } from "@/assets/mascot";
 
 export default function ProfileLoginPrompt() {
   const [isDismissed, setIsDismissed] = useState(false);

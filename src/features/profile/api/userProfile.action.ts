@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+
 import type { ActionResult } from "@/shared";
 import { createClient } from "@/shared/lib/supabase/server";
 

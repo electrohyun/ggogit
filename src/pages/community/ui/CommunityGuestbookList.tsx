@@ -5,14 +5,15 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition, type FormEvent } from "react";
 import { ChevronDown } from "lucide-react";
 
-import { ggoggoSmile } from "@/assets/mascot";
+import { createGuestbookPost } from "@/features/community/api/communityGuestbook.action";
 import {
   getCommunityFirstParagraph,
   type CommunityPost,
 } from "@/entities/community";
 import { getOrCreateGuestIdentity } from "@/entities/user";
-import { createGuestbookPost } from "@/features/community/api/communityGuestbook.action";
 import { SoundLink } from "@/shared/ui/sound-link";
+import { ggoggoSmile } from "@/assets/mascot";
+
 import styles from "./CommunityPage.module.css";
 
 interface CommunityGuestbookListProps {

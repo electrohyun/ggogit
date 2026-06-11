@@ -1,10 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { playClickSound } from "@/shared/lib/sound/soundPlayer";
+
 import { trackEvent } from "@/shared/lib/analytics";
+import { playClickSound } from "@/shared/lib/sound/soundPlayer";
 import { createClient } from "@/shared/lib/supabase/client";
 import { useSoundStore } from "@/shared/model/sound/soundStore";
+
 import styles from "./LoginModalContent.module.css";
 
 interface LoginModalContentProps {

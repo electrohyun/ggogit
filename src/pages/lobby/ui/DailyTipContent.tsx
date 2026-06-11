@@ -1,10 +1,12 @@
 import Image from "next/image";
-import { ggoggoCoding } from "@/assets/mascot";
+
 import {
   getCommunityFirstParagraph,
   type CommunityPost,
 } from "@/entities/community";
 import { SoundLink } from "@/shared/ui/sound-link";
+import { ggoggoCoding } from "@/assets/mascot";
+
 import styles from "./DailyTipContent.module.css";
 
 interface DailyTipContentProps {

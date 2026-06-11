@@ -1,14 +1,15 @@
 import type { ReactNode } from "react";
 import { cookies } from "next/headers";
+
+import { AppShell } from "@/widgets/app-shell";
+import { getCurrentUser } from "@/features/auth";
+import { getLatestCommunityPostsByBoard } from "@/features/community/api/communityPosts";
 import {
   GUEST_ENTRY_COOKIE,
   GUEST_NAME_COOKIE,
   GUEST_SESSION_ID_COOKIE,
 } from "@/entities/user/model/guestIdentity";
-import { getCurrentUser } from "@/features/auth";
-import { getLatestCommunityPostsByBoard } from "@/features/community/api/communityPosts";
 import { createClient } from "@/shared/lib/supabase/server";
-import { AppShell } from "@/widgets/app-shell";
 
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const supabase = await createClient();

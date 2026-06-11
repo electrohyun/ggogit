@@ -4,9 +4,10 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition, type FormEvent } from "react";
 import { ChevronLeft } from "lucide-react";
 
-import { getOrCreateGuestIdentity } from "@/entities/user";
 import { createQuestionPost } from "@/features/community/api/communityQuestions.action";
+import { getOrCreateGuestIdentity } from "@/entities/user";
 import { SoundLink } from "@/shared/ui/sound-link";
+
 import styles from "./CommunityQuestionNewPage.module.css";
 
 export default function NewQuestionPage() {

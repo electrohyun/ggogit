@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { Clock3, Flame, Info, Medal, TimerOff, Trophy } from "lucide-react";
 
-import { ggoggoPodium } from "@/assets/mascot";
 import { getDailyQuizSummaryData } from "@/features/daily-quiz";
 import { formatElapsedTime } from "@/features/daily-quiz/model/quizUtils";
 import { createClient } from "@/shared/lib/supabase/server";
+import { ggoggoPodium } from "@/assets/mascot";
+
 import ChallengeStartControl from "./ChallengeStartControl";
 import styles from "./ChallengePage.module.css";
 

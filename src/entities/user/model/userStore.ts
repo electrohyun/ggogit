@@ -1,4 +1,5 @@
 import { create } from "zustand";
+
 import type { CurrentUser, CurrentUserStoreState } from "./types";
 
 export const GUEST_CURRENT_USER: CurrentUser = {

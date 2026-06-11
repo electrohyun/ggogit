@@ -2,10 +2,12 @@
 
 import Image from "next/image";
 import { useState, type ReactNode } from "react";
+
+import { Modal } from "@/shared/ui/modal";
 import { ggoggoGreet } from "@/assets/mascot";
+
 import styles from "./StartButton.module.css";
 import LoginModalContent from "./LoginModalContent";
-import { Modal } from "@/shared/ui/modal";
 
 interface StartButtonProps {
   allowGuestEntry?: boolean;

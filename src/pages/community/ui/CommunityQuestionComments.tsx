@@ -4,11 +4,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition, type FormEvent } from "react";
 
-import { ggoggoSmile } from "@/assets/mascot";
+import { createCommunityComment } from "@/features/community/api/communityComments.action";
 import type { CommunityComment } from "@/entities/community";
 import { getOrCreateGuestIdentity } from "@/entities/user";
-import { createCommunityComment } from "@/features/community/api/communityComments.action";
 import { SoundLink } from "@/shared/ui/sound-link";
+import { ggoggoSmile } from "@/assets/mascot";
+
 import styles from "./CommunityQuestionDetailPage.module.css";
 
 interface CommunityQuestionCommentsProps {

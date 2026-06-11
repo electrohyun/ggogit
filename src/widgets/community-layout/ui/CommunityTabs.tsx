@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 
 import { SoundLink } from "@/shared/ui/sound-link";
+
 import styles from "./CommunityLayout.module.css";
 
 const COMMUNITY_TABS = [
